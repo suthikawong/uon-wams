@@ -16,11 +16,18 @@ public class UserManagement {
         CSVFile file = new CSVFile("files/user.csv");
         List<HashMap<String, String>> data = file.getData();
         for (HashMap<String, String> record: data) {
-            this.users.add(new User(Integer.parseInt(record.get("userId")), record.get("name"), record.get("password"), record.get("email")));
+            this.users.add(parseUser(record));
         }
         System.out.println(this.users);
     }
 
-
+    public User parseUser(HashMap<String, String> record) {
+        return new User(
+                Integer.parseInt(record.get("userId")),
+                record.get("name"),
+                record.get("password"),
+                record.get("email")
+        );
+    }
 
 }
