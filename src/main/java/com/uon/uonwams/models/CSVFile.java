@@ -3,55 +3,67 @@ package com.uon.uonwams.models;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
 public class CSVFile {
     private List<String> header;
-    private List<List<String>> data;
+    private List<HashMap<String, String>> data;
 
     public static void main(String[] args) throws FileNotFoundException {
         CSVFile file = new CSVFile("files/user.csv");
-        List<List<String>> myData = file.getData();
+        List<HashMap<String, String>> myData = file.getData();
         List<String> myHeader = file.getHeader();
         System.out.println("data: " + myData);
+        System.out.println("name: " + myData.getFirst().get("name"));
         System.out.println("header: " + myHeader);
     }
 
     public CSVFile(String pathname) throws FileNotFoundException {
         this.data = getRecordsFromCSVFile(pathname);
-        this.header = this.data.getFirst();
-        this.data.removeFirst();
     }
 
     public List<String> getHeader() {
-        return this.header;
+        return header;
     }
 
-    public List<List<String>> getData() {
+    public List<HashMap<String, String>> getData() {
         return this.data;
     }
 
-    public List<List<String>> getRecordsFromCSVFile(String pathname) throws FileNotFoundException {
+    public List<HashMap<String, String>> getRecordsFromCSVFile(String pathname) throws FileNotFoundException {
         // Ref: https://www.baeldung.com/java-csv-file-array
-        List<List<String>> records = new ArrayList<>();
+        List<HashMap<String, String>> records = new ArrayList<>();
         try (Scanner scanner = new Scanner(new File(pathname))) {
             while (scanner.hasNextLine()) {
-                records.add(getRecordFromLine(scanner.nextLine()));
+                HashMap<String, String> obj = getRecordFromLine(scanner.nextLine());
+                if (obj.isEmpty()) continue;
+                records.add(obj);
             }
         }
         return records;
     }
 
-    public List<String> getRecordFromLine(String line) {
-        List<String> values = new ArrayList<String>();
+    public HashMap<String, String> getRecordFromLine(String line) {
+        HashMap<String, String> obj = new HashMap<String, String>();
+        List<String> header = new ArrayList<>();
         try (Scanner rowScanner = new Scanner(line)) {
             rowScanner.useDelimiter(",");
+            int index = 0;
             while (rowScanner.hasNext()) {
                 String value = rowScanner.next();
-                values.add(value);
+                if (this.header == null) {
+                    header.add(value);
+                } else {
+                    obj.put(this.header.get(index), value);
+                }
+                index++;
             }
         }
-        return values;
+        if (this.header == null) {
+            this.header = header;
+        }
+        return obj;
     }
 }
