@@ -11,14 +11,14 @@ public class CSVFile {
     private List<String> header;
     private List<HashMap<String, String>> data;
 
-    public static void main(String[] args) throws FileNotFoundException {
-        CSVFile file = new CSVFile("files/user.csv");
-        List<HashMap<String, String>> myData = file.getData();
-        List<String> myHeader = file.getHeader();
-        System.out.println("data: " + myData);
-        System.out.println("name: " + myData.getFirst().get("name"));
-        System.out.println("header: " + myHeader);
-    }
+//    public static void main(String[] args) throws FileNotFoundException {
+//        CSVFile file = new CSVFile("files/user.csv");
+//        List<HashMap<String, String>> myData = file.getData();
+//        List<String> myHeader = file.getHeader();
+//        System.out.println("data: " + myData);
+//        System.out.println("name: " + myData.getFirst().get("name"));
+//        System.out.println("header: " + myHeader);
+//    }
 
     public CSVFile(String pathname) throws FileNotFoundException {
         this.data = getRecordsFromCSVFile(pathname);
@@ -29,7 +29,7 @@ public class CSVFile {
     }
 
     public List<HashMap<String, String>> getData() {
-        return this.data;
+        return data;
     }
 
     public List<HashMap<String, String>> getRecordsFromCSVFile(String pathname) throws FileNotFoundException {
