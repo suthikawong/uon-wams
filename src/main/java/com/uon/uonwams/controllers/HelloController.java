@@ -1,4 +1,4 @@
-package com.uon.uonwams;
+package com.uon.uonwams.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
