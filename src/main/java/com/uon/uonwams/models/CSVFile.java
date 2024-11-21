@@ -51,14 +51,26 @@ public class CSVFile {
         try (Scanner rowScanner = new Scanner(line)) {
             rowScanner.useDelimiter(",");
             int index = 0;
+            String tempValue = "";
             while (rowScanner.hasNext()) {
                 String value = rowScanner.next();
+
                 if (this.header == null) {
                     header.add(value);
+                    continue;
+                }
+
+                if (!tempValue.isBlank() && value.endsWith("\"")) {
+                    tempValue += value;
+                    obj.put(this.header.get(index), tempValue);
+                    tempValue = "";
+                    index++;
+                } else if (value.startsWith("\"") || !tempValue.isBlank()) {
+                    tempValue += value + ",";
                 } else {
                     obj.put(this.header.get(index), value);
+                    index++;
                 }
-                index++;
             }
         }
         if (this.header == null) {
