@@ -9,21 +9,17 @@ import java.util.HashMap;
 import java.util.List;
 
 public class ActivityData {
-    private final List<Activity> activities = new ArrayList<>();
+    public static final List<Activity> activities = new ArrayList<>();
 
     public static void main(String[] args) throws FileNotFoundException {
         new ActivityData();
-    }
-
-    public List<Activity> getActivities() {
-        return activities;
     }
 
     public ActivityData() throws FileNotFoundException {
         CSVFile file = new CSVFile("files/activity.csv");
         List<HashMap<String, String>> data = file.getData();
         for (HashMap<String, String> record: data) {
-            this.activities.add(parseActivity(record));
+            activities.add(parseActivity(record));
         }
     }
 
@@ -33,6 +29,7 @@ public class ActivityData {
                 record.get("activityName"),
                 record.get("type"),
                 record.get("description"),
+                Integer.parseInt(record.get("responsibleUserId")),
                 record.get("responsibleUser"),
                 record.get("year"),
                 Integer.parseInt(record.get("duration")),

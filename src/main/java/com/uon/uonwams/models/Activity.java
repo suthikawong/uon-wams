@@ -1,10 +1,13 @@
 package com.uon.uonwams.models;
 
+import java.util.LinkedHashMap;
+
 public class Activity {
     private final int activityId;
     private final String activityName;
     private final String type;
     private final String description;
+    private final int responsibleUserId;
     private final String responsibleUser;
     private final String year;
     private final int duration;
@@ -17,11 +20,12 @@ public class Activity {
     private final int other;
 
 
-    public Activity(int activityId, String activityName, String type, String description, String responsibleUser, String year, int duration, int weekNo, int hours, int ATSR, int TS, int TLR, int SA, int other) {
+    public Activity(int activityId, String activityName, String type, String description, int responsibleUserId, String responsibleUser, String year, int duration, int weekNo, int hours, int ATSR, int TS, int TLR, int SA, int other) {
         this.activityId = activityId;
         this.activityName = activityName;
         this.type = type;
         this.description = description;
+        this.responsibleUserId = responsibleUserId;
         this.responsibleUser = responsibleUser;
         this.year = year;
         this.duration = duration;
@@ -32,5 +36,103 @@ public class Activity {
         this.TLR = TLR;
         this.SA = SA;
         this.other = other;
+    }
+
+    public int getActivityId() {
+        return activityId;
+    }
+
+    public String getActivityName() {
+        return activityName;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public int getResponsibleUserId() {
+        return responsibleUserId;
+    }
+
+    public String getResponsibleUser() {
+        return responsibleUser;
+    }
+
+    public String getYear() {
+        return year;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public int getWeekNo() {
+        return weekNo;
+    }
+
+    public int getHours() {
+        return hours;
+    }
+
+    public int getATSR() {
+        return ATSR;
+    }
+
+    public int getTS() {
+        return TS;
+    }
+
+    public int getTLR() {
+        return TLR;
+    }
+
+    public int getSA() {
+        return SA;
+    }
+
+    public int getOther() {
+        return other;
+    }
+
+    public LinkedHashMap<String, String> toHashMap() {
+        LinkedHashMap<String, String> mapActivity = new LinkedHashMap<String, String>();
+        mapActivity.put("activityId", Integer.toString(this.activityId));
+        mapActivity.put("type", this.type);
+        mapActivity.put("activityName", this.activityName);
+        mapActivity.put("description", this.description);
+        mapActivity.put("responsibleUserId", Integer.toString(this.responsibleUserId));
+        mapActivity.put("responsibleUser", this.responsibleUser);
+        mapActivity.put("year", this.year);
+        mapActivity.put("duration", Integer.toString(this.duration));
+        mapActivity.put("weekNo", Integer.toString(this.weekNo));
+        mapActivity.put("hours", Integer.toString(this.hours));
+        mapActivity.put("ATSR", Integer.toString(this.ATSR));
+        mapActivity.put("TS", Integer.toString(this.TS));
+        mapActivity.put("TLR", Integer.toString(this.TLR));
+        mapActivity.put("SA", Integer.toString(this.SA));
+        mapActivity.put("other", Integer.toString(this.other));
+        return mapActivity;
+    }
+
+    @Override
+    public String toString() {
+        return "activityName='" + activityName + '\'' +
+                ", type='" + type + '\'' +
+                ", description='" + description + '\'' +
+                ", responsibleUserId=" + responsibleUserId +
+                ", responsibleUser='" + responsibleUser + '\'' +
+                ", year='" + year + '\'' +
+                ", duration=" + duration +
+                ", weekNo=" + weekNo +
+                ", hours=" + hours +
+                ", ATSR=" + ATSR +
+                ", TS=" + TS +
+                ", TLR=" + TLR +
+                ", SA=" + SA +
+                ", other=" + other;
     }
 }

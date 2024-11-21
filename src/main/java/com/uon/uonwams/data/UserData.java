@@ -9,21 +9,13 @@ import java.util.HashMap;
 import java.util.List;
 
 public class UserData {
-    private final List<User> users = new ArrayList<>();
-
-//    public static void main(String[] args) throws FileNotFoundException {
-//        new UserData();
-//    }
-
-    public List<User> getUsers() {
-        return users;
-    }
+    public static final List<User> users = new ArrayList<>();
 
     public UserData() throws FileNotFoundException {
         CSVFile file = new CSVFile("files/user.csv");
         List<HashMap<String, String>> data = file.getData();
         for (HashMap<String, String> record: data) {
-            this.users.add(parseUser(record));
+            users.add(parseUser(record));
         }
     }
 

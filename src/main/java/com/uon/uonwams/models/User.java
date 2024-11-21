@@ -1,5 +1,7 @@
 package com.uon.uonwams.models;
 
+import java.util.LinkedHashMap;
+
 public class User {
     private final int userId;
     private final String name;
@@ -41,6 +43,15 @@ public class User {
 
     public String getEmail() {
         return email;
+    }
+
+    public LinkedHashMap<String, String> toHashMap() {
+        LinkedHashMap<String, String> mapUser = new LinkedHashMap<String, String>();
+        mapUser.put("userId", Integer.toString(this.userId));
+        mapUser.put("name", this.name);
+        mapUser.put("password", this.password);
+        mapUser.put("email", this.email);
+        return mapUser;
     }
 
     @Override
