@@ -1,10 +1,10 @@
 package com.uon.uonwams.models;
 
 public class User {
-    private int userId;
-    private String name;
-    private String password;
-    private String email;
+    private final int userId;
+    private final String name;
+    private final String password;
+    private final String email;
 
 //    public static void main(String[] args) {
 //        String pass = hashPassword("12345");

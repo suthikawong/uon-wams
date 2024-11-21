@@ -1,7 +1,9 @@
 package com.uon.uonwams;
 
 import com.uon.uonwams.config.State;
+import com.uon.uonwams.data.ActivityData;
 import com.uon.uonwams.data.UserData;
+import com.uon.uonwams.models.Activity;
 import com.uon.uonwams.models.Authentication;
 import com.uon.uonwams.models.User;
 import com.uon.uonwams.models.WAMSApplication;
@@ -17,6 +19,10 @@ public class WAMSApplicationConsole {
         UserData userData = new UserData();
         List<User> allUsers = userData.getUsers();
         System.out.println(allUsers);
+
+        ActivityData activityData = new ActivityData();
+        List<Activity> allActivities = activityData.getActivities();
+        System.out.println(allActivities);
 
         Scanner scanner = new Scanner(System.in);
 
@@ -36,9 +42,12 @@ public class WAMSApplicationConsole {
 
                 Authentication auth = new Authentication(allUsers);
                 loginUser = auth.login(userId, password);
-                if (loginUser != null) {
+                if (loginUser == null) {
+                    System.out.println("Incorrect user id or password");
+                } else {
                     app.toWorkloadPage();
                 }
+                System.out.println("---------------------------------");
             } else if (state == State.WORKLOAD) {
                 System.out.println("Workload");
 
@@ -48,6 +57,7 @@ public class WAMSApplicationConsole {
                 if (command.equalsIgnoreCase("X")) {
                     app.toLoginPage();
                 }
+                System.out.println("---------------------------------");
             }
         }
     }
