@@ -3,10 +3,7 @@ package com.uon.uonwams;
 import com.uon.uonwams.config.State;
 import com.uon.uonwams.data.ActivityData;
 import com.uon.uonwams.data.UserData;
-import com.uon.uonwams.models.Activity;
-import com.uon.uonwams.models.Authentication;
-import com.uon.uonwams.models.User;
-import com.uon.uonwams.models.WAMSApplication;
+import com.uon.uonwams.models.*;
 
 import java.io.FileNotFoundException;
 import java.util.List;
@@ -17,18 +14,17 @@ public class WAMSApplicationConsole {
     public static void main(String[] args) throws FileNotFoundException {
         // get all users from csv file
         UserData userData = new UserData();
-        List<User> allUsers = userData.getUsers();
-        System.out.println(allUsers);
+        System.out.println(userData.users);
 
+        // get all activities from csv file
         ActivityData activityData = new ActivityData();
-        List<Activity> allActivities = activityData.getActivities();
-        System.out.println(allActivities);
+        System.out.println(activityData.activities);
 
         Scanner scanner = new Scanner(System.in);
 
         WAMSApplication app = new WAMSApplication();
 
-        User loginUser;
+        User loginUser = null;
 
         while (true) {
             State state = app.getState();
@@ -40,7 +36,7 @@ public class WAMSApplicationConsole {
                 System.out.print("Password: ");
                 String password = scanner.next();
 
-                Authentication auth = new Authentication(allUsers);
+                Authentication auth = new Authentication();
                 loginUser = auth.login(userId, password);
                 if (loginUser == null) {
                     System.out.println("Incorrect user id or password");
@@ -49,7 +45,14 @@ public class WAMSApplicationConsole {
                 }
                 System.out.println("---------------------------------");
             } else if (state == State.WORKLOAD) {
-                System.out.println("Workload");
+                System.out.println("Workload of: " + loginUser.getName());
+
+                Workload workload = new Workload(loginUser);
+                List<Activity> activities = workload.getActivities();
+
+                for (Activity activity: activities) {
+                    System.out.println(activity.toString());
+                }
 
                 System.out.print("A=Continue, X=Logout: ");
                 String command = scanner.next();

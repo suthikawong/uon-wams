@@ -4,20 +4,16 @@ import com.password4j.BcryptFunction;
 import com.password4j.Hash;
 import com.password4j.Password;
 import com.password4j.types.Bcrypt;
+import com.uon.uonwams.data.UserData;
 
 import java.util.List;
 
 public class Authentication {
-    private final List<User> userData;
 
     private static final BcryptFunction bcrypt = BcryptFunction.getInstance(Bcrypt.B, 12);
 
-    public Authentication(List<User> users) {
-        this.userData = users;
-    }
-
     public User login(int userId, String password) {
-        for (User user: userData) {
+        for (User user: UserData.users) {
             if (userId == user.getUserId() & isMatchedPassword(password, user.getPassword())) {
                 return user;
             }
