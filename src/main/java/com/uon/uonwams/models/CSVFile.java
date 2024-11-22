@@ -2,9 +2,6 @@ package com.uon.uonwams.models;
 
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
-import com.opencsv.exceptions.CsvException;
-import com.uon.uonwams.data.ActivityData;
-import com.uon.uonwams.data.UserData;
 
 import java.io.*;
 import java.util.*;
@@ -13,6 +10,7 @@ public class CSVFile {
     private String pathname;
     private List<String> header;
     private List<HashMap<String, String>> data;
+    private int rowCount;
 
     public static void main(String[] args) throws Exception {
         CSVFile file = new CSVFile("files/user - Copy.csv");
@@ -30,13 +28,17 @@ public class CSVFile {
 //        insertRecord("files/activity - Copy.csv", ActivityData.activities.get(10).toHashMap());
 //        readRecord("files/activity - Copy.csv");
 
-        User temp = new User(1, "Tom Jerry", "mypassword", "test@mail.com");
-        file.updateRecord(temp.toHashMap(), "userId");
+//        User temp = new User(3, "Tom Jerry", "mypassword", "test@mail.com");
+//        file.updateRecord(temp.toHashMap(), "userId");
+
+        User temp = new User(3, "Rishi Sunak", "$2b$12$Hd6cMwb1WR6DHD5yhwL/E.BB1fMuC8jALHJTdr0TtfORSgr/i9w6C", "w.suthika@gmail.com");
+        file.deleteRecord(temp.toHashMap(), "userId");
     }
 
     public CSVFile(String pathname) {
         this.pathname = pathname;
         this.data = readRecord();
+        this.rowCount = this.data.size();
     }
 
     public List<String> getHeader() {
@@ -53,10 +55,10 @@ public class CSVFile {
         List<HashMap<String, String>> records = new ArrayList<>();
         try {
             FileReader filereader = new FileReader(this.pathname);
-            CSVReader csvReader = new CSVReader(filereader);
+            CSVReader reader = new CSVReader(filereader);
             String[] nextRecord;
 
-            while ((nextRecord = csvReader.readNext()) != null) {
+            while ((nextRecord = reader.readNext()) != null) {
                 HashMap<String, String> recordMap = new HashMap<String, String>();
                 List<String> header = new ArrayList<>();
                 int index = 0;
@@ -76,7 +78,7 @@ public class CSVFile {
                 if (recordMap.isEmpty()) continue;
                 records.add(recordMap);
             }
-
+            reader.close();
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -114,23 +116,24 @@ public class CSVFile {
             // Read existing file
             CSVReader reader = new CSVReader(new FileReader(file));
             List<String[]> csvBody = reader.readAll();
-            String[] nextRecord;
-            int row = 1;
-
-            while ((nextRecord = reader.readNext()) != null) {
-                // IMPORTANT: primary key must be at the first column of csv file
-                String id = nextRecord[0];
-                if (id.equals(record.get(key))) {
-                    break;
-                }
-                row++;
-            }
+            boolean isFound = false;
 
             // get CSV row column  and replace with by using row and column
-            for (int col = 0; col < this.header.size(); col++) {
-                csvBody.get(row)[col] = record.get(this.header.get(col));
+            for (int row = 1; row < this.rowCount + 1; row++) {
+                if (csvBody.get(row)[0].equals(record.get(key))) {
+                    for (int col = 0; col < this.header.size(); col++) {
+                        csvBody.get(row)[col] = record.get(this.header.get(col));
+                    }
+                    isFound = true;
+                    break;
+                }
             }
             reader.close();
+
+            if (!isFound) {
+                System.out.println("Not Found ID");
+                return;
+            }
 
             // Write to CSV file which is open
             CSVWriter writer = new CSVWriter(new FileWriter(file));
@@ -143,7 +146,49 @@ public class CSVFile {
         }
     }
 
-    public void deleteRecord() {
-        // delete in csv
+    public void deleteRecord(LinkedHashMap<String, String> record, String key) {
+        try {
+            // delete in csv
+            File file = new File(this.pathname);
+            // Read existing file
+            CSVReader reader = new CSVReader(new FileReader(file));
+            List<String[]> csvBody = reader.readAll();
+            boolean isFound = false;
+
+            for (int row = 1; row < this.rowCount + 1; row++) {
+                if (!isFound && csvBody.get(row)[0].equals(record.get(key))) {
+                    isFound = true;
+                }
+                if (isFound) {
+                    if (row == this.rowCount) {
+                        for (int col = 0; col < this.header.size(); col++) {
+                            csvBody.get(row)[col] = "";
+                        }
+                    } else {
+                        for (int col = 0; col < this.header.size(); col++) {
+                            csvBody.get(row)[col] = csvBody.get(row + 1)[col];
+                        }
+                    }
+
+                }
+            }
+            reader.close();
+
+            if (!isFound) {
+                System.out.println("Not Found ID");
+                return;
+            }
+
+            // Write to CSV file which is open
+            CSVWriter writer = new CSVWriter(new FileWriter(file));
+            writer.writeAll(csvBody);
+            writer.flush();
+            writer.close();
+
+            this.rowCount--;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
