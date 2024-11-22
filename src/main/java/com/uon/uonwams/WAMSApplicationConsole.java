@@ -42,14 +42,10 @@ public class WAMSApplicationConsole {
                 }
                 System.out.println("---------------------------------");
             } else if (state == State.WORKLOAD) {
-                System.out.println("Workload of: " + loginUser.getName());
+                System.out.println("\nWorkload of: " + loginUser.getName());
 
                 Workload workload = new Workload(loginUser);
-                List<Activity> activities = workload.getActivities();
-
-                for (Activity activity: activities) {
-                    System.out.println(activity.toString());
-                }
+                workload.logActivities();
 
                 System.out.print("A=Continue, X=Logout: ");
                 String command = scanner.next();

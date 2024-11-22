@@ -3,6 +3,7 @@ module com.uon.uonwams {
     requires javafx.fxml;
     requires password4j;
     requires com.opencsv;
+    requires j.text.utils;
 
 
     opens com.uon.uonwams to javafx.fxml;
