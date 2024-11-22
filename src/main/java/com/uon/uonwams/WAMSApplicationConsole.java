@@ -16,9 +16,6 @@ public class WAMSApplicationConsole {
         UserData userData = new UserData();
         System.out.println(userData.users);
 
-        // get all activities from csv file
-        ActivityData activityData = new ActivityData();
-        System.out.println(activityData.activities);
 
         Scanner scanner = new Scanner(System.in);
 

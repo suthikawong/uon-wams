@@ -6,24 +6,65 @@ import com.uon.uonwams.models.Activity;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 public class ActivityData {
-    public static final List<Activity> activities = new ArrayList<>();
+    private final CSVFile file;
+    private List<Activity> activities = new ArrayList<>();
 
     public static void main(String[] args) throws FileNotFoundException {
         new ActivityData();
     }
 
-    public ActivityData() throws FileNotFoundException {
-        CSVFile file = new CSVFile("files/activity.csv");
-        List<HashMap<String, String>> data = file.getData();
-        for (HashMap<String, String> record: data) {
-            activities.add(parseActivity(record));
-        }
+    public ActivityData() {
+        file = new CSVFile("files/activity.csv");
+        List<LinkedHashMap<String, String>> data = file.getData();
+        this.activities = parseActivities(data);
     }
 
-    public Activity parseActivity(HashMap<String, String> record) {
+    private int getLatestActivityId() {
+        return this.activities.getLast().getActivityId();
+    }
+
+    public List<Activity> getActivities() {
+        return this.activities;
+    }
+
+    public Activity insertActivity(String activityName, String type, String description, int responsibleUserId, String responsibleUser, String year, int duration, int weekNo, int hours, int ATSR, int TS, int TLR, int SA, int other) {
+        int activityId = this.getLatestActivityId() + 1;
+        Activity activity = new Activity(activityId, activityName, type, description, responsibleUserId, responsibleUser, year, duration, weekNo, hours, ATSR, TS, TLR, SA, other);
+        file.insertRecord(activity.toHashMap());
+        List<LinkedHashMap<String, String>> data = file.getData();
+        this.activities = parseActivities(data);
+        return activity;
+    }
+
+    public Activity updateActivity(int activityId, String activityName, String type, String description, int responsibleUserId, String responsibleUser, String year, int duration, int weekNo, int hours, int ATSR, int TS, int TLR, int SA, int other) {
+        Activity activity = new Activity(activityId, activityName, type, description, responsibleUserId, responsibleUser, year, duration, weekNo, hours, ATSR, TS, TLR, SA, other);
+        file.updateRecord(activity.toHashMap(), "activityId");
+        List<LinkedHashMap<String, String>> data = file.getData();
+        this.activities = parseActivities(data);
+        return activity;
+    }
+
+    public int deleteActivity(int activityId) {
+        file.deleteRecord(activityId, "activityId");
+        List<LinkedHashMap<String, String>> data = file.getData();
+        this.activities = parseActivities(data);
+        return activityId;
+    }
+
+    public List<Activity> parseActivities(List<LinkedHashMap<String, String>> records) {
+        List<Activity> activities = new ArrayList<>();
+        for (LinkedHashMap<String, String> record: records) {
+            activities.add(parseActivity(record));
+        }
+        return activities;
+    }
+
+
+    public Activity parseActivity(LinkedHashMap<String, String> record) {
         return new Activity(
                 Integer.parseInt(record.get("activityId")),
                 record.get("activityName"),

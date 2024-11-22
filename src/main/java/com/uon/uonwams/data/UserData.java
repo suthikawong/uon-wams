@@ -6,6 +6,7 @@ import com.uon.uonwams.models.User;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 public class UserData {
@@ -13,13 +14,13 @@ public class UserData {
 
     public UserData() throws FileNotFoundException {
         CSVFile file = new CSVFile("files/user.csv");
-        List<HashMap<String, String>> data = file.getData();
-        for (HashMap<String, String> record: data) {
+        List<LinkedHashMap<String, String>> data = file.getData();
+        for (LinkedHashMap<String, String> record: data) {
             users.add(parseUser(record));
         }
     }
 
-    public User parseUser(HashMap<String, String> record) {
+    public User parseUser(LinkedHashMap<String, String> record) {
         return new User(
                 Integer.parseInt(record.get("userId")),
                 record.get("name"),
