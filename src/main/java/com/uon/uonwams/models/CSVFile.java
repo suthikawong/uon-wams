@@ -1,5 +1,8 @@
 package com.uon.uonwams.models;
 
+import com.opencsv.CSVReader;
+import com.opencsv.CSVWriter;
+import com.opencsv.exceptions.CsvException;
 import com.uon.uonwams.data.ActivityData;
 import com.uon.uonwams.data.UserData;
 
@@ -11,22 +14,24 @@ public class CSVFile {
     private List<HashMap<String, String>> data;
 
     public static void main(String[] args) throws Exception {
-//        CSVFile file = new CSVFile("files/user.csv");
-//        List<HashMap<String, String>> myData = file.getData();
-//        List<String> myHeader = file.getHeader();
-//        System.out.println("data: " + myData);
-//        System.out.println("name: " + myData.getFirst().get("name"));
-//        System.out.println("header: " + myHeader);
+        CSVFile file = new CSVFile("files/user - Copy.csv");
+        List<HashMap<String, String>> myData = file.getData();
+        List<String> myHeader = file.getHeader();
+        System.out.println("data: " + myData);
+        System.out.println("name: " + myData.getFirst().get("name"));
+        System.out.println("header: " + myHeader);
 
-        UserData userData = new UserData();
-        insertRecord("files/user.csv", UserData.users.getFirst().toHashMap());
+//        UserData userData = new UserData();
+//        insertRecord("files/user - Copy.csv", UserData.users.getFirst().toHashMap());
+//        updateRecord("files/user - Copy.csv", "Toris Johnson", 3, 1);
 
-        ActivityData activityData = new ActivityData();
-        insertRecord("files/activity.csv", ActivityData.activities.getFirst().toHashMap());
+//        ActivityData activityData = new ActivityData();
+//        insertRecord("files/activity - Copy.csv", ActivityData.activities.getFirst().toHashMap());
+//        readRecord("files/activity - Copy.csv");
     }
 
     public CSVFile(String pathname) throws FileNotFoundException {
-        this.data = getRecordsFromCSVFile(pathname);
+        this.data = readRecord(pathname);
     }
 
     public List<String> getHeader() {
@@ -37,51 +42,41 @@ public class CSVFile {
         return data;
     }
 
-    public List<HashMap<String, String>> getRecordsFromCSVFile(String pathname) throws FileNotFoundException {
-        // Ref: https://www.baeldung.com/java-csv-file-array
+    public List<HashMap<String, String>> readRecord(String pathname)
+    {
+        // Ref: https://www.geeksforgeeks.org/reading-csv-file-java-using-opencsv/
         List<HashMap<String, String>> records = new ArrayList<>();
-        try (Scanner scanner = new Scanner(new File(pathname))) {
-            while (scanner.hasNextLine()) {
-                HashMap<String, String> obj = getRecordFromLine(scanner.nextLine());
-                if (obj.isEmpty()) continue;
-                records.add(obj);
+        try {
+            FileReader filereader = new FileReader(pathname);
+            CSVReader csvReader = new CSVReader(filereader);
+            String[] nextRecord;
+
+            while ((nextRecord = csvReader.readNext()) != null) {
+                HashMap<String, String> recordMap = new HashMap<String, String>();
+                List<String> header = new ArrayList<>();
+                int index = 0;
+                for (String cell : nextRecord) {
+                    if (this.header == null) {
+                        header.add(cell);
+                    } else {
+                        recordMap.put(this.header.get(index), cell);
+                        index++;
+                    }
+//                    System.out.print(cell + "\t");
+                }
+//                System.out.println();
+                if (this.header == null) {
+                    this.header = header;
+                }
+                if (recordMap.isEmpty()) continue;
+                records.add(recordMap);
             }
+
+        }
+        catch (Exception e) {
+            e.printStackTrace();
         }
         return records;
-    }
-
-    public HashMap<String, String> getRecordFromLine(String line) {
-        HashMap<String, String> obj = new HashMap<String, String>();
-        List<String> header = new ArrayList<>();
-        try (Scanner rowScanner = new Scanner(line)) {
-            rowScanner.useDelimiter(",");
-            int index = 0;
-            String tempValue = "";
-            while (rowScanner.hasNext()) {
-                String value = rowScanner.next();
-
-                if (this.header == null) {
-                    header.add(value);
-                    continue;
-                }
-
-                if (!tempValue.isBlank() && value.endsWith("\"")) {
-                    tempValue += value;
-                    obj.put(this.header.get(index), tempValue);
-                    tempValue = "";
-                    index++;
-                } else if (value.startsWith("\"") || !tempValue.isBlank()) {
-                    tempValue += value + ",";
-                } else {
-                    obj.put(this.header.get(index), value);
-                    index++;
-                }
-            }
-        }
-        if (this.header == null) {
-            this.header = header;
-        }
-        return obj;
     }
 
     public static void insertRecord(String pathname, LinkedHashMap<String, String> record) throws IOException {
@@ -104,8 +99,23 @@ public class CSVFile {
         bw.close();
     }
 
-    public void updateRecord(String pathname, LinkedHashMap<String, String> record) {
-        // update in csv
+    public static void updateRecord(String pathname, String replace, int row, int col) throws IOException, CsvException {
+        // Ref: https://stackoverflow.com/questions/4397907/updating-specific-cell-csv-file-using-java
+        File inputFile = new File(pathname);
+
+        // Read existing file
+        CSVReader reader = new CSVReader(new FileReader(inputFile));
+        List<String[]> csvBody = reader.readAll();
+        System.out.println(csvBody.getFirst()[0]);
+        // get CSV row column  and replace with by using row and column
+        csvBody.get(row)[col] = replace;
+        reader.close();
+
+        // Write to CSV file which is open
+        CSVWriter writer = new CSVWriter(new FileWriter(inputFile));
+        writer.writeAll(csvBody);
+        writer.flush();
+        writer.close();
     }
 
     public void deleteRecord() {
