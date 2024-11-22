@@ -13,8 +13,16 @@ public class WAMSApplication {
         state = State.LOGIN;
     }
 
-    public void toWorkloadPage() {
-        state = State.WORKLOAD;
+    public void toViewWorkloadPage() {
+        state = State.VIEW_WORKLOAD;
+    }
+
+    public void toEditActivityPage() {
+        state = State.EDIT_ACTIVITY;
+    }
+
+    public void toDeleteActivityPage() {
+        state = State.DELETE_ACTIVITY;
     }
 
     public State getState() {

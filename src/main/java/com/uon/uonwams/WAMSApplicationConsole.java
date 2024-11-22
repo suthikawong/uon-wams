@@ -7,6 +7,7 @@ import com.uon.uonwams.models.*;
 
 import java.io.FileNotFoundException;
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class WAMSApplicationConsole {
@@ -33,27 +34,91 @@ public class WAMSApplicationConsole {
                 System.out.print("Password: ");
                 String password = scanner.next();
 
+                // check user id & password
                 Authentication auth = new Authentication();
                 loginUser = auth.login(userId, password);
+
                 if (loginUser == null) {
                     System.out.println("Incorrect user id or password");
                 } else {
-                    app.toWorkloadPage();
+                    // control flow
+                    app.toViewWorkloadPage();
                 }
                 System.out.println("---------------------------------");
-            } else if (state == State.WORKLOAD) {
-                System.out.println("\nWorkload of: " + loginUser.getName());
+                continue;
+            }
 
-                Workload workload = new Workload(loginUser);
+            Workload workload = new Workload(loginUser);
+
+            if (state == State.VIEW_WORKLOAD) {
+                // log all activities of that user
+                System.out.println("\nWorkload of: " + loginUser.getName());
                 workload.logActivities();
 
-                System.out.print("A=Continue, X=Logout: ");
+                // control flow
+                System.out.print("A=Edit Activity, B=Delete Activity, C=Back: ");
                 String command = scanner.next();
 
-                if (command.equalsIgnoreCase("X")) {
+                if (command.equalsIgnoreCase("A")) {
+                    app.toEditActivityPage();
+                } else if (command.equalsIgnoreCase("B")) {
+                    app.toDeleteActivityPage();
+                } else if (command.equalsIgnoreCase("C")) {
                     app.toLoginPage();
                 }
                 System.out.println("---------------------------------");
+            } else if (state == State.EDIT_ACTIVITY) {
+                System.out.println("\nEdit Activity");
+                System.out.print("Edit Activity ID: ");
+
+                int activityId = scanner.nextInt();
+                // find selected activity
+                Optional<Activity> activity = workload.getActivityById(activityId);
+                if (activity.isEmpty()) {
+                    System.out.println("Not found this activity ID, please select options again");
+                    app.toViewWorkloadPage();
+                    continue;
+                }
+
+                // get new values
+                System.out.print("Activity Name: ");
+                String activityName = scanner.nextLine();
+                System.out.print("Type: ");
+                String type = scanner.next();
+                System.out.print("Description: ");
+                String description = scanner.nextLine();
+                System.out.print("Responsible User ID: ");
+                int responsibleUserId = scanner.nextInt();
+                System.out.print("Responsible User: ");
+                String responsibleUser = scanner.nextLine();
+                System.out.print("Year: ");
+                String year = scanner.nextLine();
+                System.out.print("Duration: ");
+                int duration = scanner.nextInt();
+                System.out.print("Week No: ");
+                int weekNo = scanner.nextInt();
+                System.out.print("Hours: ");
+                int hours = scanner.nextInt();
+                System.out.print("ATSR: ");
+                int ATSR = scanner.nextInt();
+                System.out.print("TS: ");
+                int TS = scanner.nextInt();
+                System.out.print("TLR: ");
+                int TLR = scanner.nextInt();
+                System.out.print("SA: ");
+                int SA = scanner.nextInt();
+                System.out.print("Other: ");
+                int other = scanner.nextInt();
+
+                // update activity
+                workload.updateActivity(activityId, activityName, type, description, responsibleUserId, responsibleUser, year, duration, weekNo, hours, ATSR, TS, TLR, SA, other);
+                System.out.print("Successfully updated");
+
+                // control flow
+                app.toViewWorkloadPage();
+                System.out.println("---------------------------------");
+            } else if (state == State.DELETE_ACTIVITY) {
+                //
             }
         }
     }
