@@ -14,19 +14,20 @@ public class CSVFile {
     private List<HashMap<String, String>> data;
 
     public static void main(String[] args) throws Exception {
-        CSVFile file = new CSVFile("files/user - Copy.csv");
-        List<HashMap<String, String>> myData = file.getData();
-        List<String> myHeader = file.getHeader();
-        System.out.println("data: " + myData);
-        System.out.println("name: " + myData.getFirst().get("name"));
-        System.out.println("header: " + myHeader);
+//        CSVFile file = new CSVFile("files/user - Copy.csv");
+//        List<HashMap<String, String>> myData = file.getData();
+//        List<String> myHeader = file.getHeader();
+//        System.out.println("data: " + myData);
+//        System.out.println("name: " + myData.getFirst().get("name"));
+//        System.out.println("header: " + myHeader);
 
-//        UserData userData = new UserData();
-//        insertRecord("files/user - Copy.csv", UserData.users.getFirst().toHashMap());
+        UserData userData = new UserData();
+//        insertRecord("files/new_file.csv", UserData.users.getFirst().toHashMap());
+        insertRecord("files/user - Copy.csv", UserData.users.getFirst().toHashMap());
 //        updateRecord("files/user - Copy.csv", "Toris Johnson", 3, 1);
 
-//        ActivityData activityData = new ActivityData();
-//        insertRecord("files/activity - Copy.csv", ActivityData.activities.getFirst().toHashMap());
+        ActivityData activityData = new ActivityData();
+        insertRecord("files/activity - Copy.csv", ActivityData.activities.get(10).toHashMap());
 //        readRecord("files/activity - Copy.csv");
     }
 
@@ -79,24 +80,27 @@ public class CSVFile {
         return records;
     }
 
-    public static void insertRecord(String pathname, LinkedHashMap<String, String> record) throws IOException {
-        StringBuilder data = new StringBuilder();
-        Iterator<String> it = record.keySet().iterator();
+    public static void insertRecord(String pathname, LinkedHashMap<String, String> record)
+    {
+        // Ref: https://www.geeksforgeeks.org/writing-a-csv-file-in-java-using-opencsv/
+        try {
+            File file = new File(pathname);
+            List<String> data = new ArrayList<>();
+            Iterator<String> it = record.keySet().iterator();
 
-        while (it.hasNext()) {
-            String key = it.next();
-            data.append(record.get(key));
-            if (it.hasNext()) {
-                data.append(',');
+            FileWriter outputFile = new FileWriter(file, true);
+            CSVWriter writer = new CSVWriter(outputFile);
+
+            while (it.hasNext()) {
+                String key = it.next();
+                data.add(record.get(key));
             }
+            writer.writeNext(data.toArray(new String[0]));
+            writer.close();
         }
-        data.append("\n");
-
-        // Ref: https://www.baeldung.com/java-append-to-file
-        FileWriter fw = new FileWriter(pathname, true);
-        BufferedWriter bw = new BufferedWriter(fw);
-        bw.write(String.valueOf(data));
-        bw.close();
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void updateRecord(String pathname, String replace, int row, int col) throws IOException, CsvException {
