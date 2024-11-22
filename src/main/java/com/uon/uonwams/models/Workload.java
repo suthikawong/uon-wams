@@ -46,8 +46,8 @@ public class Workload {
         return activityData.updateActivity(activityId, activityName, type, description, responsibleUserId, responsibleUser, year, duration, weekNo, hours, ATSR, TS, TLR, SA, other);
     }
 
-    public void deleteActivity() {
-
+    public int deleteActivity(int activityId) {
+        return activityData.deleteActivity(activityId);
     }
 
     public void logActivities() {

@@ -12,7 +12,7 @@ import java.util.List;
 public class UserData {
     public static final List<User> users = new ArrayList<>();
 
-    public UserData() throws FileNotFoundException {
+    public UserData() {
         CSVFile file = new CSVFile("files/user.csv");
         List<LinkedHashMap<String, String>> data = file.getData();
         for (LinkedHashMap<String, String> record: data) {

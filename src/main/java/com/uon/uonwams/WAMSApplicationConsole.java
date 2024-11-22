@@ -12,7 +12,7 @@ import java.util.Scanner;
 
 public class WAMSApplicationConsole {
 
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) {
         // get all users from csv file
         UserData userData = new UserData();
         System.out.println(userData.users);
@@ -72,7 +72,7 @@ public class WAMSApplicationConsole {
                 System.out.print("Edit Activity ID: ");
 
                 int activityId = scanner.nextInt();
-                // find selected activity
+                // check is activity exist
                 Optional<Activity> activity = workload.getActivityById(activityId);
                 if (activity.isEmpty()) {
                     System.out.println("Not found this activity ID, please select options again");
@@ -118,7 +118,24 @@ public class WAMSApplicationConsole {
                 app.toViewWorkloadPage();
                 System.out.println("---------------------------------");
             } else if (state == State.DELETE_ACTIVITY) {
-                //
+                System.out.println("\nDelete Activity");
+                System.out.print("Delete Activity ID: ");
+
+                int activityId = scanner.nextInt();
+                // check is activity exist
+                Optional<Activity> activity = workload.getActivityById(activityId);
+                if (activity.isEmpty()) {
+                    System.out.println("Not found this activity ID, please select options again");
+                    app.toViewWorkloadPage();
+                    continue;
+                }
+
+                workload.deleteActivity(activityId);
+                System.out.print("Successfully deleted");
+
+                // control flow
+                app.toViewWorkloadPage();
+                System.out.println("---------------------------------");
             }
         }
     }
