@@ -13,9 +13,9 @@ public class ActivityData {
     private final CSVFile file;
     private List<Activity> activities = new ArrayList<>();
 
-    public static void main(String[] args) throws FileNotFoundException {
-        new ActivityData();
-    }
+//    public static void main(String[] args) throws FileNotFoundException {
+//        new ActivityData();
+//    }
 
     public ActivityData() {
         file = new CSVFile("files/activity.csv");
@@ -29,6 +29,10 @@ public class ActivityData {
 
     public List<Activity> getActivities() {
         return this.activities;
+    }
+
+    public List<String> getAttributes() {
+        return this.file.getHeader();
     }
 
     public Activity insertActivity(String activityName, String type, String description, int responsibleUserId, String responsibleUser, String year, int duration, int weekNo, int hours, int ATSR, int TS, int TLR, int SA, int other) {
