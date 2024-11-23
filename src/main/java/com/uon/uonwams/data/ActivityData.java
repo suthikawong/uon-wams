@@ -3,9 +3,7 @@ package com.uon.uonwams.data;
 import com.uon.uonwams.models.CSVFile;
 import com.uon.uonwams.models.Activity;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -53,7 +51,7 @@ public class ActivityData {
     }
 
     public int deleteActivity(int activityId) {
-        file.deleteRecord(activityId, "activityId");
+        file.deleteRecord(activityId);
         List<LinkedHashMap<String, String>> data = file.getData();
         this.activities = parseActivities(data);
         return activityId;
