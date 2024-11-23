@@ -152,7 +152,7 @@ public class CSVFile {
         this.data.set(replaceRow - 1, record);
     }
 
-    public void deleteRecord(int id, String key) {
+    public void deleteRecord(int id) {
         Integer replaceRow = null;
         try {
             // delete in csv
@@ -162,20 +162,10 @@ public class CSVFile {
             List<String[]> csvBody = reader.readAll();
 
             for (int row = 1; row < this.data.size() + 1; row++) {
-                if (replaceRow == null && csvBody.get(row)[0].equals(Integer.toString(id))) {
+                if(csvBody.get(row)[0].equals(Integer.toString(id))){
                     replaceRow = row;
-                }
-                if (replaceRow != null) {
-                    if (row == this.data.size()) {
-                        for (int col = 0; col < this.header.size(); col++) {
-                            csvBody.get(row)[col] = "";
-                        }
-                    } else {
-                        for (int col = 0; col < this.header.size(); col++) {
-                            csvBody.get(row)[col] = csvBody.get(row + 1)[col];
-                        }
-                    }
-
+                    csvBody.remove(csvBody.get(row));
+                    break;
                 }
             }
             reader.close();
