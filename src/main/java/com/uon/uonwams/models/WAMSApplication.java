@@ -17,6 +17,10 @@ public class WAMSApplication {
         state = State.VIEW_WORKLOAD;
     }
 
+    public void toAddActivityPage() {
+        state = State.ADD_ACTIVITY;
+    }
+
     public void toEditActivityPage() {
         state = State.EDIT_ACTIVITY;
     }

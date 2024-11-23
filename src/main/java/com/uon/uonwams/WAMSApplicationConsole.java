@@ -6,6 +6,7 @@ import com.uon.uonwams.data.UserData;
 import com.uon.uonwams.models.*;
 
 import java.io.FileNotFoundException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
@@ -60,12 +61,41 @@ public class WAMSApplicationConsole {
                 String command = scanner.next();
 
                 if (command.equalsIgnoreCase("A")) {
-                    app.toEditActivityPage();
+                    app.toAddActivityPage();
                 } else if (command.equalsIgnoreCase("B")) {
-                    app.toDeleteActivityPage();
+                    app.toEditActivityPage();
                 } else if (command.equalsIgnoreCase("C")) {
+                    app.toDeleteActivityPage();
+                } else if (command.equalsIgnoreCase("D")) {
                     app.toLoginPage();
                 }
+                System.out.println("---------------------------------");
+            } else if (state == State.ADD_ACTIVITY) {
+                System.out.println("\nAdd Activity");
+
+                HashMap<String, Object> values = scanActivityValues(scanner);
+
+                // add activity
+                workload.addActivity(
+                        (String) values.get("activityName"),
+                        (String) values.get("type"),
+                        (String) values.get("description"),
+                        (int) values.get("responsibleUserId"),
+                        (String) values.get("responsibleUser"),
+                        (String) values.get("year"),
+                        (int)values.get("duration"),
+                        (int)values.get("weekNo"),
+                        (int)values.get("hours"),
+                        (int)values.get("ATSR"),
+                        (int)values.get("TS"),
+                        (int)values.get("TLR"),
+                        (int)values.get("SA"),
+                        (int)values.get("other")
+                );
+                System.out.print("Successfully added activity");
+
+                // control flow
+                app.toViewWorkloadPage();
                 System.out.println("---------------------------------");
             } else if (state == State.EDIT_ACTIVITY) {
                 System.out.println("\nEdit Activity");
@@ -80,39 +110,27 @@ public class WAMSApplicationConsole {
                     continue;
                 }
 
-                // get new values
-                System.out.print("Activity Name: ");
-                String activityName = scanner.nextLine();
-                System.out.print("Type: ");
-                String type = scanner.next();
-                System.out.print("Description: ");
-                String description = scanner.nextLine();
-                System.out.print("Responsible User ID: ");
-                int responsibleUserId = scanner.nextInt();
-                System.out.print("Responsible User: ");
-                String responsibleUser = scanner.nextLine();
-                System.out.print("Year: ");
-                String year = scanner.nextLine();
-                System.out.print("Duration: ");
-                int duration = scanner.nextInt();
-                System.out.print("Week No: ");
-                int weekNo = scanner.nextInt();
-                System.out.print("Hours: ");
-                int hours = scanner.nextInt();
-                System.out.print("ATSR: ");
-                int ATSR = scanner.nextInt();
-                System.out.print("TS: ");
-                int TS = scanner.nextInt();
-                System.out.print("TLR: ");
-                int TLR = scanner.nextInt();
-                System.out.print("SA: ");
-                int SA = scanner.nextInt();
-                System.out.print("Other: ");
-                int other = scanner.nextInt();
+                HashMap<String, Object> values = scanActivityValues(scanner);
 
                 // update activity
-                workload.updateActivity(activityId, activityName, type, description, responsibleUserId, responsibleUser, year, duration, weekNo, hours, ATSR, TS, TLR, SA, other);
-                System.out.print("Successfully updated");
+                workload.updateActivity(
+                        activityId,
+                        (String) values.get("activityName"),
+                        (String) values.get("type"),
+                        (String) values.get("description"),
+                        (int) values.get("responsibleUserId"),
+                        (String) values.get("responsibleUser"),
+                        (String) values.get("year"),
+                        (int)values.get("duration"),
+                        (int)values.get("weekNo"),
+                        (int)values.get("hours"),
+                        (int)values.get("ATSR"),
+                        (int)values.get("TS"),
+                        (int)values.get("TLR"),
+                        (int)values.get("SA"),
+                        (int)values.get("other")
+                );
+                System.out.print("Successfully updated activity");
 
                 // control flow
                 app.toViewWorkloadPage();
@@ -131,12 +149,75 @@ public class WAMSApplicationConsole {
                 }
 
                 workload.deleteActivity(activityId);
-                System.out.print("Successfully deleted");
+                System.out.print("Successfully deleted activity");
 
                 // control flow
                 app.toViewWorkloadPage();
                 System.out.println("---------------------------------");
             }
         }
+    }
+
+    public static HashMap<String, Object> scanActivityValues(Scanner scanner) {
+        HashMap<String, Object> values = new HashMap<>();
+
+        // get new values
+        System.out.print("Activity Name: ");
+        String activityName = scanner.nextLine();
+        values.put("activityName", activityName);
+
+        System.out.print("Type: ");
+        String type = scanner.next();
+        values.put("type", type);
+
+        System.out.print("Description: ");
+        String description = scanner.nextLine();
+        values.put("description", description);
+
+        System.out.print("Responsible User ID: ");
+        int responsibleUserId = scanner.nextInt();
+        values.put("responsibleUserId", responsibleUserId);
+
+        System.out.print("Responsible User: ");
+        String responsibleUser = scanner.nextLine();
+        values.put("responsibleUser", responsibleUser);
+
+        System.out.print("Year: ");
+        String year = scanner.nextLine();
+        values.put("year", year);
+
+        System.out.print("Duration: ");
+        int duration = scanner.nextInt();
+        values.put("duration", duration);
+
+        System.out.print("Week No: ");
+        int weekNo = scanner.nextInt();
+        values.put("weekNo", weekNo);
+
+        System.out.print("Hours: ");
+        int hours = scanner.nextInt();
+        values.put("hours", hours);
+
+        System.out.print("ATSR: ");
+        int ATSR = scanner.nextInt();
+        values.put("ATSR", ATSR);
+
+        System.out.print("TS: ");
+        int TS = scanner.nextInt();
+        values.put("TS", TS);
+
+        System.out.print("TLR: ");
+        int TLR = scanner.nextInt();
+        values.put("TLR", TLR);
+
+        System.out.print("SA: ");
+        int SA = scanner.nextInt();
+        values.put("SA", SA);
+
+        System.out.print("Other: ");
+        int other = scanner.nextInt();
+        values.put("other", other);
+
+        return values;
     }
 }
