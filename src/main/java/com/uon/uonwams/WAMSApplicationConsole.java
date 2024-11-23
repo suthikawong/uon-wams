@@ -5,19 +5,15 @@ import com.uon.uonwams.data.ActivityData;
 import com.uon.uonwams.data.UserData;
 import com.uon.uonwams.models.*;
 
-import java.io.FileNotFoundException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
 public class WAMSApplicationConsole {
 
     public static void main(String[] args) {
-        // get all users from csv file
-        UserData userData = new UserData();
-        System.out.println(userData.users);
-
+//        UserData userData = new UserData();
+        ActivityData activityData = new ActivityData();
 
         Scanner scanner = new Scanner(System.in);
 
@@ -49,7 +45,7 @@ public class WAMSApplicationConsole {
                 continue;
             }
 
-            Workload workload = new Workload(loginUser);
+            Workload workload = new Workload(loginUser, activityData);
 
             if (state == State.VIEW_WORKLOAD) {
                 // log all activities of that user
@@ -57,7 +53,7 @@ public class WAMSApplicationConsole {
                 workload.logActivities();
 
                 // control flow
-                System.out.print("A=Edit Activity, B=Delete Activity, C=Back: ");
+                System.out.print("A=Add Activity | B=Edit Activity | C=Delete Activity | D=Back: ");
                 String command = scanner.next();
 
                 if (command.equalsIgnoreCase("A")) {
@@ -71,7 +67,7 @@ public class WAMSApplicationConsole {
                 }
                 System.out.println("---------------------------------");
             } else if (state == State.ADD_ACTIVITY) {
-                System.out.println("\nAdd Activity");
+                System.out.println("\nAdd Activity\n");
 
                 HashMap<String, Object> values = scanActivityValues(scanner);
 
@@ -92,13 +88,13 @@ public class WAMSApplicationConsole {
                         (int)values.get("SA"),
                         (int)values.get("other")
                 );
-                System.out.print("Successfully added activity");
+                System.out.println("Successfully added activity");
 
                 // control flow
                 app.toViewWorkloadPage();
                 System.out.println("---------------------------------");
             } else if (state == State.EDIT_ACTIVITY) {
-                System.out.println("\nEdit Activity");
+                System.out.println("\nEdit Activity\n");
                 System.out.print("Edit Activity ID: ");
 
                 int activityId = scanner.nextInt();
@@ -130,13 +126,13 @@ public class WAMSApplicationConsole {
                         (int)values.get("SA"),
                         (int)values.get("other")
                 );
-                System.out.print("Successfully updated activity");
+                System.out.println("Successfully updated activity");
 
                 // control flow
                 app.toViewWorkloadPage();
                 System.out.println("---------------------------------");
             } else if (state == State.DELETE_ACTIVITY) {
-                System.out.println("\nDelete Activity");
+                System.out.println("\nDelete Activity\n");
                 System.out.print("Delete Activity ID: ");
 
                 int activityId = scanner.nextInt();
@@ -149,7 +145,7 @@ public class WAMSApplicationConsole {
                 }
 
                 workload.deleteActivity(activityId);
-                System.out.print("Successfully deleted activity");
+                System.out.println("Successfully deleted activity");
 
                 // control flow
                 app.toViewWorkloadPage();
@@ -160,6 +156,7 @@ public class WAMSApplicationConsole {
 
     public static HashMap<String, Object> scanActivityValues(Scanner scanner) {
         HashMap<String, Object> values = new HashMap<>();
+        scanner.nextLine(); // consume \n that the previous nextInt not consume
 
         // get new values
         System.out.print("Activity Name: ");
@@ -167,7 +164,7 @@ public class WAMSApplicationConsole {
         values.put("activityName", activityName);
 
         System.out.print("Type: ");
-        String type = scanner.next();
+        String type = scanner.nextLine();
         values.put("type", type);
 
         System.out.print("Description: ");
@@ -177,6 +174,7 @@ public class WAMSApplicationConsole {
         System.out.print("Responsible User ID: ");
         int responsibleUserId = scanner.nextInt();
         values.put("responsibleUserId", responsibleUserId);
+        scanner.nextLine();
 
         System.out.print("Responsible User: ");
         String responsibleUser = scanner.nextLine();

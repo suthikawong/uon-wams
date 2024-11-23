@@ -12,9 +12,9 @@ public class Workload {
     private final List<Activity> activities = new ArrayList<>();
     private ActivityData activityData;
 
-    public Workload(User user) {
+    public Workload(User user, ActivityData activityData) {
         this.user = user;
-        activityData = new ActivityData();
+        this.activityData = activityData;
         List<Activity> allActivities = activityData.getActivities();
 
         for (Activity activity: allActivities) {

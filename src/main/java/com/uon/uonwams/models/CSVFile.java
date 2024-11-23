@@ -69,9 +69,7 @@ public class CSVFile {
                         recordMap.put(key, cell);
                         index++;
                     }
-//                    System.out.print(cell + "\t");
                 }
-//                System.out.println();
                 if (this.header == null) {
                     this.header = header;
                 }
@@ -83,7 +81,6 @@ public class CSVFile {
         catch (Exception e) {
             e.printStackTrace();
         }
-//        this.latestId = Integer.parseInt(records.getLast().get(this.header.getFirst()));
         this.data = records;
     }
 
