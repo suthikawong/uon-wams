@@ -1,18 +1,26 @@
 package com.uon.uonwams.models;
 
+import com.password4j.BcryptFunction;
+import com.password4j.Hash;
+import com.password4j.Password;
+import com.password4j.types.Bcrypt;
+import com.uon.uonwams.data.UserData;
+
 import java.util.LinkedHashMap;
 
 public class User {
-    private final int userId;
-    private final String name;
-    private final String password;
-    private final String email;
+    private int userId;
+    private String name;
+    private String password;
+    private String email;
+    private static final BcryptFunction bcrypt = BcryptFunction.getInstance(Bcrypt.B, 12);
 
 //    public static void main(String[] args) {
 //        String pass = hashPassword("12345");
 //        System.out.println(pass);
 //    }
 
+    public User() {}
 
     public User(int userId, String name, String password, String email) {
         this.userId = userId;
@@ -20,6 +28,7 @@ public class User {
         this.password = password;
         this.email = email;
     }
+
 
     public void changePassword(int userId, String password) {
 
@@ -43,6 +52,33 @@ public class User {
 
     public String getEmail() {
         return email;
+    }
+
+    public User login(int userId, String password) {
+        for (User user: UserData.users) {
+            if (userId == user.getUserId() & isMatchedPassword(password, user.getPassword())) {
+                this.userId = user.getUserId();
+                this.name = user.getName();
+                this.password = user.getPassword();
+                this.email = user.getEmail();
+                return this;
+            }
+        }
+        return null;
+    }
+
+    private static String hashPassword(String password) {
+        // Ref: https://davidbertoldi.medium.com/hashing-passwords-in-java-757e787ce71c
+        Hash hash = Password.hash(password)
+                .addPepper("shared-secret")
+                .with(bcrypt);
+        return hash.getResult();
+    }
+
+    private boolean isMatchedPassword(String plainPassword, String storedPassword) {
+        return Password.check(plainPassword, storedPassword)
+                .addPepper("shared-secret")
+                .with(bcrypt);
     }
 
     public LinkedHashMap<String, String> toHashMap() {

@@ -12,7 +12,7 @@ import java.util.Scanner;
 public class WAMSApplicationConsole {
 
     public static void main(String[] args) {
-//        UserData userData = new UserData();
+        new UserData();
         ActivityData activityData = new ActivityData();
 
         Scanner scanner = new Scanner(System.in);
@@ -32,8 +32,7 @@ public class WAMSApplicationConsole {
                 String password = scanner.next();
 
                 // check user id & password
-                Authentication auth = new Authentication();
-                loginUser = auth.login(userId, password);
+                loginUser = new User().login(userId, password);
 
                 if (loginUser == null) {
                     System.out.println("Incorrect user id or password");
@@ -171,6 +170,9 @@ public class WAMSApplicationConsole {
         String description = scanner.nextLine();
         values.put("description", description);
 
+        // TODO: Display code section depending on user role
+        // Role - User: use responsibleUserId, responsibleUser from loginUser
+        // Role - Admin: accept responsibleUserId, responsibleUser from console
         System.out.print("Responsible User ID: ");
         int responsibleUserId = scanner.nextInt();
         values.put("responsibleUserId", responsibleUserId);
@@ -179,6 +181,7 @@ public class WAMSApplicationConsole {
         System.out.print("Responsible User: ");
         String responsibleUser = scanner.nextLine();
         values.put("responsibleUser", responsibleUser);
+        // TODO;
 
         System.out.print("Year: ");
         String year = scanner.nextLine();
