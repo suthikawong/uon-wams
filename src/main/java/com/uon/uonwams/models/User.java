@@ -4,7 +4,6 @@ import com.password4j.BcryptFunction;
 import com.password4j.Hash;
 import com.password4j.Password;
 import com.password4j.types.Bcrypt;
-import com.uon.uonwams.data.UserData;
 
 import java.util.LinkedHashMap;
 
@@ -29,11 +28,6 @@ public class User {
         this.email = email;
     }
 
-
-    public void changePassword(int userId, String password) {
-
-    }
-
     public void updateUser(int userId, String password) {
 
     }
@@ -55,7 +49,7 @@ public class User {
     }
 
     public User login(int userId, String password) {
-        for (User user: UserData.users) {
+        for (User user: WAMSApplication.userData.getUsers()) {
             if (userId == user.getUserId() & isMatchedPassword(password, user.getPassword())) {
                 this.userId = user.getUserId();
                 this.name = user.getName();
@@ -67,7 +61,7 @@ public class User {
         return null;
     }
 
-    private static String hashPassword(String password) {
+    public static String hashPassword(String password) {
         // Ref: https://davidbertoldi.medium.com/hashing-passwords-in-java-757e787ce71c
         Hash hash = Password.hash(password)
                 .addPepper("shared-secret")

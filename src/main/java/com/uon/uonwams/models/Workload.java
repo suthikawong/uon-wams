@@ -12,9 +12,9 @@ public class Workload {
     private final List<Activity> activities = new ArrayList<>();
     private ActivityData activityData;
 
-    public Workload(User user, ActivityData activityData) {
+    public Workload(User user) {
         this.user = user;
-        this.activityData = activityData;
+        this.activityData = WAMSApplication.activityData;
         List<Activity> allActivities = activityData.getActivities();
 
         for (Activity activity: allActivities) {

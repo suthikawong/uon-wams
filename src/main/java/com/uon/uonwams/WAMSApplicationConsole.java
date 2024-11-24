@@ -1,8 +1,6 @@
 package com.uon.uonwams;
 
 import com.uon.uonwams.config.State;
-import com.uon.uonwams.data.ActivityData;
-import com.uon.uonwams.data.UserData;
 import com.uon.uonwams.models.*;
 
 import java.util.HashMap;
@@ -11,14 +9,10 @@ import java.util.Scanner;
 
 public class WAMSApplicationConsole {
 
+
     public static void main(String[] args) {
-        new UserData();
-        ActivityData activityData = new ActivityData();
-
         Scanner scanner = new Scanner(System.in);
-
         WAMSApplication app = new WAMSApplication();
-
         User loginUser = null;
 
         while (true) {
@@ -38,13 +32,61 @@ public class WAMSApplicationConsole {
                     System.out.println("Incorrect user id or password");
                 } else {
                     // control flow
-                    app.toViewWorkloadPage();
+                    app.toHomePage();
                 }
                 System.out.println("---------------------------------");
                 continue;
             }
 
-            Workload workload = new Workload(loginUser, activityData);
+            if (state == State.HOME) {
+                System.out.println("Home Page");
+                System.out.print("A=Workload | B=Profile | Y=Back: ");
+                String command = scanner.next();
+
+                if (command.equalsIgnoreCase("A")) {
+                    app.toViewWorkloadPage();
+                } else if (command.equalsIgnoreCase("B")) {
+                    app.toProfilePage();
+                } else if (command.equalsIgnoreCase("Y")) {
+                    app.toLoginPage();
+                }
+                System.out.println("---------------------------------");
+                continue;
+            }
+
+            Profile profile = new Profile(loginUser);
+
+            if (state == State.PROFILE) {
+                System.out.println("Profile Page");
+                System.out.print("A=Change password | Y=Back: ");
+                String command = scanner.next();
+
+                if (command.equalsIgnoreCase("A")) {
+                    app.toChangePasswordPage();
+                } else if (command.equalsIgnoreCase("Y")) {
+                    app.toHomePage();
+                }
+                System.out.println("---------------------------------");
+                continue;
+            } else if (state == State.CHANGE_PASSWORD) {
+                System.out.println("Change Password");
+                System.out.print("New password: ");
+                String password = scanner.next();
+                System.out.print("Confirm password: ");
+                String confirmPassword = scanner.next();
+                if (password.equals(confirmPassword)) {
+                    loginUser = profile.changePassword(password);
+                    System.out.println(loginUser.getPassword());
+                    System.out.println("Successfully change password");
+                } else {
+                    System.out.println("Password not matched, please try again.");
+                }
+                app.toProfilePage();
+                System.out.println("---------------------------------");
+                continue;
+            }
+
+            Workload workload = new Workload(loginUser);
 
             if (state == State.VIEW_WORKLOAD) {
                 // log all activities of that user
@@ -52,7 +94,7 @@ public class WAMSApplicationConsole {
                 workload.logActivities();
 
                 // control flow
-                System.out.print("A=Add Activity | B=Edit Activity | C=Delete Activity | D=Back: ");
+                System.out.print("A=Add Activity | B=Edit Activity | C=Delete Activity | Y=Back: ");
                 String command = scanner.next();
 
                 if (command.equalsIgnoreCase("A")) {
@@ -61,8 +103,8 @@ public class WAMSApplicationConsole {
                     app.toEditActivityPage();
                 } else if (command.equalsIgnoreCase("C")) {
                     app.toDeleteActivityPage();
-                } else if (command.equalsIgnoreCase("D")) {
-                    app.toLoginPage();
+                } else if (command.equalsIgnoreCase("Y")) {
+                    app.toHomePage();
                 }
                 System.out.println("---------------------------------");
             } else if (state == State.ADD_ACTIVITY) {

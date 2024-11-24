@@ -1,16 +1,34 @@
 package com.uon.uonwams.models;
 
 import com.uon.uonwams.config.State;
+import com.uon.uonwams.data.ActivityData;
+import com.uon.uonwams.data.UserData;
 
 public class WAMSApplication {
+    public static UserData userData;
+    public static ActivityData activityData;
     private State state;
 
     public WAMSApplication() {
+        userData = new UserData();
+        activityData = new ActivityData();
         toLoginPage();
     }
 
     public void toLoginPage() {
         state = State.LOGIN;
+    }
+
+    public void toHomePage() {
+        state = State.HOME;
+    }
+
+    public void toProfilePage() {
+        state = State.PROFILE;
+    }
+
+    public void toChangePasswordPage() {
+        state = State.CHANGE_PASSWORD;
     }
 
     public void toViewWorkloadPage() {
