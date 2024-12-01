@@ -1,29 +1,85 @@
 package com.uon.uonwams.models;
 
+import com.uon.uonwams.config.ActivityType;
+
 import java.util.LinkedHashMap;
 
 public class Activity {
     private final int activityId;
     private final String activityName;
-    private final String type;
+    private final ActivityType activityType;
     private final String description;
     private final int responsibleUserId;
     private final String responsibleUser;
     private final String year;
     private final int duration;
     private final int weekNo;
-    private final int hours;
-    private final int ATSR;
-    private final int TS;
-    private final int TLR;
-    private final int SA;
-    private final int other;
+    private int hours;
+    private int ATSR;
+    private int TS;
+    private int TLR;
+    private int SA;
+    private int other;
 
-
-    public Activity(int activityId, String activityName, String type, String description, int responsibleUserId, String responsibleUser, String year, int duration, int weekNo, int hours, int ATSR, int TS, int TLR, int SA, int other) {
+    public Activity(int activityId, String activityName, ActivityType activityType, String description, int responsibleUserId, String responsibleUser, String year, int duration, int weekNo) {
         this.activityId = activityId;
         this.activityName = activityName;
-        this.type = type;
+        this.activityType = activityType;
+        this.description = description;
+        this.responsibleUserId = responsibleUserId;
+        this.responsibleUser = responsibleUser;
+        this.year = year;
+        this.duration = duration;
+        this.weekNo = weekNo;
+
+        try {
+            calculateWorkload(activityType, duration, weekNo);
+        } catch (Exception e) {
+            System.out.println("Cannot create activity: " + e.getMessage());
+        }
+    }
+
+    private void calculateWorkload(ActivityType activityType, int duration, int weekNo) throws Exception {
+        this.hours = duration * weekNo;
+        switch (activityType) {
+            case ActivityType.ATSR:
+                this.ATSR = this.hours;
+                this.TS = (int) Math.ceil(this.hours * 1.2);
+                this.TLR = 0;
+                this.SA = 0;
+                this.other = 0;
+                break;
+            case ActivityType.TLR:
+                this.ATSR = 0;
+                this.TS = 0;
+                this.TLR = this.hours;
+                this.SA = 0;
+                this.other = 0;
+                break;
+            case ActivityType.SA:
+                this.ATSR = 0;
+                this.TS = 0;
+                this.TLR = 0;
+                this.SA = this.hours;
+                this.other = 0;
+                break;
+            case ActivityType.OTHER:
+                this.ATSR = 0;
+                this.TS = 0;
+                this.TLR = 0;
+                this.SA = 0;
+                this.other = this.hours;
+                break;
+            default:
+                throw new Exception("Invalid activity type");
+        }
+    }
+
+
+    public Activity(int activityId, String activityName, ActivityType activityType, String description, int responsibleUserId, String responsibleUser, String year, int duration, int weekNo, int hours, int ATSR, int TS, int TLR, int SA, int other) {
+        this.activityId = activityId;
+        this.activityName = activityName;
+        this.activityType = activityType;
         this.description = description;
         this.responsibleUserId = responsibleUserId;
         this.responsibleUser = responsibleUser;
@@ -46,8 +102,8 @@ public class Activity {
         return activityName;
     }
 
-    public String getType() {
-        return type;
+    public ActivityType getActivityType() {
+        return activityType;
     }
 
     public String getDescription() {
@@ -101,7 +157,7 @@ public class Activity {
     public LinkedHashMap<String, String> toHashMap() {
         LinkedHashMap<String, String> mapActivity = new LinkedHashMap<String, String>();
         mapActivity.put("activityId", Integer.toString(this.activityId));
-        mapActivity.put("type", this.type);
+        mapActivity.put("activityType", this.activityType.toString());
         mapActivity.put("activityName", this.activityName);
         mapActivity.put("description", this.description);
         mapActivity.put("responsibleUserId", Integer.toString(this.responsibleUserId));
@@ -121,7 +177,7 @@ public class Activity {
     @Override
     public String toString() {
         return "activityName='" + activityName + '\'' +
-                ", type='" + type + '\'' +
+                ", activityType='" + activityType + '\'' +
                 ", description='" + description + '\'' +
                 ", responsibleUserId=" + responsibleUserId +
                 ", responsibleUser='" + responsibleUser + '\'' +

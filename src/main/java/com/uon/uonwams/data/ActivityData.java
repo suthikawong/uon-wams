@@ -1,7 +1,10 @@
 package com.uon.uonwams.data;
 
+import com.uon.uonwams.config.ActivityType;
+import com.uon.uonwams.config.ContractType;
 import com.uon.uonwams.models.CSVFile;
 import com.uon.uonwams.models.Activity;
+import org.apache.commons.beanutils.ConversionException;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -15,7 +18,7 @@ public class ActivityData {
 //        new ActivityData();
 //    }
 
-    public ActivityData() {
+    public ActivityData() throws Exception {
         file = new CSVFile("files/activity.csv");
         List<LinkedHashMap<String, String>> data = file.getData();
         this.activities = parseActivities(data);
@@ -33,31 +36,31 @@ public class ActivityData {
         return this.file.getHeader();
     }
 
-    public Activity insertActivity(String activityName, String type, String description, int responsibleUserId, String responsibleUser, String year, int duration, int weekNo, int hours, int ATSR, int TS, int TLR, int SA, int other) {
+    public Activity insertActivity(String activityName, ActivityType activityType, String description, int responsibleUserId, String responsibleUser, String year, int duration, int weekNo) throws Exception {
         int activityId = this.getLatestActivityId() + 1;
-        Activity activity = new Activity(activityId, activityName, type, description, responsibleUserId, responsibleUser, year, duration, weekNo, hours, ATSR, TS, TLR, SA, other);
+        Activity activity = new Activity(activityId, activityName, activityType, description, responsibleUserId, responsibleUser, year, duration, weekNo);
         file.insertRecord(activity.toHashMap());
         List<LinkedHashMap<String, String>> data = file.getData();
         this.activities = parseActivities(data);
         return activity;
     }
 
-    public Activity updateActivity(int activityId, String activityName, String type, String description, int responsibleUserId, String responsibleUser, String year, int duration, int weekNo, int hours, int ATSR, int TS, int TLR, int SA, int other) {
-        Activity activity = new Activity(activityId, activityName, type, description, responsibleUserId, responsibleUser, year, duration, weekNo, hours, ATSR, TS, TLR, SA, other);
+    public Activity updateActivity(int activityId, String activityName, ActivityType type, String description, int responsibleUserId, String responsibleUser, String year, int duration, int weekNo) throws Exception {
+        Activity activity = new Activity(activityId, activityName, type, description, responsibleUserId, responsibleUser, year, duration, weekNo);
         file.updateRecord(activity.toHashMap(), "activityId");
         List<LinkedHashMap<String, String>> data = file.getData();
         this.activities = parseActivities(data);
         return activity;
     }
 
-    public int deleteActivity(int activityId) {
+    public int deleteActivity(int activityId) throws Exception {
         file.deleteRecord(activityId);
         List<LinkedHashMap<String, String>> data = file.getData();
         this.activities = parseActivities(data);
         return activityId;
     }
 
-    public List<Activity> parseActivities(List<LinkedHashMap<String, String>> records) {
+    public List<Activity> parseActivities(List<LinkedHashMap<String, String>> records) throws Exception {
         List<Activity> activities = new ArrayList<>();
         for (LinkedHashMap<String, String> record: records) {
             activities.add(parseActivity(record));
@@ -66,11 +69,24 @@ public class ActivityData {
     }
 
 
-    public Activity parseActivity(LinkedHashMap<String, String> record) {
+    public Activity parseActivity(LinkedHashMap<String, String> record) throws Exception {
+        ActivityType activityType;
+        if (record.get("activityType").equals(ActivityType.ATSR.label)) {
+            activityType = ActivityType.ATSR;
+        } else if (record.get("activityType").equals(ActivityType.TLR.label)) {
+            activityType = ActivityType.TLR;
+        } else if (record.get("activityType").equals(ActivityType.SA.label)) {
+            activityType = ActivityType.SA;
+        } else if (record.get("activityType").equals(ActivityType.OTHER.label)) {
+            activityType = ActivityType.OTHER;
+        } else {
+            throw new Exception("Invalid activity type in file");
+        }
+
         return new Activity(
                 Integer.parseInt(record.get("activityId")),
                 record.get("activityName"),
-                record.get("type"),
+                activityType,
                 record.get("description"),
                 Integer.parseInt(record.get("responsibleUserId")),
                 record.get("responsibleUser"),

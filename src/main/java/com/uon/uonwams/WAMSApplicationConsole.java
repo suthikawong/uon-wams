@@ -16,8 +16,10 @@ public class WAMSApplicationConsole {
         try {
             app = new WAMSApplication();
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             System.exit(0);
             return;
+//            throw e;
         }
 
         User loginUser = null;
@@ -122,19 +124,12 @@ public class WAMSApplicationConsole {
                 // add activity
                 workload.addActivity(
                         (String) values.get("activityName"),
-                        (String) values.get("type"),
+                        (String) values.get("activityType"),
                         (String) values.get("description"),
                         (int) values.get("responsibleUserId"),
-                        (String) values.get("responsibleUser"),
                         (String) values.get("year"),
                         (int)values.get("duration"),
-                        (int)values.get("weekNo"),
-                        (int)values.get("hours"),
-                        (int)values.get("ATSR"),
-                        (int)values.get("TS"),
-                        (int)values.get("TLR"),
-                        (int)values.get("SA"),
-                        (int)values.get("other")
+                        (int)values.get("weekNo")
                 );
                 System.out.println("Successfully added activity");
 
@@ -160,19 +155,12 @@ public class WAMSApplicationConsole {
                 workload.updateActivity(
                         activityId,
                         (String) values.get("activityName"),
-                        (String) values.get("type"),
+                        (String) values.get("activityType"),
                         (String) values.get("description"),
                         (int) values.get("responsibleUserId"),
-                        (String) values.get("responsibleUser"),
                         (String) values.get("year"),
                         (int)values.get("duration"),
-                        (int)values.get("weekNo"),
-                        (int)values.get("hours"),
-                        (int)values.get("ATSR"),
-                        (int)values.get("TS"),
-                        (int)values.get("TLR"),
-                        (int)values.get("SA"),
-                        (int)values.get("other")
+                        (int)values.get("weekNo")
                 );
                 System.out.println("Successfully updated activity");
 
@@ -211,9 +199,9 @@ public class WAMSApplicationConsole {
         String activityName = scanner.nextLine();
         values.put("activityName", activityName);
 
-        System.out.print("Type: ");
-        String type = scanner.nextLine();
-        values.put("type", type);
+        System.out.print("Activity Type: ");
+        String activityType = scanner.nextLine();
+        values.put("activityType", activityType);
 
         System.out.print("Description: ");
         String description = scanner.nextLine();
@@ -226,10 +214,6 @@ public class WAMSApplicationConsole {
         int responsibleUserId = scanner.nextInt();
         values.put("responsibleUserId", responsibleUserId);
         scanner.nextLine();
-
-        System.out.print("Responsible User: ");
-        String responsibleUser = scanner.nextLine();
-        values.put("responsibleUser", responsibleUser);
         // TODO;
 
         System.out.print("Year: ");
@@ -243,30 +227,6 @@ public class WAMSApplicationConsole {
         System.out.print("Week No: ");
         int weekNo = scanner.nextInt();
         values.put("weekNo", weekNo);
-
-        System.out.print("Hours: ");
-        int hours = scanner.nextInt();
-        values.put("hours", hours);
-
-        System.out.print("ATSR: ");
-        int ATSR = scanner.nextInt();
-        values.put("ATSR", ATSR);
-
-        System.out.print("TS: ");
-        int TS = scanner.nextInt();
-        values.put("TS", TS);
-
-        System.out.print("TLR: ");
-        int TLR = scanner.nextInt();
-        values.put("TLR", TLR);
-
-        System.out.print("SA: ");
-        int SA = scanner.nextInt();
-        values.put("SA", SA);
-
-        System.out.print("Other: ");
-        int other = scanner.nextInt();
-        values.put("other", other);
 
         return values;
     }

@@ -1,7 +1,10 @@
 package com.uon.uonwams.models;
 
+import com.uon.uonwams.config.ActivityType;
 import com.uon.uonwams.data.ActivityData;
+import com.uon.uonwams.data.UserData;
 import dnl.utils.text.table.TextTable;
+import org.apache.commons.beanutils.ConversionException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,16 +41,57 @@ public class Workload {
                 .findFirst();
     }
 
-    public Activity addActivity(String activityName, String type, String description, int responsibleUserId, String responsibleUser, String year, int duration, int weekNo, int hours, int ATSR, int TS, int TLR, int SA, int other) {
-        return activityData.insertActivity(activityName, type, description, responsibleUserId, responsibleUser, year, duration, weekNo, hours, ATSR, TS, TLR, SA, other);
+    public Activity addActivity(String activityName, String type, String description, int responsibleUserId, String year, int duration, int weekNo) {
+        try {
+            ActivityType activityType = convertStringToActivityType(type);
+            Optional<User> responsibleUser = WAMSApplication.userData.getUsers().stream().filter(user -> user.getUserId() == responsibleUserId).findFirst();
+            if (responsibleUser.isEmpty()) {
+                System.out.println("Selected responsible user not exist");
+                return null;
+            }
+            return activityData.insertActivity(activityName, activityType, description, responsibleUserId, responsibleUser.get().getName(), year, duration, weekNo);
+        } catch (Exception e) {
+            System.out.println("Cannot add activity: " + e.getMessage());
+        }
+        return null;
     }
 
-    public Activity updateActivity(int activityId, String activityName, String type, String description, int responsibleUserId, String responsibleUser, String year, int duration, int weekNo, int hours, int ATSR, int TS, int TLR, int SA, int other) {
-        return activityData.updateActivity(activityId, activityName, type, description, responsibleUserId, responsibleUser, year, duration, weekNo, hours, ATSR, TS, TLR, SA, other);
+    public Activity updateActivity(int activityId, String activityName, String type, String description, int responsibleUserId, String year, int duration, int weekNo) {
+        try {
+            ActivityType activityType = convertStringToActivityType(type);
+            Optional<User> responsibleUser = WAMSApplication.userData.getUsers().stream().filter(user -> user.getUserId() == responsibleUserId).findFirst();
+            if (responsibleUser.isEmpty()) {
+                System.out.println("Selected responsible user not exist");
+                return null;
+            }
+            return activityData.updateActivity(activityId, activityName, activityType, description, responsibleUserId, responsibleUser.get().getName(), year, duration, weekNo);
+        } catch (Exception e) {
+            System.out.println("Cannot update activity: " + e.getMessage());
+        }
+        return null;
     }
 
-    public int deleteActivity(int activityId) {
-        return activityData.deleteActivity(activityId);
+    public Integer deleteActivity(int activityId) {
+        try {
+            return activityData.deleteActivity(activityId);
+        } catch (Exception e) {
+            System.out.println("Cannot delete activity: " + e.getMessage());
+        }
+        return null;
+    }
+
+    private ActivityType convertStringToActivityType(String type) {
+        if (type.toUpperCase().equals(ActivityType.ATSR.label)) {
+            return ActivityType.ATSR;
+        } else if (type.toUpperCase().equals(ActivityType.TLR.label)) {
+            return ActivityType.TLR;
+        } else if (type.toUpperCase().equals(ActivityType.SA.label)) {
+            return ActivityType.SA;
+        } else if (type.toUpperCase().equals(ActivityType.OTHER.label)) {
+            return ActivityType.OTHER;
+        } else {
+            throw new ConversionException("Invalid activity type");
+        }
     }
 
     public void logActivities() {
@@ -66,7 +110,7 @@ public class Workload {
         for (int i = 0; i < rows; i++) {
             Activity activity = list.get(i);
             array[i][0] = activity.getActivityId();
-            array[i][1] = activity.getType();
+            array[i][1] = activity.getActivityType();
             array[i][2] = activity.getActivityName();
             array[i][3] = activity.getDescription();
             array[i][4] = activity.getResponsibleUserId();

@@ -9,7 +9,7 @@ public class WAMSApplication {
     public static ActivityData activityData;
     private State state;
 
-    public WAMSApplication() {
+    public WAMSApplication() throws Exception {
         userData = new UserData();
         activityData = new ActivityData();
         toLoginPage();
