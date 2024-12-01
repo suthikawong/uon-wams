@@ -12,7 +12,14 @@ public class WAMSApplicationConsole {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        WAMSApplication app = new WAMSApplication();
+        WAMSApplication app;
+        try {
+            app = new WAMSApplication();
+        } catch (Exception e) {
+            System.exit(0);
+            return;
+        }
+
         User loginUser = null;
 
         while (true) {

@@ -4,6 +4,7 @@ import com.password4j.BcryptFunction;
 import com.password4j.Hash;
 import com.password4j.Password;
 import com.password4j.types.Bcrypt;
+import com.uon.uonwams.config.ContractType;
 
 import java.util.LinkedHashMap;
 
@@ -12,6 +13,9 @@ public class User {
     private String name;
     private String password;
     private String email;
+    private ContractType contractType;
+    private String subjectArea;
+    private Integer lineManagerUserId = null;
     private static final BcryptFunction bcrypt = BcryptFunction.getInstance(Bcrypt.B, 12);
 
 //    public static void main(String[] args) {
@@ -21,11 +25,14 @@ public class User {
 
     public User() {}
 
-    public User(int userId, String name, String password, String email) {
+    public User(int userId, String name, String password, String email, ContractType contractType, String subjectArea, Integer lineManagerUserId) {
         this.userId = userId;
         this.name = name;
         this.password = password;
         this.email = email;
+        this.contractType = contractType;
+        this.subjectArea = subjectArea;
+        this.lineManagerUserId = lineManagerUserId;
     }
 
     public void updateUser(int userId, String password) {
@@ -48,6 +55,18 @@ public class User {
         return email;
     }
 
+    public ContractType getContractType() {
+        return contractType;
+    }
+
+    public String getSubjectArea() {
+        return subjectArea;
+    }
+
+    public Integer getLineManagerUserId() {
+        return lineManagerUserId;
+    }
+
     public User login(int userId, String password) {
         for (User user: WAMSApplication.userData.getUsers()) {
             if (userId == user.getUserId() & isMatchedPassword(password, user.getPassword())) {
@@ -55,6 +74,9 @@ public class User {
                 this.name = user.getName();
                 this.password = user.getPassword();
                 this.email = user.getEmail();
+                this.contractType = user.getContractType();
+                this.subjectArea = user.getSubjectArea();
+                this.lineManagerUserId = user.getLineManagerUserId();
                 return this;
             }
         }
@@ -81,6 +103,9 @@ public class User {
         mapUser.put("name", this.name);
         mapUser.put("password", this.password);
         mapUser.put("email", this.email);
+        mapUser.put("contractType", this.contractType.toString());
+        mapUser.put("subjectArea", this.subjectArea);
+        mapUser.put("lineManagerUserId", Integer.toString(this.lineManagerUserId));
         return mapUser;
     }
 
@@ -91,6 +116,9 @@ public class User {
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
+                ", contractType=" + contractType +
+                ", subjectArea='" + subjectArea + '\'' +
+                ", lineManagerUserId='" + lineManagerUserId + '\'' +
                 '}';
     }
 }

@@ -14,6 +14,6 @@ public class Profile {
     }
 
     public User changePassword(String password) {
-        return userData.updateUser(user.getUserId(), user.getName(), hashPassword(password), user.getEmail());
+        return userData.updateUser(user.getUserId(), user.getName(), hashPassword(password), user.getEmail(), user.getContractType(), user.getSubjectArea(), user.getLineManagerUserId());
     }
 }

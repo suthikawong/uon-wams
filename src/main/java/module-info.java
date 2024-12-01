@@ -6,6 +6,7 @@ module com.uon.uonwams {
     requires j.text.utils;
     requires java.mail;
     requires io.github.cdimascio.dotenv.java;
+    requires commons.beanutils;
 
 
     opens com.uon.uonwams to javafx.fxml;
