@@ -103,9 +103,9 @@ public class User {
         mapUser.put("name", this.name);
         mapUser.put("password", this.password);
         mapUser.put("email", this.email);
-        mapUser.put("contractType", this.contractType.toString());
+        mapUser.put("contractType", this.contractType.label);
         mapUser.put("subjectArea", this.subjectArea);
-        mapUser.put("lineManagerUserId", Integer.toString(this.lineManagerUserId));
+        mapUser.put("lineManagerUserId", this.lineManagerUserId == null ? "" : Integer.toString(this.lineManagerUserId));
         return mapUser;
     }
 

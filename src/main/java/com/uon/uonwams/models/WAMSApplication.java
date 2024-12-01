@@ -47,6 +47,22 @@ public class WAMSApplication {
         state = State.DELETE_ACTIVITY;
     }
 
+    public void toViewUserManagementPage() {
+        state = State.VIEW_USERS;
+    }
+
+    public void toAddUserPage() {
+        state = State.ADD_USER;
+    }
+
+    public void toEditUserPage() {
+        state = State.EDIT_USER;
+    }
+
+    public void toDeleteUserPage() {
+        state = State.DELETE_USER;
+    }
+
     public State getState() {
         return state;
     }

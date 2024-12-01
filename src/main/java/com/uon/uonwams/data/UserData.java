@@ -14,7 +14,7 @@ public class UserData {
     private final CSVFile file;
     private List<User> users = new ArrayList<>();
 
-    public UserData() {
+    public UserData() throws Exception {
         this.file = new CSVFile("files/user.csv");
         List<LinkedHashMap<String, String>> data = file.getData();
         try {
@@ -28,7 +28,23 @@ public class UserData {
 
     }
 
-    public User updateUser(int userId, String name, String password, String email, ContractType contractType, String subjectArea, int lineManagerUserId) {
+    public List<User> getUsers() {
+        return this.users;
+    }
+
+    public List<String> getAttributes() {
+        return this.file.getHeader();
+    }
+
+    public User insertUser(int userId, String name, String password, String email, ContractType contractType, String subjectArea, Integer lineManagerUserId) throws Exception {
+        User user = new User(userId, name, password, email, contractType, subjectArea, lineManagerUserId);
+        file.insertRecord(user.toHashMap());
+        List<LinkedHashMap<String, String>> data = file.getData();
+        this.users = parseUsers(data);
+        return user;
+    }
+
+    public User updateUser(int userId, String name, String password, String email, ContractType contractType, String subjectArea, Integer lineManagerUserId) throws Exception {
         User user = new User(userId, name, password, email, contractType, subjectArea, lineManagerUserId);
         file.updateRecord(user.toHashMap(), "userId");
         List<LinkedHashMap<String, String>> data = file.getData();
@@ -36,7 +52,14 @@ public class UserData {
         return user;
     }
 
-    public List<User> parseUsers(List<LinkedHashMap<String, String>> records) {
+    public int deleteUser(int userId) throws Exception {
+        file.deleteRecord(userId);
+        List<LinkedHashMap<String, String>> data = file.getData();
+        this.users = parseUsers(data);
+        return userId;
+    }
+
+    public List<User> parseUsers(List<LinkedHashMap<String, String>> records) throws Exception {
         List<User> users = new ArrayList<>();
         for (LinkedHashMap<String, String> record: records) {
             users.add(parseUser(record));
@@ -44,11 +67,7 @@ public class UserData {
         return users;
     }
 
-    public List<User> getUsers() {
-        return this.users;
-    }
-
-    public User parseUser(LinkedHashMap<String, String> record) {
+    public User parseUser(LinkedHashMap<String, String> record) throws Exception {
         ContractType contractType;
         if (record.get("contractType").equals(ContractType.FULL_TIME.label)) {
             contractType = ContractType.FULL_TIME;
@@ -57,7 +76,7 @@ public class UserData {
         } else if (record.get("contractType").equals(ContractType.PART_TIME_0_5.label)) {
             contractType = ContractType.PART_TIME_0_5;
         } else {
-            throw new ConversionException("Invalid contract type in file");
+            throw new Exception("Invalid contract type in file");
         }
         return new User(
                 Integer.parseInt(record.get("userId")),

@@ -2,7 +2,6 @@ package com.uon.uonwams.models;
 
 import com.uon.uonwams.config.ActivityType;
 import com.uon.uonwams.data.ActivityData;
-import com.uon.uonwams.data.UserData;
 import dnl.utils.text.table.TextTable;
 import org.apache.commons.beanutils.ConversionException;
 
@@ -80,14 +79,14 @@ public class Workload {
         return null;
     }
 
-    private ActivityType convertStringToActivityType(String type) {
-        if (type.toUpperCase().equals(ActivityType.ATSR.label)) {
+    private ActivityType convertStringToActivityType(String activityType) {
+        if (activityType.toUpperCase().equals(ActivityType.ATSR.label)) {
             return ActivityType.ATSR;
-        } else if (type.toUpperCase().equals(ActivityType.TLR.label)) {
+        } else if (activityType.toUpperCase().equals(ActivityType.TLR.label)) {
             return ActivityType.TLR;
-        } else if (type.toUpperCase().equals(ActivityType.SA.label)) {
+        } else if (activityType.toUpperCase().equals(ActivityType.SA.label)) {
             return ActivityType.SA;
-        } else if (type.toUpperCase().equals(ActivityType.OTHER.label)) {
+        } else if (activityType.toUpperCase().equals(ActivityType.OTHER.label)) {
             return ActivityType.OTHER;
         } else {
             throw new ConversionException("Invalid activity type");

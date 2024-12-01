@@ -27,6 +27,7 @@ public class WAMSApplicationConsole {
         while (true) {
             State state = app.getState();
 
+            //<editor-fold desc="Login Code">
             if (state == State.LOGIN) {
                 System.out.println("Please enter user id and password");
                 System.out.print("User Id: ");
@@ -46,22 +47,29 @@ public class WAMSApplicationConsole {
                 System.out.println("---------------------------------");
                 continue;
             }
+            //</editor-fold>
 
+            //<editor-fold desc="Home Code">
             if (state == State.HOME) {
                 System.out.println("Home Page");
-                System.out.print("A=Workload | B=Profile | Y=Back: ");
+                System.out.printf("A=Workload Management | B=Profile" + (loginUser.getLineManagerUserId() == null ? " | C=User Management" : "") + " | Y=Back: ");
                 String command = scanner.next();
 
                 if (command.equalsIgnoreCase("A")) {
                     app.toViewWorkloadPage();
                 } else if (command.equalsIgnoreCase("B")) {
                     app.toProfilePage();
+                } else if (command.equalsIgnoreCase("C")) {
+                    app.toViewUserManagementPage();
                 } else if (command.equalsIgnoreCase("Y")) {
                     app.toLoginPage();
                 }
                 System.out.println("---------------------------------");
                 continue;
             }
+            //</editor-fold>
+
+            //<editor-fold desc="Profile Code">
 
             Profile profile = new Profile(loginUser);
 
@@ -94,6 +102,112 @@ public class WAMSApplicationConsole {
                 System.out.println("---------------------------------");
                 continue;
             }
+            //</editor-fold>
+
+            //<editor-fold desc="User Management Code">
+            if (loginUser.getLineManagerUserId() == null) {
+                UserManagement um = new UserManagement(loginUser);
+
+                if (state == State.VIEW_USERS) {
+                    System.out.println("User Management Page");
+                    um.logUsers();
+
+                    System.out.print("A=Add User | B=Edit User | C=Delete User | Y=Back: ");
+                    String command = scanner.next();
+
+                    if (command.equalsIgnoreCase("A")) {
+                        app.toAddUserPage();
+                    } else if (command.equalsIgnoreCase("B")) {
+                        app.toEditUserPage();
+                    } else if (command.equalsIgnoreCase("C")) {
+                        app.toDeleteUserPage();
+                    } else if (command.equalsIgnoreCase("Y")) {
+                        app.toHomePage();
+                    }
+                    System.out.println("---------------------------------");
+                    continue;
+                } else if (state == State.ADD_USER) {
+                    System.out.println("\nAdd User\n");
+                    System.out.print("User ID: ");
+
+                    int userId = scanner.nextInt();
+                    // check is user exist
+                    Optional<User> user = um.getUserById(userId);
+                    if (user.isPresent() || userId == loginUser.getUserId()) {
+                        System.out.println("User ID already exists");
+                        app.toViewUserManagementPage();
+                        continue;
+                    }
+
+                    HashMap<String, Object> values = scanUserValues(scanner);
+
+                    // add user
+                    um.addUser(
+                            userId,
+                            (String) values.get("name"),
+                            (String) values.get("email"),
+                            (String) values.get("contractType"),
+                            (String) values.get("subjectArea"),
+                            (Integer) values.get("lineManagerUserId")
+                    );
+                    System.out.println("Successfully added user");
+
+                    // control flow
+                    app.toViewUserManagementPage();
+                    System.out.println("---------------------------------");
+                } else if (state == State.EDIT_USER) {
+                    System.out.println("\nEdit User\n");
+                    System.out.print("Edit User ID: ");
+
+                    int userId = scanner.nextInt();
+                    // check is user exist
+                    Optional<User> user = um.getUserById(userId);
+                    if (user.isEmpty()) {
+                        System.out.println("User ID not found or you don't have permission, please select options again");
+                        app.toViewUserManagementPage();
+                        continue;
+                    }
+
+                    HashMap<String, Object> values = scanUserValues(scanner);
+
+                    // update user
+                    um.updateUser(
+                            userId,
+                            (String) values.get("name"),
+                            (String) values.get("email"),
+                            (String) values.get("contractType"),
+                            (String) values.get("subjectArea"),
+                            (Integer) values.get("lineManagerUserId")
+                    );
+                    System.out.println("Successfully updated user");
+
+                    // control flow
+                    app.toViewUserManagementPage();
+                    System.out.println("---------------------------------");
+                } else if (state == State.DELETE_USER) {
+                    System.out.println("\nDelete User\n");
+                    System.out.print("Delete User ID: ");
+
+                    int userId = scanner.nextInt();
+                    // check is user exist
+                    Optional<User> user = um.getUserById(userId);
+                    if (user.isEmpty()) {
+                        System.out.println("User ID not found or you don't have permission, please select options again");
+                        app.toViewUserManagementPage();
+                        continue;
+                    }
+
+                    um.deleteUser(userId);
+                    System.out.println("Successfully deleted user");
+
+                    // control flow
+                    app.toViewUserManagementPage();
+                    System.out.println("---------------------------------");
+                }
+            }
+            //</editor-fold>
+
+            //<editor-fold desc="Workload Code">
 
             Workload workload = new Workload(loginUser);
 
@@ -187,6 +301,7 @@ public class WAMSApplicationConsole {
                 app.toViewWorkloadPage();
                 System.out.println("---------------------------------");
             }
+            //</editor-fold>
         }
     }
 
@@ -227,6 +342,42 @@ public class WAMSApplicationConsole {
         System.out.print("Week No: ");
         int weekNo = scanner.nextInt();
         values.put("weekNo", weekNo);
+
+        return values;
+    }
+
+    public static HashMap<String, Object> scanUserValues(Scanner scanner) {
+        HashMap<String, Object> values = new HashMap<>();
+        scanner.nextLine(); // consume \n that the previous nextInt not consume
+
+        // get new values
+        System.out.print("Name: ");
+        String name = scanner.nextLine();
+        values.put("name", name);
+
+        System.out.print("Email: ");
+        String email = scanner.nextLine();
+        values.put("email", email);
+
+        System.out.print("Contract Type: ");
+        String contractType = scanner.nextLine();
+        values.put("contractType", contractType);
+
+        System.out.print("Subject Area: ");
+        String subjectArea = scanner.nextLine();
+        values.put("subjectArea", subjectArea);
+
+        System.out.print("Is Line Manager (true/false): ");
+        boolean isLineManager = scanner.nextBoolean();
+
+        if (!isLineManager) {
+            System.out.print("Line Manager User ID: ");
+            int lineManagerUserId = scanner.nextInt();
+            values.put("lineManagerUserId", lineManagerUserId);
+            scanner.nextLine();
+        } else {
+            values.put("lineManagerUserId", null);
+        }
 
         return values;
     }
