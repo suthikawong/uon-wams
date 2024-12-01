@@ -157,7 +157,7 @@ public class Activity {
     public LinkedHashMap<String, String> toHashMap() {
         LinkedHashMap<String, String> mapActivity = new LinkedHashMap<String, String>();
         mapActivity.put("activityId", Integer.toString(this.activityId));
-        mapActivity.put("activityType", this.activityType.toString());
+        mapActivity.put("activityType", this.activityType.label);
         mapActivity.put("activityName", this.activityName);
         mapActivity.put("description", this.description);
         mapActivity.put("responsibleUserId", Integer.toString(this.responsibleUserId));

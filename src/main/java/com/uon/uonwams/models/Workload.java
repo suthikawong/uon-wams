@@ -2,6 +2,7 @@ package com.uon.uonwams.models;
 
 import com.uon.uonwams.config.ActivityType;
 import com.uon.uonwams.data.ActivityData;
+import com.uon.uonwams.data.UserData;
 import dnl.utils.text.table.TextTable;
 import org.apache.commons.beanutils.ConversionException;
 
@@ -10,32 +11,39 @@ import java.util.List;
 import java.util.Optional;
 
 public class Workload {
-    private final User user;
-    private final List<Activity> activities = new ArrayList<>();
+    private final User loginUser;
+//    private final List<Activity> activities = new ArrayList<>();
     private ActivityData activityData;
+    private UserData userData;
+    private List<User> workloadMembers = new ArrayList<>();
 
-    public Workload(User user) {
-        this.user = user;
+    public Workload(User loginUser) {
+        this.loginUser = loginUser;
         this.activityData = WAMSApplication.activityData;
-        List<Activity> allActivities = activityData.getActivities();
-
-        for (Activity activity: allActivities) {
-            if (user.getUserId() == activity.getResponsibleUserId()) {
-                this.activities.add(activity);
+        this.userData = WAMSApplication.userData;
+        for (User user: userData.getUsers()) {
+            if (user.getUserId() == loginUser.getUserId() || (user.getLineManagerUserId() != null && user.getLineManagerUserId() == loginUser.getUserId())) {
+                this.workloadMembers.add(user);
             }
         }
     }
 
-    public User getUser() {
-        return user;
+    public Optional<User> getWorkloadMemberByUserId(int userId) {
+        return this.workloadMembers.stream().filter(user -> user.getUserId() == userId).findFirst();
     }
 
-    public List<Activity> getActivities() {
+    public List<Activity> getActivitiesByUserId(int userId) {
+        List<Activity> activities = new ArrayList<>();
+        for (Activity activity: activityData.getActivities()) {
+            if (userId == activity.getResponsibleUserId()) {
+                activities.add(activity);
+            }
+        }
         return activities;
     }
 
     public Optional<Activity> getActivityById(int activityId) {
-        return activities.stream()
+        return activityData.getActivities().stream()
                 .filter(activity -> activity.getActivityId() == activityId)
                 .findFirst();
     }
@@ -80,28 +88,55 @@ public class Workload {
     }
 
     private ActivityType convertStringToActivityType(String activityType) {
-        if (activityType.toUpperCase().equals(ActivityType.ATSR.label)) {
+        System.out.println(activityType.toUpperCase());
+        System.out.println(ActivityType.OTHER.label);
+        if (activityType.equalsIgnoreCase(ActivityType.ATSR.label)) {
             return ActivityType.ATSR;
-        } else if (activityType.toUpperCase().equals(ActivityType.TLR.label)) {
+        } else if (activityType.equalsIgnoreCase(ActivityType.TLR.label)) {
             return ActivityType.TLR;
-        } else if (activityType.toUpperCase().equals(ActivityType.SA.label)) {
+        } else if (activityType.equalsIgnoreCase(ActivityType.SA.label)) {
             return ActivityType.SA;
-        } else if (activityType.toUpperCase().equals(ActivityType.OTHER.label)) {
+        } else if (activityType.equalsIgnoreCase(ActivityType.OTHER.label)) {
             return ActivityType.OTHER;
         } else {
             throw new ConversionException("Invalid activity type");
         }
     }
 
-    public void logActivities() {
+    public void logWorkloadUsers() {
+        List<String> displayColumns = new ArrayList<>(this.userData.getAttributes());
+        displayColumns = displayColumns.stream().filter(column -> !column.equals("password") && !column.equals("lineManagerUserId")).toList();
+        TextTable tt = new TextTable(displayColumns.toArray(new String[0]),convertWorkloadUserListToArray(this.workloadMembers));
+        tt.printTable();
+        System.out.println("_______________________________________________________________________________");
+        System.out.println();
+    }
+
+    public static Object[][] convertWorkloadUserListToArray(List<User> list) {
+        int rows = list.size();
+        int columns = 5;
+        Object[][] array = new Object[rows][columns];
+
+        for (int i = 0; i < rows; i++) {
+            User user = list.get(i);
+            array[i][0] = user.getUserId();
+            array[i][1] = user.getName();
+            array[i][2] = user.getEmail();
+            array[i][3] = user.getContractType().label;
+            array[i][4] = user.getSubjectArea();
+        }
+        return array;
+    }
+
+    public void logActivities(int userId) {
         List<String> displayColumns = this.activityData.getAttributes();
-        TextTable tt = new TextTable(displayColumns.toArray(new String[0]),convertListToArray(this.activities));
+        TextTable tt = new TextTable(displayColumns.toArray(new String[0]),convertWorkloadListToArray(getActivitiesByUserId(userId)));
         tt.printTable();
         System.out.println("______________________________________________________________________________________________________________________________________________________________________");
         System.out.println();
     }
 
-    public static Object[][] convertListToArray(List<Activity> list) {
+    public static Object[][] convertWorkloadListToArray(List<Activity> list) {
         int rows = list.size();
         int columns = 15;
         Object[][] array = new Object[rows][columns];
@@ -109,7 +144,7 @@ public class Workload {
         for (int i = 0; i < rows; i++) {
             Activity activity = list.get(i);
             array[i][0] = activity.getActivityId();
-            array[i][1] = activity.getActivityType();
+            array[i][1] = activity.getActivityType().label;
             array[i][2] = activity.getActivityName();
             array[i][3] = activity.getDescription();
             array[i][4] = activity.getResponsibleUserId();

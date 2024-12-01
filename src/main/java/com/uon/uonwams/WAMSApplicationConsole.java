@@ -23,6 +23,7 @@ public class WAMSApplicationConsole {
         }
 
         User loginUser = null;
+        User workloadUser = null;
 
         while (true) {
             State state = app.getState();
@@ -56,7 +57,7 @@ public class WAMSApplicationConsole {
                 String command = scanner.next();
 
                 if (command.equalsIgnoreCase("A")) {
-                    app.toViewWorkloadPage();
+                    app.toViewUserWorkloadPage();
                 } else if (command.equalsIgnoreCase("B")) {
                     app.toProfilePage();
                 } else if (command.equalsIgnoreCase("C")) {
@@ -211,10 +212,35 @@ public class WAMSApplicationConsole {
 
             Workload workload = new Workload(loginUser);
 
-            if (state == State.VIEW_WORKLOAD) {
+            if (state == State.VIEW_USER_WORKLOAD) {
                 // log all activities of that user
-                System.out.println("\nWorkload of: " + loginUser.getName());
-                workload.logActivities();
+                System.out.println("Select User Workload");
+                workload.logWorkloadUsers();
+
+                System.out.print("Press key to continue or press Y to go back: ");
+                String command = scanner.next();
+
+                if (command.equalsIgnoreCase("Y")) {
+                    app.toHomePage();
+                    continue;
+                }
+
+                System.out.print("User ID: ");
+                int workloadUserId = scanner.nextInt();
+
+                Optional<User> user = workload.getWorkloadMemberByUserId(workloadUserId);
+                if (user.isEmpty()) {
+                    System.out.println("Selected User ID is not exist");
+                    continue;
+                }
+                workloadUser = user.get();
+
+                app.toViewWorkloadPage();
+                System.out.println("---------------------------------");
+            } else if (state == State.VIEW_WORKLOAD && workloadUser != null) {
+                // log all activities of that user
+                System.out.println("\nWorkload of: " + workloadUser.getName());
+                workload.logActivities(workloadUser.getUserId());
 
                 // control flow
                 System.out.print("A=Add Activity | B=Edit Activity | C=Delete Activity | Y=Back: ");
@@ -227,7 +253,7 @@ public class WAMSApplicationConsole {
                 } else if (command.equalsIgnoreCase("C")) {
                     app.toDeleteActivityPage();
                 } else if (command.equalsIgnoreCase("Y")) {
-                    app.toHomePage();
+                    app.toViewUserWorkloadPage();
                 }
                 System.out.println("---------------------------------");
             } else if (state == State.ADD_ACTIVITY) {
