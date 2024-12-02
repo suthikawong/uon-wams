@@ -14,7 +14,7 @@ public class Workload {
     private final User loginUser;
     private ActivityData activityData;
     private UserData userData;
-    private List<User> workloadMembers = new ArrayList<>();
+    private List<UserWorkloadAllocation> userWorkloadAllocation = new ArrayList<>();
 
     public Workload(User loginUser) {
         this.loginUser = loginUser;
@@ -22,13 +22,13 @@ public class Workload {
         this.userData = WAMSApplication.userData;
         for (User user: userData.getUsers()) {
             if (user.getUserId() == loginUser.getUserId() || (user.getLineManagerUserId() != null && user.getLineManagerUserId() == loginUser.getUserId())) {
-                this.workloadMembers.add(user);
+                this.userWorkloadAllocation.add(new UserWorkloadAllocation(user));
             }
         }
     }
 
-    public Optional<User> getWorkloadMemberByUserId(int userId) {
-        return this.workloadMembers.stream().filter(user -> user.getUserId() == userId).findFirst();
+    public Optional<UserWorkloadAllocation> getWorkloadUserByUserId(int userId) {
+        return this.userWorkloadAllocation.stream().filter(user -> user.getUserId() == userId).findFirst();
     }
 
     public List<Activity> getActivitiesByUserId(int userId) {
@@ -104,25 +104,37 @@ public class Workload {
 
     public void logWorkloadUsers() {
         List<String> displayColumns = new ArrayList<>(this.userData.getAttributes());
+        displayColumns.add("Total Hours");
+        displayColumns.add("FTE Hours");
+        displayColumns.add("Total ATSR + TS");
+        displayColumns.add("Parcentage of ATSR allocated");
+        displayColumns.add("Parcentage of Total Hours Allocated");
+        displayColumns.add("FTE ATSR Hours");
         displayColumns = displayColumns.stream().filter(column -> !column.equals("password") && !column.equals("lineManagerUserId")).toList();
-        TextTable tt = new TextTable(displayColumns.toArray(new String[0]),convertWorkloadUserListToArray(this.workloadMembers));
+        TextTable tt = new TextTable(displayColumns.toArray(new String[0]),convertWorkloadUserListToArray(this.userWorkloadAllocation));
         tt.printTable();
-        System.out.println("_______________________________________________________________________________");
+        System.out.println("______________________________________________________________________________________________________________________________________________________________________________________________________");
         System.out.println();
     }
 
-    public static Object[][] convertWorkloadUserListToArray(List<User> list) {
+    public static Object[][] convertWorkloadUserListToArray(List<UserWorkloadAllocation> list) {
         int rows = list.size();
-        int columns = 5;
+        int columns = 11;
         Object[][] array = new Object[rows][columns];
 
         for (int i = 0; i < rows; i++) {
-            User user = list.get(i);
+            UserWorkloadAllocation user = list.get(i);
             array[i][0] = user.getUserId();
             array[i][1] = user.getName();
             array[i][2] = user.getEmail();
             array[i][3] = user.getFteRatio();
             array[i][4] = user.getSubjectArea();
+            array[i][5] = user.getTotalHours();
+            array[i][6] = user.getFteHours();
+            array[i][7] = user.getTotalAtsrTs();
+            array[i][8] = user.getPercentageOfAtsrAllocated() + "%";
+            array[i][9] = user.getParcentageOfTotalHoursAllocated() + "%";
+            array[i][10] = user.getFteAtsrHours();
         }
         return array;
     }

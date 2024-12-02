@@ -8,13 +8,13 @@ import com.password4j.types.Bcrypt;
 import java.util.LinkedHashMap;
 
 public class User {
-    private int userId;
-    private String name;
-    private String password;
-    private String email;
-    private float fteRatio;
-    private String subjectArea;
-    private Integer lineManagerUserId = null;
+    protected int userId;
+    protected String name;
+    protected String password;
+    protected String email;
+    protected float fteRatio;
+    protected String subjectArea;
+    protected Integer lineManagerUserId = null;
     private static final BcryptFunction bcrypt = BcryptFunction.getInstance(Bcrypt.B, 12);
 
 //    public static void main(String[] args) {

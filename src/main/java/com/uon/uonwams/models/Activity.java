@@ -44,7 +44,7 @@ public class Activity {
         switch (activityType) {
             case ActivityType.ATSR:
                 this.ATSR = this.hours;
-                this.TS = (int) Math.ceil(this.hours * 1.2); // ASSUME: Round up if TS is decimal number
+                this.TS = (int) Math.ceil(this.hours * 1.2); // REMARK: Round up if result is decimal number
                 this.TLR = 0;
                 this.SA = 0;
                 this.other = 0;

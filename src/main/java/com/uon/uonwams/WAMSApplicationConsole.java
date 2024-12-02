@@ -228,7 +228,7 @@ public class WAMSApplicationConsole {
                 System.out.print("User ID: ");
                 int workloadUserId = scanner.nextInt();
 
-                Optional<User> user = workload.getWorkloadMemberByUserId(workloadUserId);
+                Optional<UserWorkloadAllocation> user = workload.getWorkloadUserByUserId(workloadUserId);
                 if (user.isEmpty()) {
                     System.out.println("Selected User ID is not exist");
                     continue;
