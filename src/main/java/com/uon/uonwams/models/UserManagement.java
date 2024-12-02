@@ -1,9 +1,7 @@
 package com.uon.uonwams.models;
 
-import com.uon.uonwams.config.ContractType;
 import com.uon.uonwams.data.UserData;
 import dnl.utils.text.table.TextTable;
-import org.apache.commons.beanutils.ConversionException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,9 +33,8 @@ public class UserManagement {
                 .findFirst();
     }
 
-    public User addUser(int userId, String name, String email, String type, String subjectArea, Integer lineManagerUserId) {
+    public User addUser(int userId, String name, String email, float fteRatio, String subjectArea, Integer lineManagerUserId) {
         try {
-            ContractType contractType = convertStringToContractType(type);
             Optional<User> lineManagerUser;
             if (lineManagerUserId != null) {
                 lineManagerUser = WAMSApplication.userData.getUsers().stream().filter(user -> user.getUserId() == lineManagerUserId).findFirst();
@@ -50,16 +47,15 @@ public class UserManagement {
             }
 
             String generatedPassword = User.hashPassword("password");
-            return userData.insertUser(userId, name, generatedPassword, email, contractType, subjectArea, lineManagerUser == null ? null : lineManagerUser.get().getUserId());
+            return userData.insertUser(userId, name, generatedPassword, email, fteRatio, subjectArea, lineManagerUser == null ? null : lineManagerUser.get().getUserId());
         } catch (Exception e) {
             System.out.println("Cannot add user: " + e.getMessage());
         }
         return null;
     }
 
-    public User updateUser(int userId, String name, String email, String contractType, String subjectArea, Integer lineManagerUserId) {
+    public User updateUser(int userId, String name, String email, float fteRatio, String subjectArea, Integer lineManagerUserId) {
         try {
-            ContractType type = convertStringToContractType(contractType);
             Optional<User> lineManagerUser;
 
             Optional<User> updatedUser = WAMSApplication.userData.getUsers().stream().filter(user -> user.getUserId() == userId).findFirst();
@@ -78,7 +74,7 @@ public class UserManagement {
                 lineManagerUser = null;
             }
 
-            return userData.updateUser(userId, name, updatedUser.get().getPassword(), email, type, subjectArea, lineManagerUser == null ? null : lineManagerUser.get().getUserId());
+            return userData.updateUser(userId, name, updatedUser.get().getPassword(), email, fteRatio, subjectArea, lineManagerUser == null ? null : lineManagerUser.get().getUserId());
         } catch (Exception e) {
             System.out.println("Cannot update user: " + e.getMessage());
         }
@@ -104,18 +100,6 @@ public class UserManagement {
         System.out.println();
     }
 
-    private ContractType convertStringToContractType(String contractType) {
-        if (contractType.equalsIgnoreCase(ContractType.FULL_TIME.label)) {
-            return ContractType.FULL_TIME;
-        } else if (contractType.equalsIgnoreCase(ContractType.PART_TIME_1_0.label)) {
-            return ContractType.PART_TIME_1_0;
-        } else if (contractType.equalsIgnoreCase(ContractType.PART_TIME_0_5.label)) {
-            return ContractType.PART_TIME_0_5;
-        } else {
-            throw new ConversionException("Invalid contract type");
-        }
-    }
-
     public static Object[][] convertUserListToArray(List<User> list) {
         int rows = list.size();
         int columns = 7;
@@ -126,7 +110,7 @@ public class UserManagement {
             array[i][0] = user.getUserId();
             array[i][1] = user.getName();
             array[i][2] = user.getEmail();
-            array[i][3] = user.getContractType().label;
+            array[i][3] = user.getFteRatio();
             array[i][4] = user.getSubjectArea();
             array[i][5] = user.getLineManagerUserId();
             array[i][6] = loginUser.getName();

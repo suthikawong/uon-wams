@@ -15,7 +15,7 @@ public class Profile {
 
     public User changePassword(String password) {
         try {
-            return userData.updateUser(user.getUserId(), user.getName(), hashPassword(password), user.getEmail(), user.getContractType(), user.getSubjectArea(), user.getLineManagerUserId());
+            return userData.updateUser(user.getUserId(), user.getName(), hashPassword(password), user.getEmail(), user.getFteRatio(), user.getSubjectArea(), user.getLineManagerUserId());
         } catch (Exception e) {
             System.out.println("Fail to change password, please try again");
         }

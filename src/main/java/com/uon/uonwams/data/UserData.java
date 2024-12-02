@@ -1,10 +1,7 @@
 package com.uon.uonwams.data;
 
-import com.uon.uonwams.config.ContractType;
-import com.uon.uonwams.models.Activity;
 import com.uon.uonwams.models.CSVFile;
 import com.uon.uonwams.models.User;
-import org.apache.commons.beanutils.ConversionException;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -36,16 +33,16 @@ public class UserData {
         return this.file.getHeader();
     }
 
-    public User insertUser(int userId, String name, String password, String email, ContractType contractType, String subjectArea, Integer lineManagerUserId) throws Exception {
-        User user = new User(userId, name, password, email, contractType, subjectArea, lineManagerUserId);
+    public User insertUser(int userId, String name, String password, String email, float fteRatio, String subjectArea, Integer lineManagerUserId) throws Exception {
+        User user = new User(userId, name, password, email, fteRatio, subjectArea, lineManagerUserId);
         file.insertRecord(user.toHashMap());
         List<LinkedHashMap<String, String>> data = file.getData();
         this.users = parseUsers(data);
         return user;
     }
 
-    public User updateUser(int userId, String name, String password, String email, ContractType contractType, String subjectArea, Integer lineManagerUserId) throws Exception {
-        User user = new User(userId, name, password, email, contractType, subjectArea, lineManagerUserId);
+    public User updateUser(int userId, String name, String password, String email, float fteRatio, String subjectArea, Integer lineManagerUserId) throws Exception {
+        User user = new User(userId, name, password, email, fteRatio, subjectArea, lineManagerUserId);
         file.updateRecord(user.toHashMap(), "userId");
         List<LinkedHashMap<String, String>> data = file.getData();
         this.users = parseUsers(data);
@@ -68,22 +65,12 @@ public class UserData {
     }
 
     public User parseUser(LinkedHashMap<String, String> record) throws Exception {
-        ContractType contractType;
-        if (record.get("contractType").equals(ContractType.FULL_TIME.label)) {
-            contractType = ContractType.FULL_TIME;
-        } else if (record.get("contractType").equals(ContractType.PART_TIME_1_0.label)) {
-            contractType = ContractType.PART_TIME_1_0;
-        } else if (record.get("contractType").equals(ContractType.PART_TIME_0_5.label)) {
-            contractType = ContractType.PART_TIME_0_5;
-        } else {
-            throw new Exception("Invalid contract type in file");
-        }
         return new User(
                 Integer.parseInt(record.get("userId")),
                 record.get("name"),
                 record.get("password"),
                 record.get("email"),
-                contractType,
+                Float.parseFloat(record.get("fteRatio")),
                 record.get("subjectArea"),
                 record.get("lineManagerUserId").isEmpty() ? null : Integer.parseInt(record.get("lineManagerUserId"))
         );

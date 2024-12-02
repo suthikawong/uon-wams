@@ -147,7 +147,7 @@ public class WAMSApplicationConsole {
                             userId,
                             (String) values.get("name"),
                             (String) values.get("email"),
-                            (String) values.get("contractType"),
+                            (float) values.get("fteRatio"),
                             (String) values.get("subjectArea"),
                             (Integer) values.get("lineManagerUserId")
                     );
@@ -176,7 +176,7 @@ public class WAMSApplicationConsole {
                             userId,
                             (String) values.get("name"),
                             (String) values.get("email"),
-                            (String) values.get("contractType"),
+                            (float) values.get("fteRatio"),
                             (String) values.get("subjectArea"),
                             (Integer) values.get("lineManagerUserId")
                     );
@@ -385,9 +385,10 @@ public class WAMSApplicationConsole {
         String email = scanner.nextLine();
         values.put("email", email);
 
-        System.out.print("Contract Type: ");
-        String contractType = scanner.nextLine();
-        values.put("contractType", contractType);
+        System.out.print("FTE Ratio: ");
+        float fteRatio = scanner.nextFloat();
+        values.put("fteRatio", fteRatio);
+        scanner.nextLine();
 
         System.out.print("Subject Area: ");
         String subjectArea = scanner.nextLine();

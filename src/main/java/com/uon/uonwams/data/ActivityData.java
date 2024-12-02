@@ -1,10 +1,8 @@
 package com.uon.uonwams.data;
 
 import com.uon.uonwams.config.ActivityType;
-import com.uon.uonwams.config.ContractType;
 import com.uon.uonwams.models.CSVFile;
 import com.uon.uonwams.models.Activity;
-import org.apache.commons.beanutils.ConversionException;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;

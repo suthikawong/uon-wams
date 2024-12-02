@@ -121,7 +121,7 @@ public class Workload {
             array[i][0] = user.getUserId();
             array[i][1] = user.getName();
             array[i][2] = user.getEmail();
-            array[i][3] = user.getContractType().label;
+            array[i][3] = user.getFteRatio();
             array[i][4] = user.getSubjectArea();
         }
         return array;

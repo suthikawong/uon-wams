@@ -4,7 +4,6 @@ import com.password4j.BcryptFunction;
 import com.password4j.Hash;
 import com.password4j.Password;
 import com.password4j.types.Bcrypt;
-import com.uon.uonwams.config.ContractType;
 
 import java.util.LinkedHashMap;
 
@@ -13,7 +12,7 @@ public class User {
     private String name;
     private String password;
     private String email;
-    private ContractType contractType;
+    private float fteRatio;
     private String subjectArea;
     private Integer lineManagerUserId = null;
     private static final BcryptFunction bcrypt = BcryptFunction.getInstance(Bcrypt.B, 12);
@@ -25,12 +24,12 @@ public class User {
 
     public User() {}
 
-    public User(int userId, String name, String password, String email, ContractType contractType, String subjectArea, Integer lineManagerUserId) {
+    public User(int userId, String name, String password, String email, float fteRatio, String subjectArea, Integer lineManagerUserId) {
         this.userId = userId;
         this.name = name;
         this.password = password;
         this.email = email;
-        this.contractType = contractType;
+        this.fteRatio = fteRatio;
         this.subjectArea = subjectArea;
         this.lineManagerUserId = lineManagerUserId;
     }
@@ -55,8 +54,8 @@ public class User {
         return email;
     }
 
-    public ContractType getContractType() {
-        return contractType;
+    public float getFteRatio() {
+        return fteRatio;
     }
 
     public String getSubjectArea() {
@@ -74,7 +73,7 @@ public class User {
                 this.name = user.getName();
                 this.password = user.getPassword();
                 this.email = user.getEmail();
-                this.contractType = user.getContractType();
+                this.fteRatio = user.getFteRatio();
                 this.subjectArea = user.getSubjectArea();
                 this.lineManagerUserId = user.getLineManagerUserId();
                 return this;
@@ -103,7 +102,7 @@ public class User {
         mapUser.put("name", this.name);
         mapUser.put("password", this.password);
         mapUser.put("email", this.email);
-        mapUser.put("contractType", this.contractType.label);
+        mapUser.put("fteRatio", Float.toString(this.fteRatio));
         mapUser.put("subjectArea", this.subjectArea);
         mapUser.put("lineManagerUserId", this.lineManagerUserId == null ? "" : Integer.toString(this.lineManagerUserId));
         return mapUser;
@@ -116,7 +115,7 @@ public class User {
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
-                ", contractType=" + contractType +
+                ", fteRatio=" + fteRatio +
                 ", subjectArea='" + subjectArea + '\'' +
                 ", lineManagerUserId='" + lineManagerUserId + '\'' +
                 '}';
