@@ -269,7 +269,7 @@ public class WAMSApplicationConsole {
                         (int) values.get("responsibleUserId"),
                         (String) values.get("year"),
                         (int)values.get("duration"),
-                        (int)values.get("weekNo")
+                        (int)values.get("noOfInstances")
                 );
                 System.out.println("Successfully added activity");
 
@@ -300,7 +300,7 @@ public class WAMSApplicationConsole {
                         (int) values.get("responsibleUserId"),
                         (String) values.get("year"),
                         (int)values.get("duration"),
-                        (int)values.get("weekNo")
+                        (int)values.get("noOfInstances")
                 );
                 System.out.println("Successfully updated activity");
 
@@ -361,13 +361,13 @@ public class WAMSApplicationConsole {
         String year = scanner.nextLine();
         values.put("year", year);
 
-        System.out.print("Duration: ");
+        System.out.print("Activity Duration: ");
         int duration = scanner.nextInt();
         values.put("duration", duration);
 
-        System.out.print("Week No: ");
-        int weekNo = scanner.nextInt();
-        values.put("weekNo", weekNo);
+        System.out.print("No. of Instances: ");
+        int noOfInstances = scanner.nextInt();
+        values.put("noOfInstances", noOfInstances);
 
         return values;
     }

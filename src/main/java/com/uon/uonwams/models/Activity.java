@@ -13,7 +13,7 @@ public class Activity {
     private final String responsibleUser;
     private final String year;
     private final int duration;
-    private final int weekNo;
+    private final int noOfInstances;
     private int hours;
     private int ATSR;
     private int TS;
@@ -21,7 +21,7 @@ public class Activity {
     private int SA;
     private int other;
 
-    public Activity(int activityId, String activityName, ActivityType activityType, String description, int responsibleUserId, String responsibleUser, String year, int duration, int weekNo) {
+    public Activity(int activityId, String activityName, ActivityType activityType, String description, int responsibleUserId, String responsibleUser, String year, int duration, int noOfInstances) {
         this.activityId = activityId;
         this.activityName = activityName;
         this.activityType = activityType;
@@ -30,21 +30,21 @@ public class Activity {
         this.responsibleUser = responsibleUser;
         this.year = year;
         this.duration = duration;
-        this.weekNo = weekNo;
+        this.noOfInstances = noOfInstances;
 
         try {
-            calculateWorkload(activityType, duration, weekNo);
+            calculateWorkload(activityType, duration, noOfInstances);
         } catch (Exception e) {
             System.out.println("Cannot create activity: " + e.getMessage());
         }
     }
 
-    private void calculateWorkload(ActivityType activityType, int duration, int weekNo) throws Exception {
-        this.hours = duration * weekNo;
+    private void calculateWorkload(ActivityType activityType, int duration, int noOfInstances) throws Exception {
+        this.hours = duration * noOfInstances;
         switch (activityType) {
             case ActivityType.ATSR:
                 this.ATSR = this.hours;
-                this.TS = (int) Math.ceil(this.hours * 1.2);
+                this.TS = (int) Math.ceil(this.hours * 1.2); // ASSUME: Round up if TS is decimal number
                 this.TLR = 0;
                 this.SA = 0;
                 this.other = 0;
@@ -76,7 +76,7 @@ public class Activity {
     }
 
 
-    public Activity(int activityId, String activityName, ActivityType activityType, String description, int responsibleUserId, String responsibleUser, String year, int duration, int weekNo, int hours, int ATSR, int TS, int TLR, int SA, int other) {
+    public Activity(int activityId, String activityName, ActivityType activityType, String description, int responsibleUserId, String responsibleUser, String year, int duration, int noOfInstances, int hours, int ATSR, int TS, int TLR, int SA, int other) {
         this.activityId = activityId;
         this.activityName = activityName;
         this.activityType = activityType;
@@ -85,7 +85,7 @@ public class Activity {
         this.responsibleUser = responsibleUser;
         this.year = year;
         this.duration = duration;
-        this.weekNo = weekNo;
+        this.noOfInstances = noOfInstances;
         this.hours = hours;
         this.ATSR = ATSR;
         this.TS = TS;
@@ -126,8 +126,8 @@ public class Activity {
         return duration;
     }
 
-    public int getWeekNo() {
-        return weekNo;
+    public int getNoOfInstances() {
+        return noOfInstances;
     }
 
     public int getHours() {
@@ -164,7 +164,7 @@ public class Activity {
         mapActivity.put("responsibleUser", this.responsibleUser);
         mapActivity.put("year", this.year);
         mapActivity.put("duration", Integer.toString(this.duration));
-        mapActivity.put("weekNo", Integer.toString(this.weekNo));
+        mapActivity.put("noOfInstances", Integer.toString(this.noOfInstances));
         mapActivity.put("hours", Integer.toString(this.hours));
         mapActivity.put("ATSR", Integer.toString(this.ATSR));
         mapActivity.put("TS", Integer.toString(this.TS));
@@ -183,7 +183,7 @@ public class Activity {
                 ", responsibleUser='" + responsibleUser + '\'' +
                 ", year='" + year + '\'' +
                 ", duration=" + duration +
-                ", weekNo=" + weekNo +
+                ", noOfInstances=" + noOfInstances +
                 ", hours=" + hours +
                 ", ATSR=" + ATSR +
                 ", TS=" + TS +

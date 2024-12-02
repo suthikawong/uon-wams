@@ -12,7 +12,6 @@ import java.util.Optional;
 
 public class Workload {
     private final User loginUser;
-//    private final List<Activity> activities = new ArrayList<>();
     private ActivityData activityData;
     private UserData userData;
     private List<User> workloadMembers = new ArrayList<>();
@@ -48,7 +47,7 @@ public class Workload {
                 .findFirst();
     }
 
-    public Activity addActivity(String activityName, String type, String description, int responsibleUserId, String year, int duration, int weekNo) {
+    public Activity addActivity(String activityName, String type, String description, int responsibleUserId, String year, int duration, int noOfInstances) {
         try {
             ActivityType activityType = convertStringToActivityType(type);
             Optional<User> responsibleUser = WAMSApplication.userData.getUsers().stream().filter(user -> user.getUserId() == responsibleUserId).findFirst();
@@ -56,14 +55,14 @@ public class Workload {
                 System.out.println("Selected responsible user not exist");
                 return null;
             }
-            return activityData.insertActivity(activityName, activityType, description, responsibleUserId, responsibleUser.get().getName(), year, duration, weekNo);
+            return activityData.insertActivity(activityName, activityType, description, responsibleUserId, responsibleUser.get().getName(), year, duration, noOfInstances);
         } catch (Exception e) {
             System.out.println("Cannot add activity: " + e.getMessage());
         }
         return null;
     }
 
-    public Activity updateActivity(int activityId, String activityName, String type, String description, int responsibleUserId, String year, int duration, int weekNo) {
+    public Activity updateActivity(int activityId, String activityName, String type, String description, int responsibleUserId, String year, int duration, int noOfInstances) {
         try {
             ActivityType activityType = convertStringToActivityType(type);
             Optional<User> responsibleUser = WAMSApplication.userData.getUsers().stream().filter(user -> user.getUserId() == responsibleUserId).findFirst();
@@ -71,7 +70,7 @@ public class Workload {
                 System.out.println("Selected responsible user not exist");
                 return null;
             }
-            return activityData.updateActivity(activityId, activityName, activityType, description, responsibleUserId, responsibleUser.get().getName(), year, duration, weekNo);
+            return activityData.updateActivity(activityId, activityName, activityType, description, responsibleUserId, responsibleUser.get().getName(), year, duration, noOfInstances);
         } catch (Exception e) {
             System.out.println("Cannot update activity: " + e.getMessage());
         }
@@ -151,7 +150,7 @@ public class Workload {
             array[i][5] = activity.getResponsibleUser();
             array[i][6] = activity.getYear();
             array[i][7] = activity.getDuration();
-            array[i][8] = activity.getWeekNo();
+            array[i][8] = activity.getNoOfInstances();
             array[i][9] = activity.getHours();
             array[i][10] = activity.getATSR();
             array[i][11] = activity.getTS();

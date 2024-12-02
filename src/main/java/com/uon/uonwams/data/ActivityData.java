@@ -36,17 +36,17 @@ public class ActivityData {
         return this.file.getHeader();
     }
 
-    public Activity insertActivity(String activityName, ActivityType activityType, String description, int responsibleUserId, String responsibleUser, String year, int duration, int weekNo) throws Exception {
+    public Activity insertActivity(String activityName, ActivityType activityType, String description, int responsibleUserId, String responsibleUser, String year, int duration, int noOfInstances) throws Exception {
         int activityId = this.getLatestActivityId() + 1;
-        Activity activity = new Activity(activityId, activityName, activityType, description, responsibleUserId, responsibleUser, year, duration, weekNo);
+        Activity activity = new Activity(activityId, activityName, activityType, description, responsibleUserId, responsibleUser, year, duration, noOfInstances);
         file.insertRecord(activity.toHashMap());
         List<LinkedHashMap<String, String>> data = file.getData();
         this.activities = parseActivities(data);
         return activity;
     }
 
-    public Activity updateActivity(int activityId, String activityName, ActivityType type, String description, int responsibleUserId, String responsibleUser, String year, int duration, int weekNo) throws Exception {
-        Activity activity = new Activity(activityId, activityName, type, description, responsibleUserId, responsibleUser, year, duration, weekNo);
+    public Activity updateActivity(int activityId, String activityName, ActivityType type, String description, int responsibleUserId, String responsibleUser, String year, int duration, int noOfInstances) throws Exception {
+        Activity activity = new Activity(activityId, activityName, type, description, responsibleUserId, responsibleUser, year, duration, noOfInstances);
         file.updateRecord(activity.toHashMap(), "activityId");
         List<LinkedHashMap<String, String>> data = file.getData();
         this.activities = parseActivities(data);
@@ -92,7 +92,7 @@ public class ActivityData {
                 record.get("responsibleUser"),
                 record.get("year"),
                 Integer.parseInt(record.get("duration")),
-                Integer.parseInt(record.get("weekNo")),
+                Integer.parseInt(record.get("noOfInstances")),
                 Integer.parseInt(record.get("hours")),
                 Integer.parseInt(record.get("ATSR")),
                 Integer.parseInt(record.get("TS")),
