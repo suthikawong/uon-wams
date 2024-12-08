@@ -5,17 +5,15 @@ import com.uon.uonwams.models.UserWorkloadAllocation;
 import com.uon.uonwams.models.Workload;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 
-import java.io.IOException;
 import java.util.List;
 
-public class MyWorkloadController implements BaseController {
+public class MyWorkloadController extends MenuController implements ControllerInterface {
     AppController appController;
 
     @FXML
@@ -25,14 +23,16 @@ public class MyWorkloadController implements BaseController {
     private MenuItem workloadMenuItem;
 
     @FXML
-    private TableView workloadTableView;
+    private TableView myWorkloadTableView;
 
     @FXML
-    private TableView activityTableView;
+    private TableView myActivityTableView;
 
     public void setup() {
         // check user's role
 //        workloadMenuItem.setVisible(false);
+        this.setMenuAppController(appController);
+
         Workload workload = new Workload(appController.getLoginUser());
         UserWorkloadAllocation workloadUser = new UserWorkloadAllocation(appController.getLoginUser());
         appController.setWorkload(workload);
@@ -40,11 +40,6 @@ public class MyWorkloadController implements BaseController {
         createUserWorkloadTable();
         createActivityTable();
 
-    }
-
-    @FXML
-    protected void onClickBackButton(ActionEvent event) throws IOException {
-        appController.loadScene("login.fxml");
     }
 
     @Override
@@ -88,21 +83,21 @@ public class MyWorkloadController implements BaseController {
 
 
         // Add Columns to TableView
-        workloadTableView.getColumns().add(idColumn);
-        workloadTableView.getColumns().add(nameColumn);
-        workloadTableView.getColumns().add(emailColumn);
-        workloadTableView.getColumns().add(fteRatioColumn);
-        workloadTableView.getColumns().add(subjectAreaColumn);
-        workloadTableView.getColumns().add(totalHoursColumn);
-        workloadTableView.getColumns().add(fteHoursColumn);
-        workloadTableView.getColumns().add(totalAtsrTsColumn);
-        workloadTableView.getColumns().add(percentAtsrColumn);
-        workloadTableView.getColumns().add(percentTotalHoursColumn);
-        workloadTableView.getColumns().add(fteAtsrHoursColumn);
+        myWorkloadTableView.getColumns().add(idColumn);
+        myWorkloadTableView.getColumns().add(nameColumn);
+        myWorkloadTableView.getColumns().add(emailColumn);
+        myWorkloadTableView.getColumns().add(fteRatioColumn);
+        myWorkloadTableView.getColumns().add(subjectAreaColumn);
+        myWorkloadTableView.getColumns().add(totalHoursColumn);
+        myWorkloadTableView.getColumns().add(fteHoursColumn);
+        myWorkloadTableView.getColumns().add(totalAtsrTsColumn);
+        myWorkloadTableView.getColumns().add(percentAtsrColumn);
+        myWorkloadTableView.getColumns().add(percentTotalHoursColumn);
+        myWorkloadTableView.getColumns().add(fteAtsrHoursColumn);
 
         ObservableList<UserWorkloadAllocation> list = FXCollections.observableArrayList();
         list.add(appController.getWorkloadUser());
-        workloadTableView.setItems(list);
+        myWorkloadTableView.setItems(list);
     }
 
 
@@ -154,21 +149,21 @@ public class MyWorkloadController implements BaseController {
 
 
         // Add Columns to TableView
-        activityTableView.getColumns().add(activityIdColumn);
-        activityTableView.getColumns().add(activityTypeColumn);
-        activityTableView.getColumns().add(activityNameColumn);
-        activityTableView.getColumns().add(descriptionColumn);
-        activityTableView.getColumns().add(responsibleUserIdColumn);
-        activityTableView.getColumns().add(responsibleUserNameColumn);
-        activityTableView.getColumns().add(yearColumn);
-        activityTableView.getColumns().add(durationColumn);
-        activityTableView.getColumns().add(noOfInstancesColumn);
-        activityTableView.getColumns().add(hoursColumn);
-        activityTableView.getColumns().add(atsrColumn);
-        activityTableView.getColumns().add(tsColumn);
-        activityTableView.getColumns().add(tlrColumn);
-        activityTableView.getColumns().add(saColumn);
-        activityTableView.getColumns().add(otherColumn);
+        myActivityTableView.getColumns().add(activityIdColumn);
+        myActivityTableView.getColumns().add(activityTypeColumn);
+        myActivityTableView.getColumns().add(activityNameColumn);
+        myActivityTableView.getColumns().add(descriptionColumn);
+        myActivityTableView.getColumns().add(responsibleUserIdColumn);
+        myActivityTableView.getColumns().add(responsibleUserNameColumn);
+        myActivityTableView.getColumns().add(yearColumn);
+        myActivityTableView.getColumns().add(durationColumn);
+        myActivityTableView.getColumns().add(noOfInstancesColumn);
+        myActivityTableView.getColumns().add(hoursColumn);
+        myActivityTableView.getColumns().add(atsrColumn);
+        myActivityTableView.getColumns().add(tsColumn);
+        myActivityTableView.getColumns().add(tlrColumn);
+        myActivityTableView.getColumns().add(saColumn);
+        myActivityTableView.getColumns().add(otherColumn);
 
 
         List<Activity> activities = appController.getWorkload().getActivitiesByUserId(appController.getLoginUser().getUserId());
@@ -176,6 +171,6 @@ public class MyWorkloadController implements BaseController {
         for(Activity activity: activities) {
             list.add(activity);
         }
-        activityTableView.setItems(list);
+        myActivityTableView.setItems(list);
     }
 }

@@ -67,7 +67,7 @@ public class AppController {
     public void loadScene(String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(WAMSApplicationViewer.class.getResource(fxml));
         Parent root = fxmlLoader.load();
-        BaseController controller = fxmlLoader.getController();
+        ControllerInterface controller = fxmlLoader.getController();
         if (controller != null) {
             controller.setAppController(this);
         }

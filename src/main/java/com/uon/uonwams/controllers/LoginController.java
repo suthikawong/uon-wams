@@ -6,11 +6,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
 
-public class LoginController implements BaseController {
+public class LoginController implements ControllerInterface {
     private AppController appController;
 
     @FXML

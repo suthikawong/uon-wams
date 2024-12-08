@@ -1,6 +1,6 @@
 package com.uon.uonwams.controllers;
 
-public interface BaseController {
+public interface ControllerInterface {
     AppController appController = null;
 
     void setAppController(AppController appController);

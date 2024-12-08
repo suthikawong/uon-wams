@@ -16,6 +16,10 @@ public class Workload {
     private UserData userData;
     private List<UserWorkloadAllocation> userWorkloadAllocation = new ArrayList<>();
 
+    public List<UserWorkloadAllocation> getUserWorkloadAllocation() {
+        return userWorkloadAllocation;
+    }
+
     public Workload(User loginUser) {
         this.loginUser = loginUser;
         this.activityData = WAMSApplication.activityData;
