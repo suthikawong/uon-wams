@@ -5,7 +5,9 @@ import com.password4j.Hash;
 import com.password4j.Password;
 import com.password4j.types.Bcrypt;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 public class User {
     protected int userId;
@@ -64,6 +66,25 @@ public class User {
 
     public Integer getLineManagerUserId() {
         return lineManagerUserId;
+    }
+
+    public List<User> getSubordinate() {
+        List<User> subordinateList = new ArrayList<>();
+        for (User user: WAMSApplication.userData.getUsers()) {
+            if ((Integer) this.userId == user.getLineManagerUserId()) {
+                subordinateList.add(user);
+            }
+        }
+        return subordinateList;
+    }
+
+    public boolean checkIsLineManager() {
+        for (User user: WAMSApplication.userData.getUsers()) {
+            if ((Integer) this.userId == user.getLineManagerUserId()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public User login(int userId, String password) {

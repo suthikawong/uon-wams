@@ -6,21 +6,13 @@ import com.uon.uonwams.models.Workload;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.layout.AnchorPane;
 
 import java.util.List;
 
 public class MyWorkloadController extends MenuController implements ControllerInterface {
     AppController appController;
-
-    @FXML
-    private AnchorPane myWorkloadAnchorPane;
-
-    @FXML
-    private MenuItem workloadMenuItem;
 
     @FXML
     private TableView myWorkloadTableView;
@@ -29,8 +21,6 @@ public class MyWorkloadController extends MenuController implements ControllerIn
     private TableView myActivityTableView;
 
     public void setup() {
-        // check user's role
-//        workloadMenuItem.setVisible(false);
         this.setMenuAppController(appController);
 
         Workload workload = new Workload(appController.getLoginUser());
