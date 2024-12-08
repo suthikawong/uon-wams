@@ -26,7 +26,7 @@ public class LoginController implements BaseController {
     private Label loginErrorLabel;
 
 
-    public void initialize() {
+    public void setup() {
         loginUserIdErrorLabel.setVisible(false);
         loginErrorLabel.setVisible(false);
     }

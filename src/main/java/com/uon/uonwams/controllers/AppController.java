@@ -3,6 +3,7 @@ package com.uon.uonwams.controllers;
 import com.uon.uonwams.WAMSApplicationViewer;
 import com.uon.uonwams.config.State;
 import com.uon.uonwams.models.User;
+import com.uon.uonwams.models.UserWorkloadAllocation;
 import com.uon.uonwams.models.WAMSApplication;
 import com.uon.uonwams.models.Workload;
 import javafx.fxml.FXMLLoader;
@@ -15,7 +16,7 @@ import java.io.IOException;
 public class AppController {
     private Stage stage;
     private User loginUser = null;
-    private User workloadUser = null;
+    private UserWorkloadAllocation workloadUser = null;
     private Workload workload = null;
     private State state = null;
 
@@ -35,11 +36,11 @@ public class AppController {
         this.loginUser = loginUser;
     }
 
-    public User getWorkloadUser() {
+    public UserWorkloadAllocation getWorkloadUser() {
         return workloadUser;
     }
 
-    public void setWorkloadUser(User workloadUser) {
+    public void setWorkloadUser(UserWorkloadAllocation workloadUser) {
         this.workloadUser = workloadUser;
     }
 
@@ -59,6 +60,10 @@ public class AppController {
         this.state = state;
     }
 
+    public Stage getStage() {
+        return stage;
+    }
+
     public void loadScene(String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(WAMSApplicationViewer.class.getResource(fxml));
         Parent root = fxmlLoader.load();
@@ -69,5 +74,6 @@ public class AppController {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+        controller.setup();
     }
 }

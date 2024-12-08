@@ -102,7 +102,7 @@ public class Workload {
         }
     }
 
-    public void logWorkloadUsers() {
+    public List<String> getWorkloadUserDisplayColumns() {
         List<String> displayColumns = new ArrayList<>(this.userData.getAttributes());
         displayColumns.add("Total Hours");
         displayColumns.add("FTE Hours");
@@ -110,8 +110,13 @@ public class Workload {
         displayColumns.add("Parcentage of ATSR allocated");
         displayColumns.add("Parcentage of Total Hours Allocated");
         displayColumns.add("FTE ATSR Hours");
-        displayColumns = displayColumns.stream().filter(column -> !column.equals("password") && !column.equals("lineManagerUserId")).toList();
-        TextTable tt = new TextTable(displayColumns.toArray(new String[0]),convertWorkloadUserListToArray(this.userWorkloadAllocation));
+        return displayColumns.stream().filter(column -> !column.equals("password") && !column.equals("lineManagerUserId")).toList();
+    }
+
+    public void logWorkloadUsers() {
+        List<String> displayColumns = this.getWorkloadUserDisplayColumns();
+        List<UserWorkloadAllocation> data = this.userWorkloadAllocation;
+        TextTable tt = new TextTable(displayColumns.toArray(new String[0]),convertWorkloadUserListToArray(data));
         tt.printTable();
         System.out.println("______________________________________________________________________________________________________________________________________________________________________________________________________");
         System.out.println();
@@ -139,9 +144,14 @@ public class Workload {
         return array;
     }
 
+    public List<String> getActivityDisplayColumns() {
+        return this.activityData.getAttributes();
+    }
+
     public void logActivities(int userId) {
-        List<String> displayColumns = this.activityData.getAttributes();
-        TextTable tt = new TextTable(displayColumns.toArray(new String[0]),convertWorkloadListToArray(getActivitiesByUserId(userId)));
+        List<String> displayColumns = this.getActivityDisplayColumns();
+        List<Activity> data = getActivitiesByUserId(userId);
+        TextTable tt = new TextTable(displayColumns.toArray(new String[0]),convertWorkloadListToArray(data));
         tt.printTable();
         System.out.println("______________________________________________________________________________________________________________________________________________________________________");
         System.out.println();

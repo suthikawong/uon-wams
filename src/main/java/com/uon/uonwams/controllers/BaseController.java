@@ -4,4 +4,7 @@ public interface BaseController {
     AppController appController = null;
 
     void setAppController(AppController appController);
+
+    void setup();
+
 }
