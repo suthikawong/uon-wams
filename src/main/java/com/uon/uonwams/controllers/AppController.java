@@ -35,6 +35,7 @@ public class AppController {
         this.state = State.LOGIN;
         this.stage = stage;
         stage.setTitle("Workload Allocation System");
+        stage.setResizable(false);
         this.loadScene("login.fxml");
     }
 
@@ -105,12 +106,7 @@ public class AppController {
         if (controller != null) {
             controller.setAppController(this);
         }
-        Scene scene;
-        if (stage.getScene() == null) {
-            scene = new Scene(root, 800, 600);
-        } else {
-            scene = new Scene(root, stage.getWidth(), stage.getHeight());
-        }
+        Scene scene = new Scene(root, 1200, 700);
         stage.setScene(scene);
         stage.show();
         controller.setup();
