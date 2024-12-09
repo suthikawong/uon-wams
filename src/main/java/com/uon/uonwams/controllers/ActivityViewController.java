@@ -40,6 +40,7 @@ public class ActivityViewController extends MenuController implements Controller
 
     @FXML
     protected void onClickAddButton() throws IOException {
+        appController.setSelectedActivity(null);
         appController.setState(State.ADD_ACTIVITY);
         appController.loadScene("activity-form.fxml");
     }

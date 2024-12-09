@@ -40,6 +40,7 @@ public class UserViewController extends MenuController implements ControllerInte
 
     @FXML
     protected void onClickAddButton() throws IOException {
+        appController.setSelectedUser(null);
         appController.setState(State.ADD_USER);
         appController.loadScene("user-form.fxml");
     }
