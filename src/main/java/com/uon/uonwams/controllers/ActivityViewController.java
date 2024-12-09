@@ -5,8 +5,12 @@ import com.uon.uonwams.models.Activity;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.List;
@@ -32,6 +36,12 @@ public class ActivityViewController extends MenuController implements Controller
         appController.setWorkloadUser(null);
         appController.setState(State.VIEW_USER_WORKLOAD);
         appController.loadScene("workload.fxml");
+    }
+
+    @FXML
+    protected void onClickAddButton() throws IOException {
+        appController.setState(State.ADD_ACTIVITY);
+        appController.loadScene("activity-form.fxml");
     }
 
     private void createActivityTable() {
@@ -112,28 +122,51 @@ public class ActivityViewController extends MenuController implements Controller
         activityTableView.setItems(list);
     }
 
-    private static <T> void handleClickEditButton(T data, AppController appController) {
+    private static <T> void handleClickEditButton(T data, AppController appController) throws IOException {
         if (Activity.class.isInstance(data)) {
             Activity activity = Activity.class.cast(data);
-            System.out.println("edit: " + activity);
-//            appController.getWorkload().updateActivity(
-//                    activity.getActivityId(),
-//                    activity.getActivityName(),
-//                    activity.getActivityType().label,
-//                    activity.getDescription(),
-//                    activity.getResponsibleUserId(),
-//                    activity.getYear(),
-//                    activity.getDuration(),
-//                    activity.getNoOfInstances()
-//            );
+            appController.setSelectedActivity(activity);
+            appController.setState(State.EDIT_ACTIVITY);
+            appController.loadScene("activity-form.fxml");
         }
     }
 
-    private static <T> void handleClickDeleteButton(T data, AppController appController) {
+    private static <T> void handleClickDeleteButton(T data, AppController appController) throws IOException {
+        Stage popupStage = new Stage();
+        popupStage.initModality(Modality.APPLICATION_MODAL); // block interaction with the main window
+        popupStage.initOwner(appController.getStage());
+
+        Label message = new Label("Are you sure you want to delete this item?");
+        Button cancelButton = new Button("Cancel");
+        Button deleteButton = new Button("Delete");
+
+        cancelButton.setOnAction(e -> popupStage.close());
+        deleteButton.setOnAction(e -> {
+            deleteActivity(data, appController);
+            popupStage.close();
+            // reload activities
+            try {
+                appController.loadScene("activity-view.fxml");
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+
+        HBox buttonLayout = new HBox(10, cancelButton, deleteButton);
+        buttonLayout.setStyle("-fx-padding: 10; -fx-alignment: center; -fx-spacing: 10;");
+        VBox popupLayout = new VBox(20, message, buttonLayout);
+        popupLayout.setStyle("-fx-padding: 10; -fx-alignment: center; -fx-spacing: 10;");
+        Scene popupScene = new Scene(popupLayout, 300, 150);
+        popupStage.setTitle("Confirm Delete");
+        popupStage.setScene(popupScene);
+        popupStage.showAndWait();
+    }
+
+    private static <T> void deleteActivity(T data, AppController appController) {
         if (Activity.class.isInstance(data)) {
             Activity activity = Activity.class.cast(data);
-            System.out.println("delete: " + activity);
-//            appController.getWorkload().deleteActivity(activity.getActivityId());
+            appController.getWorkload().deleteActivity(activity.getActivityId());
         }
     }
+
 }

@@ -52,6 +52,7 @@
                         <ButtonBar prefHeight="40.0" prefWidth="200.0">
                           <buttons>
                             <Button fx:id="activityViewBackButton" mnemonicParsing="false" onAction="#onClickBackButton" text="Back" />
+                              <Button fx:id="activityViewAddButton" layoutX="695.0" layoutY="10.0" mnemonicParsing="false" onAction="#onClickAddButton" text="Add" />
                           </buttons>
                            <VBox.margin>
                               <Insets bottom="20.0" />

@@ -2,10 +2,7 @@ package com.uon.uonwams.controllers;
 
 import com.uon.uonwams.WAMSApplicationViewer;
 import com.uon.uonwams.config.State;
-import com.uon.uonwams.models.User;
-import com.uon.uonwams.models.UserWorkloadAllocation;
-import com.uon.uonwams.models.WAMSApplication;
-import com.uon.uonwams.models.Workload;
+import com.uon.uonwams.models.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -29,6 +26,7 @@ public class AppController {
     private UserWorkloadAllocation workloadUser = null;
     private Workload workload = null;
     private State state = null;
+    private Activity selectedActivity = null;
 
     public AppController(Stage stage) throws Exception {
         new WAMSApplication();
@@ -72,6 +70,14 @@ public class AppController {
 
     public Stage getStage() {
         return stage;
+    }
+
+    public Activity getSelectedActivity() {
+        return selectedActivity;
+    }
+
+    public void setSelectedActivity(Activity selectedActivity) {
+        this.selectedActivity = selectedActivity;
     }
 
     public void loadScene(String fxml) throws IOException {
