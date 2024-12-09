@@ -87,7 +87,12 @@ public class AppController {
         if (controller != null) {
             controller.setAppController(this);
         }
-        Scene scene = new Scene(root);
+        Scene scene;
+        if (stage.getScene() == null) {
+            scene = new Scene(root, 800, 600);
+        } else {
+            scene = new Scene(root, stage.getWidth(), stage.getHeight());
+        }
         stage.setScene(scene);
         stage.show();
         controller.setup();
