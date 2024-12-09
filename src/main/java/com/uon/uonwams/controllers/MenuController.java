@@ -39,6 +39,6 @@ public class MenuController {
 
     @FXML
     protected void onClickUmMenuItem() throws IOException {
-        appController.loadScene("um.fxml");
+        appController.loadScene("user-view.fxml");
     }
 }

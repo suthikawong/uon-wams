@@ -25,8 +25,10 @@ public class AppController {
     private User loginUser = null;
     private UserWorkloadAllocation workloadUser = null;
     private Workload workload = null;
+    private UserManagement userManagement = null;
     private State state = null;
     private Activity selectedActivity = null;
+    private User selectedUser = null;
 
     public AppController(Stage stage) throws Exception {
         new WAMSApplication();
@@ -60,6 +62,14 @@ public class AppController {
         this.workload = workload;
     }
 
+    public UserManagement getUserManagement() {
+        return userManagement;
+    }
+
+    public void setUserManagement(UserManagement userManagement) {
+        this.userManagement = userManagement;
+    }
+
     public State getState() {
         return state;
     }
@@ -78,6 +88,14 @@ public class AppController {
 
     public void setSelectedActivity(Activity selectedActivity) {
         this.selectedActivity = selectedActivity;
+    }
+
+    public User getSelectedUser() {
+        return selectedUser;
+    }
+
+    public void setSelectedUser(User selectedUser) {
+        this.selectedUser = selectedUser;
     }
 
     public void loadScene(String fxml) throws IOException {

@@ -13,14 +13,15 @@ public class UserManagement {
     private UserData userData;
 
     public UserManagement(User loginUser) {
-        this.userData = WAMSApplication.userData;
-        UserManagement.loginUser = loginUser;
-
-        for (User user: userData.getUsers()) {
-            if (user.getLineManagerUserId() != null && user.getLineManagerUserId() == loginUser.getUserId()) {
-                this.users.add(user);
-            }
-        }
+//        this.userData = WAMSApplication.userData;
+//        UserManagement.loginUser = loginUser;
+//
+//        for (User user: userData.getUsers()) {
+//            if (user.getLineManagerUserId() != null && user.getLineManagerUserId() == loginUser.getUserId()) {
+//                this.users.add(user);
+//            }
+//        }
+        this.users = loginUser.getSubordinate();
     }
 
     public List<User> getUsers() {

@@ -16,7 +16,7 @@
                         <MenuItem fx:id="myWorkloadMenuItem" mnemonicParsing="false" onAction="#onClickMyWorkloadMenuItem" text="My Workload" />
                         <MenuItem fx:id="profileMenuItem" mnemonicParsing="false" text="Profile" />
                         <MenuItem fx:id="workloadMenuItem" mnemonicParsing="false" onAction="#onClickWorkloadMenuItem" text="Workload Management" />
-                        <MenuItem fx:id="umMenuItem" mnemonicParsing="false" text="User Management" />
+                        <MenuItem fx:id="umMenuItem" mnemonicParsing="false" onAction="#onClickUmMenuItem" text="User Management" />
                      </items></Menu>
               </menus>
             </MenuBar>
