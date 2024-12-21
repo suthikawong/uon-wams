@@ -77,7 +77,7 @@ public class User extends DATFileStructure implements Serializable {
     public List<User> getSubordinate() {
         List<User> subordinateList = new ArrayList<>();
         for (User user: WAMSApplication.userData.getUsers()) {
-            if ((Integer) this.userId == user.getLineManagerUserId()) {
+            if (((Integer) this.userId).equals(user.getLineManagerUserId())) {
                 subordinateList.add(user);
             }
         }
@@ -86,7 +86,7 @@ public class User extends DATFileStructure implements Serializable {
 
     public boolean checkIsLineManager() {
         for (User user: WAMSApplication.userData.getUsers()) {
-            if ((Integer) this.userId == user.getLineManagerUserId()) {
+            if (((Integer) this.userId).equals(user.getLineManagerUserId())) {
                 return true;
             }
         }

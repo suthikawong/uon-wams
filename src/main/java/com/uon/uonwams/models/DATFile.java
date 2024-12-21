@@ -12,7 +12,7 @@ public class DATFile<T extends DATFileStructure> {
     private final String pathname;
     private List<T> data;
 
-    public static <T> void main(String[] args) throws IOException, ClassNotFoundException {
+    public static <T> void main(String[] args) {
         DATFile file = new DATFile<User>("files/user.dat");
         List<T> myData = file.getData();
         System.out.println(myData);
@@ -31,7 +31,7 @@ public class DATFile<T extends DATFileStructure> {
 //        System.out.println(myData);
     }
 
-    public DATFile(String pathname) throws IOException, ClassNotFoundException {
+    public DATFile(String pathname) {
         this.pathname = pathname;
         readRecord();
     }

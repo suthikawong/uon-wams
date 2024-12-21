@@ -4,13 +4,13 @@ import com.uon.uonwams.data.UserData;
 import dnl.utils.text.table.TextTable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 public class UserManagement {
     private List<User> users = new ArrayList<>();
     private static User loginUser;
-    private UserData userData;
 
     public UserManagement(User loginUser) {
 //        this.userData = WAMSApplication.userData;
@@ -21,6 +21,7 @@ public class UserManagement {
 //                this.users.add(user);
 //            }
 //        }
+        UserManagement.loginUser = loginUser;
         this.users = loginUser.getSubordinate();
     }
 
@@ -48,7 +49,7 @@ public class UserManagement {
             }
 
             String generatedPassword = User.hashPassword("password");
-            return userData.insertUser(userId, name, generatedPassword, email, fteRatio, subjectArea, lineManagerUser == null ? null : lineManagerUser.get().getUserId());
+            return WAMSApplication.userData.insertUser(userId, name, generatedPassword, email, fteRatio, subjectArea, lineManagerUser == null ? null : lineManagerUser.get().getUserId());
         } catch (Exception e) {
             System.out.println("Cannot add user: " + e.getMessage());
         }
@@ -75,7 +76,7 @@ public class UserManagement {
                 lineManagerUser = null;
             }
 
-            return userData.updateUser(userId, name, updatedUser.get().getPassword(), email, fteRatio, subjectArea, lineManagerUser == null ? null : lineManagerUser.get().getUserId());
+            return WAMSApplication.userData.updateUser(userId, name, updatedUser.get().getPassword(), email, fteRatio, subjectArea, lineManagerUser == null ? null : lineManagerUser.get().getUserId());
         } catch (Exception e) {
             System.out.println("Cannot update user: " + e.getMessage());
         }
@@ -84,7 +85,7 @@ public class UserManagement {
 
     public Integer deleteUser(int userId) {
         try {
-            return userData.deleteUser(userId);
+            return WAMSApplication.userData.deleteUser(userId);
         } catch (Exception e) {
             System.out.println("Cannot delete user: " + e.getMessage());
         }
@@ -92,12 +93,9 @@ public class UserManagement {
     }
 
     public void logUsers() {
-        List<String> displayColumns = new ArrayList<>(this.userData.getAttributes());
-        displayColumns.add("lineManagerUserName");
-        displayColumns = displayColumns.stream().filter(column -> !column.equals("password")).toList();
+        List<String> displayColumns = Arrays.asList("userId", "name", "password", "email", "fteRatio", "subjectArea", "lineManagerUserId", "lineManagerUserName");
         TextTable tt = new TextTable(displayColumns.toArray(new String[0]),convertUserListToArray(this.users));
         tt.printTable();
-        System.out.println("_________________________________________________________________________________________________________________");
         System.out.println();
     }
 

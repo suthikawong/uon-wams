@@ -108,6 +108,7 @@ public class AppController {
         }
         Scene scene = new Scene(root, 1200, 700);
         stage.setScene(scene);
+//        stage.setMaximized(true);
         stage.show();
         controller.setup();
     }
