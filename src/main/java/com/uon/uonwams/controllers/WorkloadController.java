@@ -1,15 +1,27 @@
 package com.uon.uonwams.controllers;
 
 import com.uon.uonwams.config.State;
+import com.uon.uonwams.models.CSVFile;
 import com.uon.uonwams.models.UserWorkloadAllocation;
 import com.uon.uonwams.models.Workload;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 public class WorkloadController extends MenuController implements ControllerInterface {
     AppController appController;
@@ -30,6 +42,20 @@ public class WorkloadController extends MenuController implements ControllerInte
     @Override
     public void setAppController(AppController appController) {
         this.appController = appController;
+    }
+
+    @FXML
+    protected void onClickImportWorkloadButton() {
+        try {
+            FileChooser fileChooser = new FileChooser();
+            File selectedFile = fileChooser.showOpenDialog(appController.getStage());
+            System.out.println(selectedFile.getPath());
+            appController.getWorkload().importActivities(selectedFile.getPath());
+            importSuccessDialog();
+        } catch (Exception e) {
+            e.printStackTrace();
+            importErrorDialog();
+        }
     }
 
     private void createUserWorkloadTable() {
@@ -100,4 +126,51 @@ public class WorkloadController extends MenuController implements ControllerInte
         }
     }
 
+    private void importErrorDialog() {
+        Stage popupStage = new Stage();
+        popupStage.initModality(Modality.APPLICATION_MODAL); // block interaction with the main window
+        popupStage.initOwner(appController.getStage());
+
+        Label message = new Label("Cannot import workload information.\nPlease try again.");
+        Button closeButton = new Button("Close");
+
+        closeButton.setOnAction(e -> popupStage.close());
+
+        HBox buttonLayout = new HBox(10, closeButton);
+        buttonLayout.setStyle("-fx-padding: 10; -fx-alignment: center; -fx-spacing: 10;");
+        VBox popupLayout = new VBox(20, message, buttonLayout);
+        popupLayout.setStyle("-fx-padding: 10; -fx-alignment: center; -fx-spacing: 10;");
+        Scene popupScene = new Scene(popupLayout, 300, 150);
+        popupStage.setTitle("Error Dialog");
+        popupStage.setScene(popupScene);
+        popupStage.showAndWait();
+    }
+
+    private void importSuccessDialog() {
+        Stage popupStage = new Stage();
+        popupStage.initModality(Modality.APPLICATION_MODAL); // block interaction with the main window
+        popupStage.initOwner(appController.getStage());
+
+        Label message = new Label("Successfully import workload information.");
+        Button closeButton = new Button("Close");
+
+        closeButton.setOnAction(e -> {
+            popupStage.close();
+            try {
+                appController.loadScene("workload.fxml");
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+
+
+        HBox buttonLayout = new HBox(10, closeButton);
+        buttonLayout.setStyle("-fx-padding: 10; -fx-alignment: center; -fx-spacing: 10;");
+        VBox popupLayout = new VBox(20, message, buttonLayout);
+        popupLayout.setStyle("-fx-padding: 10; -fx-alignment: center; -fx-spacing: 10;");
+        Scene popupScene = new Scene(popupLayout, 300, 150);
+        popupStage.setTitle("Success Dialog");
+        popupStage.setScene(popupScene);
+        popupStage.showAndWait();
+    }
 }

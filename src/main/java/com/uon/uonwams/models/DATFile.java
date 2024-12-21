@@ -3,6 +3,7 @@ package com.uon.uonwams.models;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 abstract class DATFileStructure {
     public abstract int getId();
@@ -74,6 +75,22 @@ public class DATFile<T extends DATFileStructure> {
             objectOutputFile.close();
 
             this.data.add(record);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void insertRecords(List<T> records) {
+        try {
+            List<T> list = new ArrayList<T>(this.data);
+            list = Stream.concat(list.stream(), records.stream()).toList();
+
+            FileOutputStream outStream = new FileOutputStream(this.pathname);
+            ObjectOutputStream objectOutputFile = new ObjectOutputStream(outStream);
+            objectOutputFile.writeObject(list);
+            objectOutputFile.close();
+
+            this.data = new ArrayList<T>(list);
         } catch (IOException e) {
             e.printStackTrace();
         }

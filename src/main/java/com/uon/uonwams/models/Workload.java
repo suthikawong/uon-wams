@@ -6,10 +6,7 @@ import com.uon.uonwams.data.UserData;
 import dnl.utils.text.table.TextTable;
 import org.apache.commons.beanutils.ConversionException;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class Workload {
     private final User loginUser;
@@ -90,6 +87,22 @@ public class Workload {
             System.out.println("Cannot delete activity: " + e.getMessage());
         }
         return null;
+    }
+
+    public void importActivities(String csvPathname) throws Exception {
+        CSVFile csvFile = new CSVFile(csvPathname);
+        csvFile.readRecord();
+        List<LinkedHashMap<String, String>> importedData = csvFile.getData();
+        importedData.removeFirst();
+        for (LinkedHashMap<String, String> record: importedData) {
+            int responsibleUserId = Integer.parseInt(record.get("responsibleUserId"));
+            Optional<User> responsibleUser = userData.getUsers().stream().filter(user -> user.getUserId() == responsibleUserId).findFirst();
+            if (responsibleUser.isEmpty()) {
+                throw new Exception("User ID not exist");
+            }
+            record.put("responsibleUser", responsibleUser.get().getName());
+        }
+        activityData.insertActivities(importedData);
     }
 
     private ActivityType convertStringToActivityType(String activityType) {
