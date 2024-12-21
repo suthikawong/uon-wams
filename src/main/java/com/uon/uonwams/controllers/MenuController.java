@@ -41,4 +41,9 @@ public class MenuController {
     protected void onClickUmMenuItem() throws IOException {
         appController.loadScene("user-view.fxml");
     }
+
+    @FXML
+    protected void onClickLogoutMenuItem() throws IOException {
+        appController.loadScene("login.fxml");
+    }
 }

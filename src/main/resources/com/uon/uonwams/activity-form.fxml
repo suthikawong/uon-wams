@@ -17,6 +17,7 @@
                         <MenuItem fx:id="profileMenuItem" mnemonicParsing="false" text="Profile" />
                         <MenuItem fx:id="workloadMenuItem" mnemonicParsing="false" onAction="#onClickWorkloadMenuItem" text="Workload Management" />
                         <MenuItem fx:id="umMenuItem" mnemonicParsing="false" onAction="#onClickUmMenuItem" text="User Management" />
+                         <MenuItem fx:id="logoutMenuItem" mnemonicParsing="false" onAction="#onClickLogoutMenuItem" text="Logout" />
                      </items></Menu>
               </menus>
             </MenuBar>
