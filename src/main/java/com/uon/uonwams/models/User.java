@@ -5,11 +5,13 @@ import com.password4j.Hash;
 import com.password4j.Password;
 import com.password4j.types.Bcrypt;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-public class User {
+public class User extends DATFileStructure implements Serializable {
+    private static final long serialVersionUID = 1L;
     protected int userId;
     protected String name;
     protected String password;
@@ -38,6 +40,10 @@ public class User {
 
     public void updateUser(int userId, String password) {
 
+    }
+
+    public int getId() {
+        return userId;
     }
 
     public int getUserId() {

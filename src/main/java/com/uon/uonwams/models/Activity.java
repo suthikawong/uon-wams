@@ -2,9 +2,11 @@ package com.uon.uonwams.models;
 
 import com.uon.uonwams.config.ActivityType;
 
+import java.io.Serializable;
 import java.util.LinkedHashMap;
 
-public class Activity {
+public class Activity extends DATFileStructure implements Serializable {
+    private static final long serialVersionUID = 1L;
     private final int activityId;
     private final String activityName;
     private final ActivityType activityType;
@@ -92,6 +94,10 @@ public class Activity {
         this.TLR = TLR;
         this.SA = SA;
         this.other = other;
+    }
+
+    public int getId() {
+        return activityId;
     }
 
     public int getActivityId() {
