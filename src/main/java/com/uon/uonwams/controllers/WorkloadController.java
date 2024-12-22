@@ -1,17 +1,12 @@
 package com.uon.uonwams.controllers;
 
 import com.uon.uonwams.config.State;
-import com.uon.uonwams.models.CSVFile;
-import com.uon.uonwams.models.UserWorkloadAllocation;
-import com.uon.uonwams.models.Workload;
+import com.uon.uonwams.models.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
@@ -20,6 +15,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -29,14 +25,30 @@ public class WorkloadController extends MenuController implements ControllerInte
     @FXML
     private TableView workloadTableView;
 
+    @FXML
+    private TextField workloadStaffSearchTextField;
+
+    @FXML
+    private ChoiceBox workloadSubjectAreaSearchChoiceBox;
+
     public void setup() {
         this.setMenuAppController(appController);
+
+        List<String> options = new ArrayList<>();
+        options.add("None");
+        for (User user: WAMSApplication.userData.getUsers()) {
+            if (!options.contains(user.getSubjectArea())) {
+                options.add(user.getSubjectArea());
+            }
+        }
+        workloadSubjectAreaSearchChoiceBox.getItems().addAll(options);
+        workloadSubjectAreaSearchChoiceBox.setValue("None");
 
         Workload workload = new Workload(appController.getLoginUser());
         UserWorkloadAllocation workloadUser = new UserWorkloadAllocation(appController.getLoginUser());
         appController.setWorkload(workload);
         appController.setWorkloadUser(workloadUser);
-        createUserWorkloadTable();
+        createUserWorkloadTable(workload.getUserWorkloadAllocation());
     }
 
     @Override
@@ -58,7 +70,33 @@ public class WorkloadController extends MenuController implements ControllerInte
         }
     }
 
-    private void createUserWorkloadTable() {
+    @FXML
+    protected void onClickSearchButton() {
+        String staffName = null;
+        Integer staffId = null;
+        String subjectArea = workloadSubjectAreaSearchChoiceBox.getValue() == null ? null : workloadSubjectAreaSearchChoiceBox.getValue().toString();
+        List<UserWorkloadAllocation> list = appController.getWorkload().getUserWorkloadAllocation();
+        try {
+            staffId = Integer.parseInt(workloadStaffSearchTextField.getText().trim());
+        } catch (Exception e) {
+            staffName = workloadStaffSearchTextField.getText().trim();
+        }
+
+        if (subjectArea != null && !subjectArea.equals("None")) {
+            list = list.stream().filter(user -> user.getSubjectArea().equals(subjectArea)).toList();
+        }
+
+        if (staffId != null) {
+            Integer finalStaffId = staffId;
+            list = list.stream().filter(user -> user.getUserId() == finalStaffId).toList();
+        } else if (staffName != null && !staffName.isBlank()) {
+            String finalStaffName = staffName;
+            list = list.stream().filter(user -> user.getName().toLowerCase().contains(finalStaffName)).toList();
+        }
+        createUserWorkloadTable(list);
+    }
+
+    private void createUserWorkloadTable(List<UserWorkloadAllocation> userWorkloadAllocations) {
         TableColumn<UserWorkloadAllocation, String> idColumn = new TableColumn<>("User ID");
         idColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(Integer.toString(data.getValue().getUserId())));
 
@@ -96,7 +134,10 @@ public class WorkloadController extends MenuController implements ControllerInte
         actionColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty("dummy"));
         appController.createActionButton(actionColumn, "View", WorkloadController::handleClickViewButton);
 
-        // Add Columns to TableView
+        // remove all columns in TableView
+        workloadTableView.getColumns().clear();
+
+        // add columns to TableView
         workloadTableView.getColumns().addAll(
                 idColumn,
                 nameColumn,
@@ -113,7 +154,7 @@ public class WorkloadController extends MenuController implements ControllerInte
         );
 
         ObservableList<UserWorkloadAllocation> list = FXCollections.observableArrayList();
-        list.addAll(appController.getWorkload().getUserWorkloadAllocation());
+        list.addAll(userWorkloadAllocations);
         workloadTableView.setItems(list);
     }
 
