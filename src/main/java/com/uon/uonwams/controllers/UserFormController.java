@@ -55,7 +55,7 @@ public class UserFormController extends MenuController implements ControllerInte
         this.isEdit = appController.getSelectedUser() != null;
         List<User> options = new ArrayList<>();
         for (User user: WAMSApplication.userData.getUsers()) {
-            if (user.getUserId() == appController.getSelectedUser().getUserId()) continue;
+            if (appController.getSelectedUser() != null && user.getUserId() == appController.getSelectedUser().getUserId()) continue;
             options.add(user);
         }
         userFormLineManagerChoiceBox.getItems().addAll(options);
@@ -138,10 +138,27 @@ public class UserFormController extends MenuController implements ControllerInte
 
     private boolean validateFields() {
         boolean isEmpty = checkFieldsEmpty();
+        int userId;
         if (isEmpty) {
             userFormErrorLabel.setText("Please fill all required fields");
             userFormErrorLabel.setVisible(true);
             return false;
+        }
+        try {
+            userId = Integer.parseInt(userFormIdTextField.getText());
+        } catch (Exception e) {
+            userFormErrorLabel.setText("Invalid field value for field \"User ID\"");
+            userFormErrorLabel.setVisible(true);
+            return false;
+        }
+        if (!this.isEdit) {
+            for (User user: WAMSApplication.userData.getUsers()) {
+                if (user.getUserId() == userId) {
+                    userFormErrorLabel.setText("This User ID already exist");
+                    userFormErrorLabel.setVisible(true);
+                    return false;
+                }
+            }
         }
         try {
             Float.parseFloat(userFormFteRatioTextField.getText());
