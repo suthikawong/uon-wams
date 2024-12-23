@@ -53,6 +53,12 @@ public class LoginController implements ControllerInterface {
         }
     }
 
+    @FXML
+    protected void onClickForgotPassword(ActionEvent event) throws IOException {
+        appController.setState(State.FORGOT_PASSWORD);
+        appController.loadScene("forgot-password.fxml");
+    }
+
     @Override
     public void setAppController(AppController appController) {
         this.appController = appController;

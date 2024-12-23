@@ -31,14 +31,16 @@
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
                               <Label prefHeight="17.0" prefWidth="53.0" text="User ID:" />
                               <Label prefHeight="17.0" prefWidth="65.0" text="Password:" GridPane.rowIndex="2" />
                               <TextField fx:id="loginUserIdTextField" GridPane.columnIndex="1" />
                               <TextField fx:id="loginPasswordTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                              <Label fx:id="loginErrorLabel" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                              <Label fx:id="loginUserIdErrorLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <Label fx:id="loginErrorLabel" text="&lt;Error&gt;" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                              <Label fx:id="loginUserIdErrorLabel" text="&lt;UserId Error&gt;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <Hyperlink fx:id="loginForgotPasswordHyperlink" onAction="#onClickForgotPassword" text="Forgot Password?" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                            </children>
                         </GridPane>
                         <Button fx:id="loginButton" mnemonicParsing="false" onAction="#onClickLoginButton" text="Login">

@@ -2,6 +2,7 @@ package com.uon.uonwams.config;
 
 public enum State {
     LOGIN,
+    FORGOT_PASSWORD,
     HOME,
     MY_WORKLOAD,
     VIEW_USERS,
