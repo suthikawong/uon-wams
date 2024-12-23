@@ -61,6 +61,9 @@ public class WorkloadController extends MenuController implements ControllerInte
         try {
             FileChooser fileChooser = new FileChooser();
             File selectedFile = fileChooser.showOpenDialog(appController.getStage());
+            if (selectedFile == null) {
+                return;
+            }
             System.out.println(selectedFile.getPath());
             appController.getWorkload().importActivities(selectedFile.getPath());
             importSuccessDialog();
