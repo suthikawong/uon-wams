@@ -2,6 +2,7 @@ package com.uon.uonwams.controllers;
 
 import com.uon.uonwams.config.State;
 import com.uon.uonwams.models.*;
+import io.github.cdimascio.dotenv.Dotenv;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -14,6 +15,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -64,12 +67,51 @@ public class WorkloadController extends MenuController implements ControllerInte
             if (selectedFile == null) {
                 return;
             }
-            System.out.println(selectedFile.getPath());
             appController.getWorkload().importActivities(selectedFile.getPath());
             importSuccessDialog();
         } catch (Exception e) {
             e.printStackTrace();
             importErrorDialog();
+        }
+    }
+
+    @FXML
+    protected void onClickDownloadTemplateButton() {
+        Dotenv dotenv = Dotenv.load();
+        String workloadTemplateFilePath = dotenv.get("WORKLOAD_TEMPLATE_FILE_PATH");
+
+        File existingFile = new File(workloadTemplateFilePath);
+        if (!existingFile.exists()) {
+            System.out.println("File not found: " + existingFile.getAbsolutePath());
+            return;
+        }
+
+        // FileChooser to save the file
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save CSV File");
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("CSV Files", "*.csv")
+        );
+
+        // Set a default name for the CSV file
+        fileChooser.setInitialFileName("workload-information-template.csv");
+
+        // Show save dialog
+        File targetFile = fileChooser.showSaveDialog(appController.getStage());
+        if (targetFile != null) {
+            try (FileInputStream inputStream = new FileInputStream(existingFile);
+                 FileOutputStream outputStream = new FileOutputStream(targetFile)) {
+
+                byte[] buffer = new byte[1024];
+                int bytesRead;
+
+                // Copy the file
+                while ((bytesRead = inputStream.read(buffer)) != -1) {
+                    outputStream.write(buffer, 0, bytesRead);
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 
