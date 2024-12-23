@@ -35,14 +35,14 @@ public class WorkloadController extends MenuController implements ControllerInte
         this.setMenuAppController(appController);
 
         List<String> options = new ArrayList<>();
-        options.add("None");
+        options.add("All");
         for (User user: WAMSApplication.userData.getUsers()) {
             if (!options.contains(user.getSubjectArea())) {
                 options.add(user.getSubjectArea());
             }
         }
         workloadSubjectAreaSearchChoiceBox.getItems().addAll(options);
-        workloadSubjectAreaSearchChoiceBox.setValue("None");
+        workloadSubjectAreaSearchChoiceBox.setValue("All");
 
         Workload workload = new Workload(appController.getLoginUser());
         UserWorkloadAllocation workloadUser = new UserWorkloadAllocation(appController.getLoginUser());
@@ -85,7 +85,7 @@ public class WorkloadController extends MenuController implements ControllerInte
             staffName = workloadStaffSearchTextField.getText().trim();
         }
 
-        if (subjectArea != null && !subjectArea.equals("None")) {
+        if (subjectArea != null && !subjectArea.equals("All")) {
             list = list.stream().filter(user -> user.getSubjectArea().equals(subjectArea)).toList();
         }
 
@@ -129,6 +129,28 @@ public class WorkloadController extends MenuController implements ControllerInte
 
         TableColumn<UserWorkloadAllocation, String> percentTotalHoursColumn = new TableColumn<>("Parcentage of Total Hours Allocated");
         percentTotalHoursColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(Double.toString(data.getValue().getParcentageOfTotalHoursAllocated())));
+        percentTotalHoursColumn.setCellFactory(column -> new javafx.scene.control.TableCell<UserWorkloadAllocation, String>() {
+            @Override
+            protected void updateItem(String value, boolean empty) {
+                super.updateItem(value, empty);
+                if (empty || value == null) {
+                    setText(null);
+                    setStyle(""); // Reset style
+                } else {
+                    double percent = Double.parseDouble(value);
+                    setText(value.toString());
+
+                    // Change color based on value
+                    if (percent < 70) {
+                        setStyle("-fx-background-color: lightgreen; -fx-text-fill: black;");
+                    } else if (percent < 90) {
+                        setStyle("-fx-background-color: sandybrown; -fx-text-fill: black;");
+                    } else {
+                        setStyle("-fx-background-color: lightcoral; -fx-text-fill: black;");
+                    }
+                }
+            }
+        });
 
         TableColumn<UserWorkloadAllocation, String> fteAtsrHoursColumn = new TableColumn<>("FTE ATSR Hours");
         fteAtsrHoursColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(Integer.toString(data.getValue().getFteAtsrHours())));

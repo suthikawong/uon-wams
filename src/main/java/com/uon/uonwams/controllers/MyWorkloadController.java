@@ -67,23 +67,47 @@ public class MyWorkloadController extends MenuController implements ControllerIn
 
         TableColumn<UserWorkloadAllocation, String> percentTotalHoursColumn = new TableColumn<>("Parcentage of Total Hours Allocated");
         percentTotalHoursColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(Double.toString(data.getValue().getParcentageOfTotalHoursAllocated())));
+        percentTotalHoursColumn.setCellFactory(column -> new javafx.scene.control.TableCell<UserWorkloadAllocation, String>() {
+            @Override
+            protected void updateItem(String value, boolean empty) {
+                super.updateItem(value, empty);
+                if (empty || value == null) {
+                    setText(null);
+                    setStyle(""); // Reset style
+                } else {
+                    double percent = Double.parseDouble(value);
+                    setText(value.toString());
+
+                    // Change color based on value
+                    if (percent < 70) {
+                        setStyle("-fx-background-color: lightgreen; -fx-text-fill: black;");
+                    } else if (percent < 90) {
+                        setStyle("-fx-background-color: sandybrown; -fx-text-fill: black;");
+                    } else {
+                        setStyle("-fx-background-color: lightcoral; -fx-text-fill: black;");
+                    }
+                }
+            }
+        });
 
         TableColumn<UserWorkloadAllocation, String> fteAtsrHoursColumn = new TableColumn<>("FTE ATSR Hours");
         fteAtsrHoursColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(Integer.toString(data.getValue().getFteAtsrHours())));
 
 
         // Add Columns to TableView
-        myWorkloadTableView.getColumns().add(idColumn);
-        myWorkloadTableView.getColumns().add(nameColumn);
-        myWorkloadTableView.getColumns().add(emailColumn);
-        myWorkloadTableView.getColumns().add(fteRatioColumn);
-        myWorkloadTableView.getColumns().add(subjectAreaColumn);
-        myWorkloadTableView.getColumns().add(totalHoursColumn);
-        myWorkloadTableView.getColumns().add(fteHoursColumn);
-        myWorkloadTableView.getColumns().add(totalAtsrTsColumn);
-        myWorkloadTableView.getColumns().add(percentAtsrColumn);
-        myWorkloadTableView.getColumns().add(percentTotalHoursColumn);
-        myWorkloadTableView.getColumns().add(fteAtsrHoursColumn);
+        myWorkloadTableView.getColumns().addAll(
+                idColumn,
+                nameColumn,
+                emailColumn,
+                fteRatioColumn,
+                subjectAreaColumn,
+                totalHoursColumn,
+                fteHoursColumn,
+                totalAtsrTsColumn,
+                percentAtsrColumn,
+                percentTotalHoursColumn,
+                fteAtsrHoursColumn
+        );
 
         ObservableList<UserWorkloadAllocation> list = FXCollections.observableArrayList();
         list.add(appController.getWorkloadUser());
