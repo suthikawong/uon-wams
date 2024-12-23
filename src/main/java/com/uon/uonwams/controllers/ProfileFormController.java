@@ -37,8 +37,6 @@ public class ProfileFormController extends MenuController implements ControllerI
 
     public void setup() {
         this.setMenuAppController(appController);
-        UserManagement um = new UserManagement(appController.getLoginUser());
-        appController.setUserManagement(um);
         profileFormErrorLabel.setVisible(false);
 
         User loginUser = appController.getLoginUser();
@@ -56,7 +54,7 @@ public class ProfileFormController extends MenuController implements ControllerI
 
     @FXML
     protected void onClickBackButton() throws IOException {
-        appController.setState(State.VIEW_USERS);
+        appController.setState(State.VIEW_PROFILE);
         appController.loadScene("profile-view.fxml");
     }
 

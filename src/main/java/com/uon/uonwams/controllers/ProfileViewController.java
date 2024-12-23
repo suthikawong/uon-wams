@@ -44,6 +44,8 @@ public class ProfileViewController extends MenuController implements ControllerI
 
     public void setup() {
         this.setMenuAppController(appController);
+        UserManagement um = new UserManagement(appController.getLoginUser());
+        appController.setUserManagement(um);
         profileViewLabel.setText("View Profile");
 
         User loginUser = appController.getLoginUser();

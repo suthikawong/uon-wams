@@ -8,6 +8,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import static com.uon.uonwams.models.User.hashPassword;
+
 public class UserManagement {
     private List<User> users = new ArrayList<>();
     private static User loginUser;
@@ -90,6 +92,10 @@ public class UserManagement {
             System.out.println("Cannot delete user: " + e.getMessage());
         }
         return null;
+    }
+
+    public void changePassword(String password) throws Exception {
+        WAMSApplication.userData.updateUser(loginUser.getUserId(), loginUser.getName(), hashPassword(password), loginUser.getEmail(), loginUser.getFteRatio(), loginUser.getSubjectArea(), loginUser.getLineManagerUserId());
     }
 
     public void logUsers() {
