@@ -65,11 +65,7 @@ public class UserViewController extends MenuController implements ControllerInte
         lineManagerUserIdColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(Integer.toString(data.getValue().getLineManagerUserId())));
 
         TableColumn<User, String> lineManagerNameColumn = new TableColumn<>("Line Manager Name");
-        lineManagerNameColumn.setCellValueFactory(data -> {
-            Optional<User> user = appController.getUserManagement().getUserById(data.getValue().getLineManagerUserId());
-            if (user.isEmpty()) return new javafx.beans.property.SimpleStringProperty("-");
-            return new javafx.beans.property.SimpleStringProperty(user.get().getName());
-        });
+        lineManagerNameColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(appController.getLoginUser().getName()));
 
         TableColumn<User, String> actionColumn = new TableColumn<>("Action");
         actionColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty("dummy"));
