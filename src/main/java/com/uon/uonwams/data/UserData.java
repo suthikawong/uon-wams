@@ -1,20 +1,19 @@
 package com.uon.uonwams.data;
 
-import com.uon.uonwams.models.CSVFile;
 import com.uon.uonwams.models.DATFile;
 import com.uon.uonwams.models.User;
+import io.github.cdimascio.dotenv.Dotenv;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 public class UserData {
     private final DATFile file;
-    private List<User> users = new ArrayList<>();
+    private List<User> users;
 
     public UserData() {
-        this.file = new DATFile<User>("files/user.dat");
+        Dotenv dotenv = Dotenv.load();
+        String userFilePath = dotenv.get("USER_FILE_PATH");
+        this.file = new DATFile<User>(userFilePath);
         this.users = file.getData();
     }
 

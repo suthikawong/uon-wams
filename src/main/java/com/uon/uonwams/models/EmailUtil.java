@@ -19,9 +19,7 @@ public class EmailUtil {
         Dotenv dotenv = Dotenv.load();
         this.fromEmail = dotenv.get("FROM_EMAIL");
         this.fromEmailPassword = dotenv.get("FROM_EMAIL_APP_PASSWORD");
-//        String toEmail = dotenv.get("TO_EMAIL");
 
-        System.out.println("TLSEmail Start");
         Properties props = new Properties();
         props.put("mail.smtp.host", "smtp.gmail.com"); //SMTP Host
         props.put("mail.smtp.port", "587"); //TLS Port
@@ -58,7 +56,6 @@ public class EmailUtil {
             msg.setSentDate(new Date());
 
             msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail, false));
-            System.out.println("Message is ready");
             Transport.send(msg);
 
             System.out.println("EMail Sent Successfully!!");

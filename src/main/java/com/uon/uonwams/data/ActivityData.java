@@ -1,10 +1,9 @@
 package com.uon.uonwams.data;
 
 import com.uon.uonwams.config.ActivityType;
-import com.uon.uonwams.models.CSVFile;
 import com.uon.uonwams.models.Activity;
 import com.uon.uonwams.models.DATFile;
-import com.uon.uonwams.models.User;
+import io.github.cdimascio.dotenv.Dotenv;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,12 +14,10 @@ public class ActivityData {
     private final DATFile file;
     private List<Activity> activities;
 
-//    public static void main(String[] args) throws FileNotFoundException {
-//        new ActivityData();
-//    }
-
     public ActivityData() {
-        file = new DATFile("files/activity.dat");
+        Dotenv dotenv = Dotenv.load();
+        String activityFilePath = dotenv.get("ACTIVITY_FILE_PATH");
+        file = new DATFile(activityFilePath);
         this.activities = file.getData();
     }
 
