@@ -53,53 +53,16 @@ public class WAMSApplicationConsole {
             //<editor-fold desc="Home Code">
             if (state == State.HOME) {
                 System.out.println("Home Page");
-                System.out.printf("A=Workload Management | B=Profile" + (loginUser.getLineManagerUserId() == null ? " | C=User Management" : "") + " | Y=Back: ");
+                System.out.printf("A=Workload Management" + (loginUser.getLineManagerUserId() == null ? " | B=User Management" : "") + " | Y=Back: ");
                 String command = scanner.next();
 
                 if (command.equalsIgnoreCase("A")) {
                     app.toViewUserWorkloadPage();
                 } else if (command.equalsIgnoreCase("B")) {
-                    app.toProfilePage();
-                } else if (command.equalsIgnoreCase("C")) {
                     app.toViewUserManagementPage();
                 } else if (command.equalsIgnoreCase("Y")) {
                     app.toLoginPage();
                 }
-                System.out.println("---------------------------------");
-                continue;
-            }
-            //</editor-fold>
-
-            //<editor-fold desc="Profile Code">
-
-            Profile profile = new Profile(loginUser);
-
-            if (state == State.PROFILE) {
-                System.out.println("Profile Page");
-                System.out.print("A=Change password | Y=Back: ");
-                String command = scanner.next();
-
-                if (command.equalsIgnoreCase("A")) {
-                    app.toChangePasswordPage();
-                } else if (command.equalsIgnoreCase("Y")) {
-                    app.toHomePage();
-                }
-                System.out.println("---------------------------------");
-                continue;
-            } else if (state == State.CHANGE_PASSWORD) {
-                System.out.println("Change Password");
-                System.out.print("New password: ");
-                String password = scanner.next();
-                System.out.print("Confirm password: ");
-                String confirmPassword = scanner.next();
-                if (password.equals(confirmPassword)) {
-                    loginUser = profile.changePassword(password);
-                    System.out.println(loginUser.getPassword());
-                    System.out.println("Successfully change password");
-                } else {
-                    System.out.println("Password not matched, please try again.");
-                }
-                app.toProfilePage();
                 System.out.println("---------------------------------");
                 continue;
             }

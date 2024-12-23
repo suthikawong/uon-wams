@@ -23,14 +23,6 @@ public class WAMSApplication {
         state = State.HOME;
     }
 
-    public void toProfilePage() {
-        state = State.PROFILE;
-    }
-
-    public void toChangePasswordPage() {
-        state = State.CHANGE_PASSWORD;
-    }
-
     public void toViewWorkloadPage() {
         state = State.VIEW_WORKLOAD;
     }

@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="activityFormAnchorPane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.uon.uonwams.controllers.ActivityFormController">
+<AnchorPane fx:id="profileViewAnchorPane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.uon.uonwams.controllers.ProfileViewController">
    <children>
       <VBox alignment="TOP_CENTER" layoutX="63.0" layoutY="45.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -16,12 +16,12 @@
                         <MenuItem fx:id="myWorkloadMenuItem" mnemonicParsing="false" onAction="#onClickMyWorkloadMenuItem" text="My Workload" />
                         <MenuItem fx:id="profileMenuItem" mnemonicParsing="false" onAction="#onClickProfileMenuItem" text="Profile" />
                         <MenuItem fx:id="workloadMenuItem" mnemonicParsing="false" onAction="#onClickWorkloadMenuItem" text="Workload Management" />
-                        <MenuItem fx:id="umMenuItem" mnemonicParsing="false" onAction="#onClickUmMenuItem" text="User Management" />
+                        <MenuItem fx:id="umMenuItem" mnemonicParsing="false" onAction="#onClickUmMenuItem" text="Profile" />
                          <MenuItem fx:id="logoutMenuItem" mnemonicParsing="false" onAction="#onClickLogoutMenuItem" text="Logout" />
                      </items></Menu>
               </menus>
             </MenuBar>
-            <Label text="Workload">
+            <Label text="Profile">
                <font>
                   <Font name="System Bold" size="28.0" />
                </font>
@@ -33,56 +33,56 @@
                <children>
                   <VBox alignment="TOP_CENTER" prefHeight="328.0" prefWidth="800.0">
                      <children>
-                        <VBox prefHeight="16.0" prefWidth="100.0">
-                           <children>
-                              <Label fx:id="activityFormLabel">
-                                 <font>
-                                    <Font name="System Bold" size="16.0" />
-                                 </font>
-                              </Label>
-                           </children>
-                           <VBox.margin>
-                              <Insets bottom="10.0" />
-                           </VBox.margin>
-                        </VBox>
+                         <VBox prefHeight="16.0" prefWidth="100.0">
+                             <children>
+                                 <Label fx:id="profileViewLabel" text="&lt;Header&gt;">
+                                     <font>
+                                         <Font name="System Bold" size="16.0" />
+                                     </font>
+                                 </Label>
+                             </children>
+                             <VBox.margin>
+                                 <Insets bottom="10.0" />
+                             </VBox.margin>
+                         </VBox>
                         <VBox prefHeight="200.0" prefWidth="552.0">
                            <children>
                               <GridPane>
                                 <columnConstraints>
-                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="374.0" minWidth="10.0" prefWidth="110.0" />
-                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="650.0" minWidth="10.0" prefWidth="650.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="374.0" minWidth="10.0" prefWidth="80.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="650.0" minWidth="10.0" prefWidth="322.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="650.0" minWidth="10.0" prefWidth="359.0" />
                                 </columnConstraints>
                                 <rowConstraints>
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
                                  <children>
-                                    <TextField fx:id="activityFormNameTextField" GridPane.columnIndex="1" />
-                                    <TextField fx:id="activityFormDescriptionTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                    <TextField fx:id="activityFormYearTextField" prefHeight="25.0" prefWidth="598.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                                    <TextField fx:id="activityFormDurationTextField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                                    <TextField fx:id="activityFormNoOfInstancesTextField" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                                    <Label text="Activity Name:" />
-                                    <Label text="Activity Type:" GridPane.rowIndex="1" />
-                                    <Label text="Description:" GridPane.rowIndex="2" />
-                                    <Label text="Year:" GridPane.rowIndex="3" />
-                                    <Label text="Activity Duration:" GridPane.rowIndex="4" />
-                                    <Label text="No. of Instances:" GridPane.rowIndex="5" />
-                                    <ChoiceBox fx:id="activityFormTypeChoiceBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                    <Label fx:id="activityFormErrorLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                                    <Label text="Name:" GridPane.rowIndex="1" />
+                                    <Label text="Email:" GridPane.rowIndex="2" />
+                                    <Label text="FTE Ratio:" GridPane.rowIndex="3" />
+                                    <Label text="Subject Area:" GridPane.rowIndex="4" />
+                                    <Label text="Line Manager:" GridPane.rowIndex="5" />
+                                    <Label text="User ID:" />
+                                    <Label fx:id="profileViewUserIdLabel" text="&lt;userId&gt;" GridPane.columnIndex="1" />
+                                    <Label fx:id="profileViewNameLabel" text="&lt;name&gt;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <Label fx:id="profileViewEmailLabel" text="&lt;email&gt;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <Label fx:id="profileViewFteRatioLabel" text="&lt;fteRatio&gt;" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                    <Label fx:id="profileViewSubjectAreaLabel" text="&lt;subjectArea&gt;" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                    <Label fx:id="profileViewLineManagerLabel" text="&lt;lineManager&gt;" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                                  </children>
                               </GridPane>
                            </children>
                         </VBox>
                         <ButtonBar prefHeight="40.0" prefWidth="200.0">
                           <buttons>
-                            <Button fx:id="activityFormBackButton" mnemonicParsing="false" onAction="#onClickBackButton" text="Back" />
-                              <Button fx:id="activityFormSaveButton" layoutX="695.0" layoutY="17.0" mnemonicParsing="false" onAction="#onClickSaveButton" text="Save" />
+                            <Button fx:id="profileViewChangePasswordButton" mnemonicParsing="false" onAction="#onClickChangePasswordButton" text="Change Password" />
+                              <Button fx:id="profileViewEditProfileButton" layoutX="695.0" layoutY="17.0" mnemonicParsing="false" onAction="#onClickEditProfileButton" text="Edit Profile" />
                           </buttons>
                            <VBox.margin>
                               <Insets bottom="20.0" />

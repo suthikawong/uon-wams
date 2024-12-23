@@ -3,8 +3,7 @@ package com.uon.uonwams.config;
 public enum State {
     LOGIN,
     HOME,
-    PROFILE,
-    CHANGE_PASSWORD,
+    MY_WORKLOAD,
     VIEW_USERS,
     ADD_USER,
     EDIT_USER,
@@ -13,5 +12,8 @@ public enum State {
     VIEW_WORKLOAD,
     ADD_ACTIVITY,
     EDIT_ACTIVITY,
-    DELETE_ACTIVITY
+    DELETE_ACTIVITY,
+    VIEW_PROFILE,
+    EDIT_PROFILE,
+    CHANGE_PASSWORD_PROFILE
 }
