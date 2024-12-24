@@ -19,7 +19,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 public class WorkloadController extends MenuController implements ControllerInterface {
@@ -157,8 +156,8 @@ public class WorkloadController extends MenuController implements ControllerInte
         TableColumn<UserWorkloadAllocation, String> subjectAreaColumn = new TableColumn<>("Subject Area");
         subjectAreaColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getSubjectArea()));
 
-        TableColumn<UserWorkloadAllocation, String> totalHoursColumn = new TableColumn<>("totalHours");
-        totalHoursColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(Integer.toString(data.getValue().getUserId())));
+        TableColumn<UserWorkloadAllocation, String> totalHoursColumn = new TableColumn<>("Total Hours");
+        totalHoursColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(Integer.toString(data.getValue().getTotalHours())));
 
         TableColumn<UserWorkloadAllocation, String> fteHoursColumn = new TableColumn<>("FTE Hours");
         fteHoursColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(Integer.toString(data.getValue().getFteHours())));
@@ -258,6 +257,7 @@ public class WorkloadController extends MenuController implements ControllerInte
         Stage popupStage = new Stage();
         popupStage.initModality(Modality.APPLICATION_MODAL); // block interaction with the main window
         popupStage.initOwner(appController.getStage());
+        popupStage.setOnCloseRequest((event) -> event.consume()); // prevent closing by x
 
         Label message = new Label("Successfully import workload information.");
         Button closeButton = new Button("Close");
@@ -270,7 +270,6 @@ public class WorkloadController extends MenuController implements ControllerInte
                 throw new RuntimeException(ex);
             }
         });
-
 
         HBox buttonLayout = new HBox(10, closeButton);
         buttonLayout.setStyle("-fx-padding: 10; -fx-alignment: center; -fx-spacing: 10;");
