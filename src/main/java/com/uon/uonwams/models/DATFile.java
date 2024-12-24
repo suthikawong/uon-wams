@@ -13,25 +13,6 @@ public class DATFile<T extends DATFileStructure> {
     private final String pathname;
     private List<T> data;
 
-    public static <T> void main(String[] args) {
-        DATFile file = new DATFile<User>("files/user.dat");
-        List<T> myData = file.getData();
-        System.out.println(myData);
-
-//        User user = new User(1, "testname", "password", "email1", 1, "subjectArea", null);
-//        file.insertRecord(user);
-//        user = new User(2, "test2", "password", "2", 1, "subjectArea---2", 1);
-//        file.insertRecord(user);
-//
-//        User updateUser = new User(2, "test222", "password222", "2222", (float) 0.5, "subjectArea---222", 1);
-//        file.updateRecord(updateUser);
-
-//        file.deleteRecord(1);
-
-//        myData = file.getData();
-//        System.out.println(myData);
-    }
-
     public DATFile(String pathname) {
         this.pathname = pathname;
         readRecord();

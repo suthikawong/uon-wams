@@ -1,9 +1,7 @@
 package com.uon.uonwams.controllers;
 
-import com.uon.uonwams.config.State;
 import com.uon.uonwams.models.User;
 import com.uon.uonwams.models.WAMSApplication;
-import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
@@ -102,7 +100,6 @@ public class UserFormController extends MenuController implements ControllerInte
 
     @FXML
     protected void onClickBackButton() throws IOException {
-        appController.setState(State.VIEW_USERS);
         appController.loadScene("user-view.fxml");
     }
 
@@ -132,7 +129,6 @@ public class UserFormController extends MenuController implements ControllerInte
             );
         }
         appController.setSelectedUser(null);
-        appController.setState(State.VIEW_USERS);
         appController.loadScene("user-view.fxml");
     }
 
@@ -154,7 +150,7 @@ public class UserFormController extends MenuController implements ControllerInte
         if (!this.isEdit) {
             for (User user: WAMSApplication.userData.getUsers()) {
                 if (user.getUserId() == userId) {
-                    userFormErrorLabel.setText("This User ID already exist");
+                    userFormErrorLabel.setText("This User ID already exists");
                     userFormErrorLabel.setVisible(true);
                     return false;
                 }

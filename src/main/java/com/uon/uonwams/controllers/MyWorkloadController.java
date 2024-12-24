@@ -161,24 +161,24 @@ public class MyWorkloadController extends MenuController implements ControllerIn
         TableColumn<Activity, String> otherColumn = new TableColumn<>("Other");
         otherColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(Integer.toString(data.getValue().getOther())));
 
-
         // Add Columns to TableView
-        myActivityTableView.getColumns().add(activityIdColumn);
-        myActivityTableView.getColumns().add(activityTypeColumn);
-        myActivityTableView.getColumns().add(activityNameColumn);
-        myActivityTableView.getColumns().add(descriptionColumn);
-        myActivityTableView.getColumns().add(responsibleUserIdColumn);
-        myActivityTableView.getColumns().add(responsibleUserNameColumn);
-        myActivityTableView.getColumns().add(yearColumn);
-        myActivityTableView.getColumns().add(durationColumn);
-        myActivityTableView.getColumns().add(noOfInstancesColumn);
-        myActivityTableView.getColumns().add(hoursColumn);
-        myActivityTableView.getColumns().add(atsrColumn);
-        myActivityTableView.getColumns().add(tsColumn);
-        myActivityTableView.getColumns().add(tlrColumn);
-        myActivityTableView.getColumns().add(saColumn);
-        myActivityTableView.getColumns().add(otherColumn);
-
+        myActivityTableView.getColumns().addAll(
+                activityIdColumn,
+                activityTypeColumn,
+                activityNameColumn,
+                descriptionColumn,
+                responsibleUserIdColumn,
+                responsibleUserNameColumn,
+                yearColumn,
+                durationColumn,
+                noOfInstancesColumn,
+                hoursColumn,
+                atsrColumn,
+                tsColumn,
+                tlrColumn,
+                saColumn,
+                otherColumn
+        );
 
         List<Activity> activities = appController.getWorkload().getActivitiesByUserId(appController.getLoginUser().getUserId());
         ObservableList<Activity> list = FXCollections.observableArrayList();

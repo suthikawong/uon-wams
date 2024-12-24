@@ -1,7 +1,6 @@
 package com.uon.uonwams.controllers;
 
 import com.uon.uonwams.WAMSApplicationViewer;
-import com.uon.uonwams.config.State;
 import com.uon.uonwams.models.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -26,13 +25,11 @@ public class AppController {
     private UserWorkloadAllocation workloadUser = null;
     private Workload workload = null;
     private UserManagement userManagement = null;
-    private State state = null;
     private Activity selectedActivity = null;
     private User selectedUser = null;
 
     public AppController(Stage stage) throws Exception {
         new WAMSApplication();
-        this.state = State.LOGIN;
         this.stage = stage;
         stage.setTitle("Workload Allocation System");
         stage.setResizable(false);
@@ -69,14 +66,6 @@ public class AppController {
 
     public void setUserManagement(UserManagement userManagement) {
         this.userManagement = userManagement;
-    }
-
-    public State getState() {
-        return state;
-    }
-
-    public void setState(State state) {
-        this.state = state;
     }
 
     public Stage getStage() {

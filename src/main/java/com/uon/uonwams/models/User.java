@@ -21,11 +21,6 @@ public class User extends DATFileStructure implements Serializable {
     protected Integer lineManagerUserId = null;
     private static final BcryptFunction bcrypt = BcryptFunction.getInstance(Bcrypt.B, 12);
 
-//    public static void main(String[] args) {
-//        String pass = hashPassword("12345");
-//        System.out.println(pass);
-//    }
-
     public User() {}
 
     public User(int userId, String name, String password, String email, float fteRatio, String subjectArea, Integer lineManagerUserId) {
@@ -36,10 +31,6 @@ public class User extends DATFileStructure implements Serializable {
         this.fteRatio = fteRatio;
         this.subjectArea = subjectArea;
         this.lineManagerUserId = lineManagerUserId;
-    }
-
-    public void updateUser(int userId, String password) {
-
     }
 
     public int getId() {

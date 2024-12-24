@@ -1,6 +1,5 @@
 package com.uon.uonwams.models;
 
-import com.uon.uonwams.data.UserData;
 import dnl.utils.text.table.TextTable;
 
 import java.util.*;
@@ -8,18 +7,10 @@ import java.util.*;
 import static com.uon.uonwams.models.User.hashPassword;
 
 public class UserManagement {
-    private List<User> users = new ArrayList<>();
+    private final List<User> users;
     private static User loginUser;
 
     public UserManagement(User loginUser) {
-//        this.userData = WAMSApplication.userData;
-//        UserManagement.loginUser = loginUser;
-//
-//        for (User user: userData.getUsers()) {
-//            if (user.getLineManagerUserId() != null && user.getLineManagerUserId() == loginUser.getUserId()) {
-//                this.users.add(user);
-//            }
-//        }
         UserManagement.loginUser = loginUser;
         this.users = loginUser.getSubordinate();
     }
@@ -34,61 +25,58 @@ public class UserManagement {
                 .findFirst();
     }
 
-    public User addUser(int userId, String name, String email, float fteRatio, String subjectArea, Integer lineManagerUserId) {
+    public void addUser(int userId, String name, String email, float fteRatio, String subjectArea, Integer lineManagerUserId) {
         try {
             Optional<User> lineManagerUser;
             if (lineManagerUserId != null) {
                 lineManagerUser = WAMSApplication.userData.getUsers().stream().filter(user -> user.getUserId() == lineManagerUserId).findFirst();
                 if (lineManagerUser.isEmpty()) {
                     System.out.println("Selected line manager is not exist");
-                    return null;
+                    return;
                 }
             } else {
                 lineManagerUser = null;
             }
 
             String generatedPassword = User.hashPassword("password");
-            return WAMSApplication.userData.insertUser(userId, name, generatedPassword, email, fteRatio, subjectArea, lineManagerUser == null ? null : lineManagerUser.get().getUserId());
+            WAMSApplication.userData.insertUser(userId, name, generatedPassword, email, fteRatio, subjectArea, lineManagerUser == null ? null : lineManagerUser.get().getUserId());
         } catch (Exception e) {
             System.out.println("Cannot add user: " + e.getMessage());
         }
-        return null;
     }
 
-    public User updateUser(int userId, String name, String email, float fteRatio, String subjectArea, Integer lineManagerUserId) {
+    public void updateUser(int userId, String name, String email, float fteRatio, String subjectArea, Integer lineManagerUserId) {
         try {
             Optional<User> lineManagerUser;
 
             Optional<User> updatedUser = WAMSApplication.userData.getUsers().stream().filter(user -> user.getUserId() == userId).findFirst();
             if (updatedUser.isEmpty()) {
                 System.out.println("Selected user is not exist");
-                return null;
+                return;
             }
 
             if (lineManagerUserId != null) {
                 lineManagerUser = WAMSApplication.userData.getUsers().stream().filter(user -> user.getUserId() == lineManagerUserId).findFirst();
                 if (lineManagerUser.isEmpty()) {
                     System.out.println("Selected line manager is not exist");
-                    return null;
+                    return;
                 }
             } else {
                 lineManagerUser = null;
             }
 
-            return WAMSApplication.userData.updateUser(userId, name, updatedUser.get().getPassword(), email, fteRatio, subjectArea, lineManagerUser == null ? null : lineManagerUser.get().getUserId());
+            WAMSApplication.userData.updateUser(userId, name, updatedUser.get().getPassword(), email, fteRatio, subjectArea, lineManagerUser == null ? null : lineManagerUser.get().getUserId());
         } catch (Exception e) {
             System.out.println("Cannot update user: " + e.getMessage());
         }
-        return null;
     }
 
-    public Integer deleteUser(int userId) {
+    public void deleteUser(int userId) {
         try {
-            return WAMSApplication.userData.deleteUser(userId);
+            WAMSApplication.userData.deleteUser(userId);
         } catch (Exception e) {
             System.out.println("Cannot delete user: " + e.getMessage());
         }
-        return null;
     }
 
     public void changePassword(String password) throws Exception {

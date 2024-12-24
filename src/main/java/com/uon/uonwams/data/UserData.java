@@ -21,43 +21,21 @@ public class UserData {
         return this.users;
     }
 
-    public User insertUser(int userId, String name, String password, String email, float fteRatio, String subjectArea, Integer lineManagerUserId) throws Exception {
+    public void insertUser(int userId, String name, String password, String email, float fteRatio, String subjectArea, Integer lineManagerUserId) throws Exception {
         User user = new User(userId, name, password, email, fteRatio, subjectArea, lineManagerUserId);
         file.insertRecord(user);
         this.users = file.getData();
-        return user;
     }
 
-    public User updateUser(int userId, String name, String password, String email, float fteRatio, String subjectArea, Integer lineManagerUserId) throws Exception {
+    public void updateUser(int userId, String name, String password, String email, float fteRatio, String subjectArea, Integer lineManagerUserId) throws Exception {
         User user = new User(userId, name, password, email, fteRatio, subjectArea, lineManagerUserId);
         file.updateRecord(user);
         this.users = file.getData();
-        return user;
     }
 
-    public int deleteUser(int userId) throws Exception {
+    public void deleteUser(int userId) throws Exception {
         file.deleteRecord(userId);
         this.users = file.getData();
-        return userId;
     }
 
-//    public List<User> parseUsers(List<LinkedHashMap<String, String>> records) throws Exception {
-//        List<User> users = new ArrayList<>();
-//        for (LinkedHashMap<String, String> record: records) {
-//            users.add(parseUser(record));
-//        }
-//        return users;
-//    }
-//
-//    public User parseUser(LinkedHashMap<String, String> record) throws Exception {
-//        return new User(
-//                Integer.parseInt(record.get("userId")),
-//                record.get("name"),
-//                record.get("password"),
-//                record.get("email"),
-//                Float.parseFloat(record.get("fteRatio")),
-//                record.get("subjectArea"),
-//                record.get("lineManagerUserId").isEmpty() ? null : Integer.parseInt(record.get("lineManagerUserId"))
-//        );
-//    }
 }

@@ -1,7 +1,6 @@
 package com.uon.uonwams.controllers;
 
 import com.uon.uonwams.config.ActivityType;
-import com.uon.uonwams.config.State;
 import com.uon.uonwams.models.Activity;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
@@ -72,7 +71,6 @@ public class ActivityFormController extends MenuController implements Controller
 
     @FXML
     protected void onClickBackButton() throws IOException {
-        appController.setState(State.VIEW_WORKLOAD);
         appController.loadScene("activity-view.fxml");
     }
 
@@ -104,7 +102,6 @@ public class ActivityFormController extends MenuController implements Controller
             );
         }
         appController.setSelectedActivity(null);
-        appController.setState(State.VIEW_WORKLOAD);
         appController.loadScene("activity-view.fxml");
     }
 

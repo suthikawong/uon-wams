@@ -1,6 +1,5 @@
 package com.uon.uonwams.controllers;
 
-import com.uon.uonwams.config.State;
 import com.uon.uonwams.models.User;
 import com.uon.uonwams.models.UserManagement;
 import com.uon.uonwams.models.WAMSApplication;
@@ -17,7 +16,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.Random;
 
 public class ForgotPasswordController implements ControllerInterface {
     private AppController appController;
@@ -36,7 +34,6 @@ public class ForgotPasswordController implements ControllerInterface {
 
     @FXML
     protected void onClickBackButton() throws IOException {
-        appController.setState(State.LOGIN);
         appController.loadScene("login.fxml");
     }
 
@@ -67,8 +64,6 @@ public class ForgotPasswordController implements ControllerInterface {
         }
     }
 
-
-
     private void sendEmailDialog() {
         Stage popupStage = new Stage();
         popupStage.initModality(Modality.APPLICATION_MODAL); // block interaction with the main window
@@ -80,7 +75,6 @@ public class ForgotPasswordController implements ControllerInterface {
         cancelButton.setOnAction(e -> {
             popupStage.close();
             try {
-                appController.setState(State.LOGIN);
                 appController.loadScene("login.fxml");
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
@@ -92,7 +86,7 @@ public class ForgotPasswordController implements ControllerInterface {
         VBox popupLayout = new VBox(20, message, buttonLayout);
         popupLayout.setStyle("-fx-padding: 10; -fx-alignment: center; -fx-spacing: 10;");
         Scene popupScene = new Scene(popupLayout, 300, 150);
-        popupStage.setTitle("Confirm Delete");
+        popupStage.setTitle("Email was sent");
         popupStage.setScene(popupScene);
         popupStage.showAndWait();
     }
@@ -118,7 +112,7 @@ public class ForgotPasswordController implements ControllerInterface {
                 return true;
             }
         }
-        forgotPasswordUserIdErrorLabel.setText("User ID not exist");
+        forgotPasswordUserIdErrorLabel.setText("User ID does not exist");
         forgotPasswordUserIdErrorLabel.setVisible(true);
         return false;
     }

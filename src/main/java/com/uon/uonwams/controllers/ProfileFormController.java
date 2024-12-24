@@ -1,20 +1,11 @@
 package com.uon.uonwams.controllers;
 
-import com.uon.uonwams.config.State;
 import com.uon.uonwams.models.User;
-import com.uon.uonwams.models.UserManagement;
-import com.uon.uonwams.models.WAMSApplication;
 import javafx.fxml.FXML;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.util.StringConverter;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 public class ProfileFormController extends MenuController implements ControllerInterface {
     AppController appController;
@@ -54,7 +45,6 @@ public class ProfileFormController extends MenuController implements ControllerI
 
     @FXML
     protected void onClickBackButton() throws IOException {
-        appController.setState(State.VIEW_PROFILE);
         appController.loadScene("profile-view.fxml");
     }
 
@@ -73,7 +63,6 @@ public class ProfileFormController extends MenuController implements ControllerI
                 loginUser.getSubjectArea(),
                 loginUser.getLineManagerUserId()
         );
-        appController.setState(State.VIEW_PROFILE);
         appController.loadScene("profile-view.fxml");
     }
 

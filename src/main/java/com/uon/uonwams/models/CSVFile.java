@@ -11,33 +11,9 @@ public class CSVFile {
     private List<String> header;
     private List<LinkedHashMap<String, String>> data;
 
-//    public static void main(String[] args) throws Exception {
-//        CSVFile file = new CSVFile("files/user - Copy.csv");
-////        List<HashMap<String, String>> myData = file.getData();
-////        List<String> myHeader = file.getHeader();
-////        System.out.println("data: " + myData);
-////        System.out.println("name: " + myData.getFirst().get("name"));
-////        System.out.println("header: " + myHeader);
-//
-////        UserData userData = new UserData();
-////        insertRecord("files/new_file.csv", UserData.users.getFirst().toHashMap());
-////        insertRecord("files/user - Copy.csv", UserData.users.getFirst().toHashMap());
-//
-////        ActivityData activityData = new ActivityData();
-////        insertRecord("files/activity - Copy.csv", ActivityData.activities.get(10).toHashMap());
-////        readRecord("files/activity - Copy.csv");
-//
-////        User temp = new User(3, "Tom Jerry", "mypassword", "test@mail.com");
-////        file.updateRecord(temp.toHashMap(), "userId");
-//
-//        User temp = new User(3, "Rishi Sunak", "$2b$12$Hd6cMwb1WR6DHD5yhwL/E.BB1fMuC8jALHJTdr0TtfORSgr/i9w6C", "w.suthika@gmail.com");
-//        file.deleteRecord(temp.toHashMap(), "userId");
-//    }
-
     public CSVFile(String pathname) {
         this.pathname = pathname;
         readRecord();
-//        this.rowCount = this.data.size();
     }
 
     public List<String> getHeader() {

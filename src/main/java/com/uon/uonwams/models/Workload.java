@@ -9,17 +9,15 @@ import org.apache.commons.beanutils.ConversionException;
 import java.util.*;
 
 public class Workload {
-    private final User loginUser;
-    private ActivityData activityData;
-    private UserData userData;
-    private List<UserWorkloadAllocation> userWorkloadAllocation = new ArrayList<>();
+    private final ActivityData activityData;
+    private final UserData userData;
+    private final List<UserWorkloadAllocation> userWorkloadAllocation = new ArrayList<>();
 
     public List<UserWorkloadAllocation> getUserWorkloadAllocation() {
         return userWorkloadAllocation;
     }
 
     public Workload(User loginUser) {
-        this.loginUser = loginUser;
         this.activityData = WAMSApplication.activityData;
         this.userData = WAMSApplication.userData;
         for (User user: userData.getUsers()) {
@@ -49,44 +47,28 @@ public class Workload {
                 .findFirst();
     }
 
-    public Activity addActivity(String activityName, String type, String description, int responsibleUserId, String year, int duration, int noOfInstances) {
-        try {
-            ActivityType activityType = convertStringToActivityType(type);
-            Optional<User> responsibleUser = WAMSApplication.userData.getUsers().stream().filter(user -> user.getUserId() == responsibleUserId).findFirst();
-            if (responsibleUser.isEmpty()) {
-                System.out.println("Selected responsible user not exist");
-                return null;
-            }
-            return activityData.insertActivity(activityName, activityType, description, responsibleUserId, responsibleUser.get().getName(), year, duration, noOfInstances);
-        } catch (Exception e) {
-            System.out.println("Cannot add activity: " + e.getMessage());
-            e.printStackTrace();
+    public void addActivity(String activityName, String type, String description, int responsibleUserId, String year, int duration, int noOfInstances) {
+        ActivityType activityType = convertStringToActivityType(type);
+        Optional<User> responsibleUser = WAMSApplication.userData.getUsers().stream().filter(user -> user.getUserId() == responsibleUserId).findFirst();
+        if (responsibleUser.isEmpty()) {
+            System.out.println("Selected responsible user not exist");
+            return;
         }
-        return null;
+        activityData.insertActivity(activityName, activityType, description, responsibleUserId, responsibleUser.get().getName(), year, duration, noOfInstances);
     }
 
-    public Activity updateActivity(int activityId, String activityName, String type, String description, int responsibleUserId, String year, int duration, int noOfInstances) {
-        try {
-            ActivityType activityType = convertStringToActivityType(type);
-            Optional<User> responsibleUser = WAMSApplication.userData.getUsers().stream().filter(user -> user.getUserId() == responsibleUserId).findFirst();
-            if (responsibleUser.isEmpty()) {
-                System.out.println("Selected responsible user not exist");
-                return null;
-            }
-            return activityData.updateActivity(activityId, activityName, activityType, description, responsibleUserId, responsibleUser.get().getName(), year, duration, noOfInstances);
-        } catch (Exception e) {
-            System.out.println("Cannot update activity: " + e.getMessage());
+    public void updateActivity(int activityId, String activityName, String type, String description, int responsibleUserId, String year, int duration, int noOfInstances) {
+        ActivityType activityType = convertStringToActivityType(type);
+        Optional<User> responsibleUser = WAMSApplication.userData.getUsers().stream().filter(user -> user.getUserId() == responsibleUserId).findFirst();
+        if (responsibleUser.isEmpty()) {
+            System.out.println("Selected responsible user not exist");
+            return;
         }
-        return null;
+        activityData.updateActivity(activityId, activityName, activityType, description, responsibleUserId, responsibleUser.get().getName(), year, duration, noOfInstances);
     }
 
-    public Integer deleteActivity(int activityId) {
-        try {
-            return activityData.deleteActivity(activityId);
-        } catch (Exception e) {
-            System.out.println("Cannot delete activity: " + e.getMessage());
-        }
-        return null;
+    public void deleteActivity(int activityId) {
+        activityData.deleteActivity(activityId);
     }
 
     public void importActivities(String csvPathname) throws Exception {

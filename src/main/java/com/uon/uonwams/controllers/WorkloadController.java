@@ -1,6 +1,5 @@
 package com.uon.uonwams.controllers;
 
-import com.uon.uonwams.config.State;
 import com.uon.uonwams.models.*;
 import io.github.cdimascio.dotenv.Dotenv;
 import javafx.collections.FXCollections;
@@ -228,7 +227,6 @@ public class WorkloadController extends MenuController implements ControllerInte
         if (UserWorkloadAllocation.class.isInstance(data)) {
             UserWorkloadAllocation userWorkload = UserWorkloadAllocation.class.cast(data);
             appController.setWorkloadUser(userWorkload);
-            appController.setState(State.VIEW_WORKLOAD);
             appController.loadScene("activity-view.fxml");
         }
     }

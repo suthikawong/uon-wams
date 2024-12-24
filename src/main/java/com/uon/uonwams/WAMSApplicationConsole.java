@@ -12,9 +12,11 @@ public class WAMSApplicationConsole {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        State state;
         WAMSApplication app;
         try {
             app = new WAMSApplication();
+            state = State.LOGIN;
         } catch (Exception e) {
             System.out.println(e.getMessage());
             System.exit(0);
@@ -26,7 +28,6 @@ public class WAMSApplicationConsole {
         User workloadUser = null;
 
         while (true) {
-            State state = app.getState();
 
             //<editor-fold desc="Login Code">
             if (state == State.LOGIN) {
@@ -43,7 +44,7 @@ public class WAMSApplicationConsole {
                     System.out.println("Incorrect user id or password");
                 } else {
                     // control flow
-                    app.toHomePage();
+                    state = State.HOME;
                 }
                 System.out.println("---------------------------------");
                 continue;
@@ -57,11 +58,11 @@ public class WAMSApplicationConsole {
                 String command = scanner.next();
 
                 if (command.equalsIgnoreCase("A")) {
-                    app.toViewUserWorkloadPage();
+                    state = State.VIEW_USER_WORKLOAD;
                 } else if (command.equalsIgnoreCase("B")) {
-                    app.toViewUserManagementPage();
+                    state = State.VIEW_USERS;
                 } else if (command.equalsIgnoreCase("Y")) {
-                    app.toLoginPage();
+                    state = State.LOGIN;
                 }
                 System.out.println("---------------------------------");
                 continue;
@@ -80,13 +81,13 @@ public class WAMSApplicationConsole {
                     String command = scanner.next();
 
                     if (command.equalsIgnoreCase("A")) {
-                        app.toAddUserPage();
+                        state = State.ADD_USER;
                     } else if (command.equalsIgnoreCase("B")) {
-                        app.toEditUserPage();
+                        state = State.EDIT_USER;
                     } else if (command.equalsIgnoreCase("C")) {
-                        app.toDeleteUserPage();
+                        state = State.DELETE_USER;
                     } else if (command.equalsIgnoreCase("Y")) {
-                        app.toHomePage();
+                        state = State.HOME;
                     }
                     System.out.println("---------------------------------");
                     continue;
@@ -99,7 +100,7 @@ public class WAMSApplicationConsole {
                     Optional<User> user = um.getUserById(userId);
                     if (user.isPresent() || userId == loginUser.getUserId()) {
                         System.out.println("User ID already exists");
-                        app.toViewUserManagementPage();
+                        state = State.VIEW_USERS;
                         continue;
                     }
 
@@ -117,7 +118,7 @@ public class WAMSApplicationConsole {
                     System.out.println("Successfully added user");
 
                     // control flow
-                    app.toViewUserManagementPage();
+                    state = State.VIEW_USERS;
                     System.out.println("---------------------------------");
                 } else if (state == State.EDIT_USER) {
                     System.out.println("\nEdit User\n");
@@ -128,7 +129,7 @@ public class WAMSApplicationConsole {
                     Optional<User> user = um.getUserById(userId);
                     if (user.isEmpty()) {
                         System.out.println("User ID not found or you don't have permission, please select options again");
-                        app.toViewUserManagementPage();
+                        state = State.VIEW_USERS;
                         continue;
                     }
 
@@ -146,7 +147,7 @@ public class WAMSApplicationConsole {
                     System.out.println("Successfully updated user");
 
                     // control flow
-                    app.toViewUserManagementPage();
+                    state = State.VIEW_USERS;
                     System.out.println("---------------------------------");
                 } else if (state == State.DELETE_USER) {
                     System.out.println("\nDelete User\n");
@@ -157,7 +158,7 @@ public class WAMSApplicationConsole {
                     Optional<User> user = um.getUserById(userId);
                     if (user.isEmpty()) {
                         System.out.println("User ID not found or you don't have permission, please select options again");
-                        app.toViewUserManagementPage();
+                        state = State.VIEW_USERS;
                         continue;
                     }
 
@@ -165,7 +166,7 @@ public class WAMSApplicationConsole {
                     System.out.println("Successfully deleted user");
 
                     // control flow
-                    app.toViewUserManagementPage();
+                    state = State.VIEW_USERS;
                     System.out.println("---------------------------------");
                 }
             }
@@ -184,7 +185,7 @@ public class WAMSApplicationConsole {
                 String command = scanner.next();
 
                 if (command.equalsIgnoreCase("Y")) {
-                    app.toHomePage();
+                    state = State.HOME;
                     continue;
                 }
 
@@ -198,7 +199,7 @@ public class WAMSApplicationConsole {
                 }
                 workloadUser = user.get();
 
-                app.toViewWorkloadPage();
+                state = State.VIEW_WORKLOAD;
                 System.out.println("---------------------------------");
             } else if (state == State.VIEW_WORKLOAD && workloadUser != null) {
                 // log all activities of that user
@@ -210,13 +211,13 @@ public class WAMSApplicationConsole {
                 String command = scanner.next();
 
                 if (command.equalsIgnoreCase("A")) {
-                    app.toAddActivityPage();
+                    state = State.ADD_ACTIVITY;
                 } else if (command.equalsIgnoreCase("B")) {
-                    app.toEditActivityPage();
+                    state = State.EDIT_ACTIVITY;
                 } else if (command.equalsIgnoreCase("C")) {
-                    app.toDeleteActivityPage();
+                    state = State.DELETE_ACTIVITY;
                 } else if (command.equalsIgnoreCase("Y")) {
-                    app.toViewUserWorkloadPage();
+                    state = State.VIEW_USER_WORKLOAD;
                 }
                 System.out.println("---------------------------------");
             } else if (state == State.ADD_ACTIVITY) {
@@ -237,7 +238,7 @@ public class WAMSApplicationConsole {
                 System.out.println("Successfully added activity");
 
                 // control flow
-                app.toViewWorkloadPage();
+                state = State.VIEW_WORKLOAD;
                 System.out.println("---------------------------------");
             } else if (state == State.EDIT_ACTIVITY) {
                 System.out.println("\nEdit Activity\n");
@@ -248,7 +249,7 @@ public class WAMSApplicationConsole {
                 Optional<Activity> activity = workload.getActivityById(activityId);
                 if (activity.isEmpty()) {
                     System.out.println("Not found this activity ID, please select options again");
-                    app.toViewWorkloadPage();
+                    state = State.VIEW_WORKLOAD;
                     continue;
                 }
 
@@ -268,7 +269,7 @@ public class WAMSApplicationConsole {
                 System.out.println("Successfully updated activity");
 
                 // control flow
-                app.toViewWorkloadPage();
+                state = State.VIEW_WORKLOAD;
                 System.out.println("---------------------------------");
             } else if (state == State.DELETE_ACTIVITY) {
                 System.out.println("\nDelete Activity\n");
@@ -279,7 +280,7 @@ public class WAMSApplicationConsole {
                 Optional<Activity> activity = workload.getActivityById(activityId);
                 if (activity.isEmpty()) {
                     System.out.println("Not found this activity ID, please select options again");
-                    app.toViewWorkloadPage();
+                    state = State.VIEW_WORKLOAD;
                     continue;
                 }
 
@@ -287,7 +288,7 @@ public class WAMSApplicationConsole {
                 System.out.println("Successfully deleted activity");
 
                 // control flow
-                app.toViewWorkloadPage();
+                state = State.VIEW_WORKLOAD;
                 System.out.println("---------------------------------");
             }
             //</editor-fold>

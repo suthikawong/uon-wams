@@ -14,8 +14,6 @@ public class WAMSApplicationViewer extends Application {
         } catch (Exception e) {
             System.out.println(e.getMessage());
             System.exit(0);
-            return;
-//            throw e;
         }
     }
 

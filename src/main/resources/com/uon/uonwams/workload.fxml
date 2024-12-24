@@ -61,7 +61,7 @@
                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                       </rowConstraints>
                                        <children>
-                                          <Label text="Staff name/id:" />
+                                          <Label text="Staff Name/ID:" />
                                           <TextField fx:id="workloadStaffSearchTextField" GridPane.columnIndex="1" />
                                           <Label text="Subject Area:" GridPane.columnIndex="3" />
                                           <ChoiceBox fx:id="workloadSubjectAreaSearchChoiceBox" prefWidth="150.0" GridPane.columnIndex="4" />

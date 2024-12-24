@@ -1,6 +1,5 @@
 package com.uon.uonwams.controllers;
 
-import com.uon.uonwams.config.State;
 import com.uon.uonwams.models.User;
 import com.uon.uonwams.models.UserManagement;
 import javafx.collections.FXCollections;
@@ -18,7 +17,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 public class UserViewController extends MenuController implements ControllerInterface {
     AppController appController;
@@ -41,12 +39,11 @@ public class UserViewController extends MenuController implements ControllerInte
     @FXML
     protected void onClickAddButton() throws IOException {
         appController.setSelectedUser(null);
-        appController.setState(State.ADD_USER);
         appController.loadScene("user-form.fxml");
     }
 
     private void createUserTable() {
-        TableColumn<User, String> userIdColumn = new TableColumn<>("Staff ID");
+        TableColumn<User, String> userIdColumn = new TableColumn<>("User ID");
         userIdColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(Integer.toString(data.getValue().getUserId())));
 
         TableColumn<User, String> userNameColumn = new TableColumn<>("Name");
@@ -95,7 +92,6 @@ public class UserViewController extends MenuController implements ControllerInte
         if (User.class.isInstance(data)) {
             User user = User.class.cast(data);
             appController.setSelectedUser(user);
-            appController.setState(State.EDIT_USER);
             appController.loadScene("user-form.fxml");
         }
     }

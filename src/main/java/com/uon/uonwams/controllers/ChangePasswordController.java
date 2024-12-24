@@ -1,8 +1,5 @@
 package com.uon.uonwams.controllers;
 
-import com.uon.uonwams.config.State;
-import com.uon.uonwams.models.User;
-import com.uon.uonwams.models.UserManagement;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -35,7 +32,6 @@ public class ChangePasswordController extends MenuController implements Controll
 
     @FXML
     protected void onClickBackButton() throws IOException {
-        appController.setState(State.VIEW_PROFILE);
         appController.loadScene("profile-view.fxml");
     }
 
@@ -46,7 +42,6 @@ public class ChangePasswordController extends MenuController implements Controll
 
         try {
             appController.getUserManagement().changePassword(changePasswordNewPasswordTextField.getText());
-            appController.setState(State.VIEW_PROFILE);
             appController.loadScene("profile-view.fxml");
         } catch (Exception e) {
             changePasswordErrorLabel.setText("Cannot updated password, please try again");

@@ -33,12 +33,11 @@ public class ActivityData {
         return Arrays.asList("activityId", "activityName", "activityType", "description", "responsibleUserId", "responsibleUser", "year", "duration", "noOfInstances");
     }
 
-    public Activity insertActivity(String activityName, ActivityType activityType, String description, int responsibleUserId, String responsibleUser, String year, int duration, int noOfInstances) {
+    public void insertActivity(String activityName, ActivityType activityType, String description, int responsibleUserId, String responsibleUser, String year, int duration, int noOfInstances) {
         int activityId = this.getLatestActivityId() + 1;
         Activity activity = new Activity(activityId, activityName, activityType, description, responsibleUserId, responsibleUser, year, duration, noOfInstances);
         file.insertRecord(activity);
         this.activities = file.getData();
-        return activity;
     }
 
     public void insertActivities(List<LinkedHashMap<String, String>> data) throws Exception {
@@ -47,17 +46,15 @@ public class ActivityData {
         this.activities = file.getData();
     }
 
-    public Activity updateActivity(int activityId, String activityName, ActivityType type, String description, int responsibleUserId, String responsibleUser, String year, int duration, int noOfInstances) {
+    public void updateActivity(int activityId, String activityName, ActivityType type, String description, int responsibleUserId, String responsibleUser, String year, int duration, int noOfInstances) {
         Activity activity = new Activity(activityId, activityName, type, description, responsibleUserId, responsibleUser, year, duration, noOfInstances);
         file.updateRecord(activity);
         this.activities = file.getData();
-        return activity;
     }
 
-    public int deleteActivity(int activityId) {
+    public void deleteActivity(int activityId) {
         file.deleteRecord(activityId);
         this.activities = file.getData();
-        return activityId;
     }
 
     public List<Activity> parseActivities(List<LinkedHashMap<String, String>> records) throws Exception {
@@ -96,12 +93,6 @@ public class ActivityData {
                 record.get("year"),
                 Integer.parseInt(record.get("duration")),
                 Integer.parseInt(record.get("noOfInstances"))
-//                Integer.parseInt(record.get("hours")),
-//                Integer.parseInt(record.get("ATSR")),
-//                Integer.parseInt(record.get("TS")),
-//                Integer.parseInt(record.get("TLR")),
-//                Integer.parseInt(record.get("SA")),
-//                Integer.parseInt(record.get("other"))
         );
     }
 }

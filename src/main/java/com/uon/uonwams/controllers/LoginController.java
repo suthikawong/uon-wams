@@ -1,6 +1,5 @@
 package com.uon.uonwams.controllers;
 
-import com.uon.uonwams.config.State;
 import com.uon.uonwams.models.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -33,29 +32,48 @@ public class LoginController implements ControllerInterface {
 
     @FXML
     protected void onClickLoginButton(ActionEvent event) throws IOException {
-        int userId;
-        try {
-            userId = Integer.parseInt(loginUserIdTextField.getText());
-        } catch(Exception e) {
-            loginUserIdErrorLabel.setText("Invalid User ID");
-            loginUserIdErrorLabel.setVisible(true);
-            return;
-        }
+        loginUserIdErrorLabel.setVisible(false);
+        loginErrorLabel.setVisible(false);
 
-        User loginUser = new User().login(userId, loginPasswordTextField.getText());
+        boolean isValid = validateFields();
+        if (!isValid) return;
+
+        User loginUser = new User().login(Integer.parseInt(loginUserIdTextField.getText()), loginPasswordTextField.getText());
         if (loginUser == null) {
             loginErrorLabel.setText("Incorrect User ID or Password");
             loginErrorLabel.setVisible(true);
         } else {
             appController.setLoginUser(loginUser);
-            appController.setState(State.VIEW_USER_WORKLOAD);
             appController.loadScene("my-workload.fxml");
         }
     }
 
+    private boolean validateFields() {
+        boolean isEmpty = checkFieldsEmpty();
+        if (isEmpty) {
+            loginErrorLabel.setText("Please enter User ID and Password");
+            loginErrorLabel.setVisible(true);
+            return false;
+        }
+
+        try {
+            Integer.parseInt(loginUserIdTextField.getText());
+        } catch(Exception e) {
+            loginUserIdErrorLabel.setText("Invalid User ID");
+            loginUserIdErrorLabel.setVisible(true);
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean checkFieldsEmpty() {
+        return loginUserIdTextField.getText().isEmpty() ||
+                loginPasswordTextField.getText().isEmpty();
+    }
+
     @FXML
     protected void onClickForgotPassword(ActionEvent event) throws IOException {
-        appController.setState(State.FORGOT_PASSWORD);
         appController.loadScene("forgot-password.fxml");
     }
 

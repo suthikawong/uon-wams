@@ -1,6 +1,5 @@
 package com.uon.uonwams.controllers;
 
-import com.uon.uonwams.config.State;
 import com.uon.uonwams.models.Activity;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -34,14 +33,12 @@ public class ActivityViewController extends MenuController implements Controller
     @FXML
     protected void onClickBackButton() throws IOException {
         appController.setWorkloadUser(null);
-        appController.setState(State.VIEW_USER_WORKLOAD);
         appController.loadScene("workload.fxml");
     }
 
     @FXML
     protected void onClickAddButton() throws IOException {
         appController.setSelectedActivity(null);
-        appController.setState(State.ADD_ACTIVITY);
         appController.loadScene("activity-form.fxml");
     }
 
@@ -127,7 +124,6 @@ public class ActivityViewController extends MenuController implements Controller
         if (Activity.class.isInstance(data)) {
             Activity activity = Activity.class.cast(data);
             appController.setSelectedActivity(activity);
-            appController.setState(State.EDIT_ACTIVITY);
             appController.loadScene("activity-form.fxml");
         }
     }
