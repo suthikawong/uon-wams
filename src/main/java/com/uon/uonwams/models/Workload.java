@@ -88,8 +88,6 @@ public class Workload {
     }
 
     private ActivityType convertStringToActivityType(String activityType) {
-        System.out.println(activityType.toUpperCase());
-        System.out.println(ActivityType.OTHER.label);
         if (activityType.equalsIgnoreCase(ActivityType.ATSR.label)) {
             return ActivityType.ATSR;
         } else if (activityType.equalsIgnoreCase(ActivityType.TLR.label)) {

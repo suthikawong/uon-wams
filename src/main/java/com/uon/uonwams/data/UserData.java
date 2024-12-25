@@ -10,10 +10,8 @@ public class UserData {
     private final DATFile file;
     private List<User> users;
 
-    public UserData() {
-        Dotenv dotenv = Dotenv.load();
-        String userFilePath = dotenv.get("USER_FILE_PATH");
-        this.file = new DATFile<User>(userFilePath);
+    public UserData(String pathname) {
+        this.file = new DATFile<User>(pathname);
         this.users = file.getData();
     }
 

@@ -37,10 +37,11 @@ public class UserManagement {
             } else {
                 lineManagerUser = null;
             }
-
+            // Implement send generate password to email
             String generatedPassword = User.hashPassword("password");
             WAMSApplication.userData.insertUser(userId, name, generatedPassword, email, fteRatio, subjectArea, lineManagerUser == null ? null : lineManagerUser.get().getUserId());
         } catch (Exception e) {
+            e.printStackTrace();
             System.out.println("Cannot add user: " + e.getMessage());
         }
     }

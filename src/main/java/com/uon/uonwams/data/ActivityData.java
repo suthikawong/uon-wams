@@ -14,10 +14,8 @@ public class ActivityData {
     private final DATFile file;
     private List<Activity> activities;
 
-    public ActivityData() {
-        Dotenv dotenv = Dotenv.load();
-        String activityFilePath = dotenv.get("ACTIVITY_FILE_PATH");
-        file = new DATFile(activityFilePath);
+    public ActivityData(String pathname) {
+        file = new DATFile(pathname);
         this.activities = file.getData();
     }
 

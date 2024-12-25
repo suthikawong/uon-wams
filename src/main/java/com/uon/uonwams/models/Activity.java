@@ -77,25 +77,6 @@ public class Activity extends DATFileStructure implements Serializable {
         }
     }
 
-
-    public Activity(int activityId, String activityName, ActivityType activityType, String description, int responsibleUserId, String responsibleUser, String year, int duration, int noOfInstances, int hours, int ATSR, int TS, int TLR, int SA, int other) {
-        this.activityId = activityId;
-        this.activityName = activityName;
-        this.activityType = activityType;
-        this.description = description;
-        this.responsibleUserId = responsibleUserId;
-        this.responsibleUser = responsibleUser;
-        this.year = year;
-        this.duration = duration;
-        this.noOfInstances = noOfInstances;
-        this.hours = hours;
-        this.ATSR = ATSR;
-        this.TS = TS;
-        this.TLR = TLR;
-        this.SA = SA;
-        this.other = other;
-    }
-
     public int getId() {
         return activityId;
     }
