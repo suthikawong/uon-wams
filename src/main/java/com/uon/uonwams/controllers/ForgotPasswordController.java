@@ -47,7 +47,7 @@ public class ForgotPasswordController implements ControllerInterface {
         String password;
         try {
             UserManagement um = new UserManagement(user);
-            password = um.forgotPassword(user);
+            password = um.resetPassword(user);
         } catch (Exception e) {
             forgotPasswordUserIdErrorLabel.setText("Cannot reset password. Please try again.");
             forgotPasswordUserIdErrorLabel.setVisible(true);

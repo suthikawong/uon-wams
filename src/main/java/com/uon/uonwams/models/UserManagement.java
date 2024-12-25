@@ -37,9 +37,10 @@ public class UserManagement {
             } else {
                 lineManagerUser = null;
             }
-            // Implement send generate password to email
-            String generatedPassword = User.hashPassword("password");
-            WAMSApplication.userData.insertUser(userId, name, generatedPassword, email, fteRatio, subjectArea, lineManagerUser == null ? null : lineManagerUser.get().getUserId());
+            String generatedPassword = getRandomPassword();
+            WAMSApplication.userData.insertUser(userId, name, hashPassword(generatedPassword), email, fteRatio, subjectArea, lineManagerUser == null ? null : lineManagerUser.get().getUserId());
+            EmailUtil emailUtil = new EmailUtil();
+            emailUtil.sendEmail(email,"Temporary password email", "Your temporary password is \"" + generatedPassword + "\" ");
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Cannot add user: " + e.getMessage());
@@ -84,7 +85,7 @@ public class UserManagement {
         WAMSApplication.userData.updateUser(loginUser.getUserId(), loginUser.getName(), hashPassword(password), loginUser.getEmail(), loginUser.getFteRatio(), loginUser.getSubjectArea(), loginUser.getLineManagerUserId());
     }
 
-    public String forgotPassword(User user) throws Exception {
+    public String resetPassword(User user) throws Exception {
         String password = getRandomPassword();
         WAMSApplication.userData.updateUser(user.getUserId(), user.getName(), hashPassword(password), user.getEmail(), user.getFteRatio(), user.getSubjectArea(), user.getLineManagerUserId());
         return password;
