@@ -4,6 +4,7 @@ import com.password4j.BcryptFunction;
 import com.password4j.Hash;
 import com.password4j.Password;
 import com.password4j.types.Bcrypt;
+import io.github.cdimascio.dotenv.Dotenv;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -102,15 +103,19 @@ public class User extends DATFileStructure implements Serializable {
 
     public static String hashPassword(String password) {
         // Ref: https://davidbertoldi.medium.com/hashing-passwords-in-java-757e787ce71c
+        Dotenv dotenv = Dotenv.load();
+        String secret = dotenv.get("PASSWORD_SECRET");
         Hash hash = Password.hash(password)
-                .addPepper("shared-secret")
+                .addPepper(secret)
                 .with(bcrypt);
         return hash.getResult();
     }
 
     private boolean isMatchedPassword(String plainPassword, String storedPassword) {
+        Dotenv dotenv = Dotenv.load();
+        String secret = dotenv.get("PASSWORD_SECRET");
         return Password.check(plainPassword, storedPassword)
-                .addPepper("shared-secret")
+                .addPepper(secret)
                 .with(bcrypt);
     }
 
