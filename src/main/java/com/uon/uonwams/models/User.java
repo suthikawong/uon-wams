@@ -16,14 +16,14 @@ public class User extends DATFileStructure implements Serializable {
     protected String name;
     protected String password;
     protected String email;
-    protected float fteRatio;
+    protected double fteRatio;
     protected String subjectArea;
     protected Integer lineManagerUserId = null;
     private static final BcryptFunction bcrypt = BcryptFunction.getInstance(Bcrypt.B, 12);
 
     public User() {}
 
-    public User(int userId, String name, String password, String email, float fteRatio, String subjectArea, Integer lineManagerUserId) {
+    public User(int userId, String name, String password, String email, double fteRatio, String subjectArea, Integer lineManagerUserId) {
         this.userId = userId;
         this.name = name;
         this.password = password;
@@ -53,7 +53,7 @@ public class User extends DATFileStructure implements Serializable {
         return email;
     }
 
-    public float getFteRatio() {
+    public double getFteRatio() {
         return fteRatio;
     }
 
@@ -120,7 +120,7 @@ public class User extends DATFileStructure implements Serializable {
         mapUser.put("name", this.name);
         mapUser.put("password", this.password);
         mapUser.put("email", this.email);
-        mapUser.put("fteRatio", Float.toString(this.fteRatio));
+        mapUser.put("fteRatio", Double.toString(this.fteRatio));
         mapUser.put("subjectArea", this.subjectArea);
         mapUser.put("lineManagerUserId", this.lineManagerUserId == null ? "" : Integer.toString(this.lineManagerUserId));
         return mapUser;

@@ -19,13 +19,13 @@ public class UserData {
         return this.users;
     }
 
-    public void insertUser(int userId, String name, String password, String email, float fteRatio, String subjectArea, Integer lineManagerUserId) throws Exception {
+    public void insertUser(int userId, String name, String password, String email, double fteRatio, String subjectArea, Integer lineManagerUserId) throws Exception {
         User user = new User(userId, name, password, email, fteRatio, subjectArea, lineManagerUserId);
         file.insertRecord(user);
         this.users = file.getData();
     }
 
-    public void updateUser(int userId, String name, String password, String email, float fteRatio, String subjectArea, Integer lineManagerUserId) throws Exception {
+    public void updateUser(int userId, String name, String password, String email, double fteRatio, String subjectArea, Integer lineManagerUserId) throws Exception {
         User user = new User(userId, name, password, email, fteRatio, subjectArea, lineManagerUserId);
         file.updateRecord(user);
         this.users = file.getData();

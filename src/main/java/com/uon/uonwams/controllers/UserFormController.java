@@ -78,7 +78,7 @@ public class UserFormController extends MenuController implements ControllerInte
             userFormIdTextField.setDisable(true);
             userFormNameTextField.setText(selectedUser.getName());
             userFormEmailTextField.setText(selectedUser.getEmail());
-            userFormFteRatioTextField.setText(Float.toString(selectedUser.getFteRatio()));
+            userFormFteRatioTextField.setText(Double.toString(selectedUser.getFteRatio()));
             userFormSubjectAreaTextField.setText(selectedUser.getSubjectArea());
             if (selectedUser.getLineManagerUserId() != null) {
                 userFormLineManagerCheckBox.setSelected(false);
@@ -114,7 +114,7 @@ public class UserFormController extends MenuController implements ControllerInte
                     appController.getSelectedUser().getUserId(),
                     userFormNameTextField.getText(),
                     userFormEmailTextField.getText(),
-                    Float.parseFloat(userFormFteRatioTextField.getText()),
+                    Double.parseDouble(userFormFteRatioTextField.getText()),
                     userFormSubjectAreaTextField.getText(),
                     userFormLineManagerCheckBox.isSelected() ? null : lineManager.getUserId()
             );
@@ -123,7 +123,7 @@ public class UserFormController extends MenuController implements ControllerInte
                     Integer.parseInt(userFormIdTextField.getText()),
                     userFormNameTextField.getText(),
                     userFormEmailTextField.getText(),
-                    Float.parseFloat(userFormFteRatioTextField.getText()),
+                    Double.parseDouble(userFormFteRatioTextField.getText()),
                     userFormSubjectAreaTextField.getText(),
                     userFormLineManagerCheckBox.isSelected() ? null : lineManager.getUserId()
             );
@@ -157,7 +157,7 @@ public class UserFormController extends MenuController implements ControllerInte
             }
         }
         try {
-            Float.parseFloat(userFormFteRatioTextField.getText());
+            Double.parseDouble(userFormFteRatioTextField.getText());
         } catch (Exception e) {
             userFormErrorLabel.setText("Invalid field value for field \"FTE Ratio\"");
             userFormErrorLabel.setVisible(true);

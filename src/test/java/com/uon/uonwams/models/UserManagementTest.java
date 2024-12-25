@@ -31,9 +31,6 @@ class UserManagementTest {
         sub = new User(2, "testname", hashPassword("password"), "email", 1, "sucjectarea", 1);
         datFile.insertRecords(List.of(lineManager, sub));
 
-//        lineManager = new User(1, "Suthika Wongsiridech", hashPassword("12345"), "suthika.dev@gmail.com", 1, "Computing", null);
-//        datFile.insertRecord(lineManager);
-
         new WAMSApplication(pathname, null);
         um = new UserManagement(lineManager);
     }

@@ -53,7 +53,7 @@ public class UserViewController extends MenuController implements ControllerInte
         emailColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getEmail()));
 
         TableColumn<User, String> fteRatioColumn = new TableColumn<>("FTE Ratio");
-        fteRatioColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(Float.toString(data.getValue().getFteRatio())));
+        fteRatioColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(Double.toString(data.getValue().getFteRatio())));
 
         TableColumn<User, String> subjectAreaColumn = new TableColumn<>("Subject Area");
         subjectAreaColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getSubjectArea()));

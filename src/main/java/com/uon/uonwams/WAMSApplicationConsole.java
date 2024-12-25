@@ -111,7 +111,7 @@ public class WAMSApplicationConsole {
                             userId,
                             (String) values.get("name"),
                             (String) values.get("email"),
-                            (float) values.get("fteRatio"),
+                            (double) values.get("fteRatio"),
                             (String) values.get("subjectArea"),
                             (Integer) values.get("lineManagerUserId")
                     );
@@ -140,7 +140,7 @@ public class WAMSApplicationConsole {
                             userId,
                             (String) values.get("name"),
                             (String) values.get("email"),
-                            (float) values.get("fteRatio"),
+                            (double) values.get("fteRatio"),
                             (String) values.get("subjectArea"),
                             (Integer) values.get("lineManagerUserId")
                     );
@@ -350,7 +350,7 @@ public class WAMSApplicationConsole {
         values.put("email", email);
 
         System.out.print("FTE Ratio: ");
-        float fteRatio = scanner.nextFloat();
+        double fteRatio = scanner.nextDouble();
         values.put("fteRatio", fteRatio);
         scanner.nextLine();
 

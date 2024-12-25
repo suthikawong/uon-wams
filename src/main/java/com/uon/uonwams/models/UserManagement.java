@@ -25,7 +25,7 @@ public class UserManagement {
                 .findFirst();
     }
 
-    public void addUser(int userId, String name, String email, float fteRatio, String subjectArea, Integer lineManagerUserId) {
+    public void addUser(int userId, String name, String email, double fteRatio, String subjectArea, Integer lineManagerUserId) {
         try {
             Optional<User> lineManagerUser;
             if (lineManagerUserId != null) {
@@ -46,7 +46,7 @@ public class UserManagement {
         }
     }
 
-    public void updateUser(int userId, String name, String email, float fteRatio, String subjectArea, Integer lineManagerUserId) {
+    public void updateUser(int userId, String name, String email, double fteRatio, String subjectArea, Integer lineManagerUserId) {
         try {
             Optional<User> lineManagerUser;
 

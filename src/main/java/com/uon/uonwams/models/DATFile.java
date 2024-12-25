@@ -55,7 +55,7 @@ public class DATFile<T extends DATFileStructure> {
             objectOutputFile.writeObject(list);
             objectOutputFile.close();
 
-            this.data.add(record);
+            this.data = list;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -71,7 +71,7 @@ public class DATFile<T extends DATFileStructure> {
             objectOutputFile.writeObject(list);
             objectOutputFile.close();
 
-            this.data = new ArrayList<T>(list);
+            this.data = list;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -98,7 +98,7 @@ public class DATFile<T extends DATFileStructure> {
             objectOutputFile.writeObject(list);
             objectOutputFile.close();
 
-            this.data.set(updateIndex, record);
+            this.data = list;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -125,7 +125,7 @@ public class DATFile<T extends DATFileStructure> {
             objectOutputFile.writeObject(list);
             objectOutputFile.close();
 
-            this.data.remove((int) deleteIndex);
+            this.data = list;
         } catch (IOException e) {
             e.printStackTrace();
         }
