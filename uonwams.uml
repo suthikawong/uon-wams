@@ -1,0 +1,703 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>D:/Jester_Blog/Dev Project/suthikawong/uon-wams/src/main/java/com/uon/uonwams</OriginalElement>
+  <nodes>
+    <node x="2462.5" y="2529.0">com.uon.uonwams.models.UserManagement</node>
+    <node x="1112.5" y="-13.5">com.uon.uonwams.config.ActivityType</node>
+    <node x="2573.0" y="4283.5">com.uon.uonwams.controllers.UserViewController</node>
+    <node x="1048.5" y="3743.5">com.uon.uonwams.controllers.MenuController</node>
+    <node x="257.5" y="1614.5">com.uon.uonwams.models.UserWorkloadAllocation</node>
+    <node x="1983.0" y="4191.5">com.uon.uonwams.controllers.UserFormController</node>
+    <node x="2303.0" y="4689.0">com.uon.uonwams.controllers.ProfileViewController</node>
+    <node x="1514.5" y="2098.0">com.uon.uonwams.data.UserData</node>
+    <node x="2947.5" y="2121.0">com.uon.uonwams.models.EmailUtil</node>
+    <node x="2543.5" y="3824.5">com.uon.uonwams.WAMSApplicationViewer</node>
+    <node x="1485.0" y="3824.5">com.uon.uonwams.controllers.ControllerInterface</node>
+    <node x="1419.0" y="2633.0">com.uon.uonwams.models.WAMSApplication</node>
+    <node x="50.0" y="3293.0">com.uon.uonwams.WAMSApplicationConsole</node>
+    <node x="145.0" y="4306.5">com.uon.uonwams.controllers.MyWorkloadController</node>
+    <node x="2887.5" y="4700.5">com.uon.uonwams.controllers.ForgotPasswordController</node>
+    <node x="2915.5" y="3120.0">com.uon.uonwams.config.State</node>
+    <node x="1658.5" y="3062.5">com.uon.uonwams.controllers.AppController</node>
+    <node x="1337.5" y="4203.0">com.uon.uonwams.controllers.ActivityFormController</node>
+    <node x="653.0" y="56.0">com.uon.uonwams.models.DATFileStructure</node>
+    <node x="673.5" y="295.0">com.uon.uonwams.models.DATFile</node>
+    <node x="385.0" y="4677.5">com.uon.uonwams.controllers.WorkloadController</node>
+    <node x="45.0" y="3848.0">com.uon.uonwams.controllers.ClickButtonCallback</node>
+    <node x="785.0" y="4249.0">com.uon.uonwams.controllers.ProfileFormController</node>
+    <node x="1634.0" y="4700.5">com.uon.uonwams.controllers.ChangePasswordController</node>
+    <node x="-130.5" y="4700.5">com.uon.uonwams.controllers.LoginController</node>
+    <node x="1033.0" y="4712.0">com.uon.uonwams.controllers.ActivityViewController</node>
+    <node x="941.5" y="564.5">com.uon.uonwams.models.Activity</node>
+    <node x="315.5" y="679.5">com.uon.uonwams.models.User</node>
+    <node x="-103.0" y="2063.5">com.uon.uonwams.models.CSVFile</node>
+    <node x="645.5" y="2040.5">com.uon.uonwams.data.ActivityData</node>
+    <node x="245.0" y="2483.0">com.uon.uonwams.models.Workload</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="com.uon.uonwams.WAMSApplicationConsole" target="com.uon.uonwams.models.UserManagement" relationship="CREATE">
+      <point x="0.0" y="-62.0" />
+      <point x="245.0" y="2955.0" />
+      <point x="2885.0" y="2955.0" />
+      <point x="2885.0" y="2495.0" />
+      <point x="2766.25" y="2495.0" />
+      <point x="101.25" y="-166.0" />
+    </edge>
+    <edge source="com.uon.uonwams.controllers.ProfileFormController" target="com.uon.uonwams.controllers.AppController" relationship="TO_ONE">
+      <point x="-93.33333333333334" y="-166.0" />
+      <point x="831.6666666666666" y="4095.0" />
+      <point x="345.0" y="4095.0" />
+      <point x="345.0" y="3715.0" />
+      <point x="1625.0" y="3715.0" />
+      <point x="1625.0" y="2995.0" />
+      <point x="1998.25" y="2995.0" />
+      <point x="113.25" y="-292.5" />
+    </edge>
+    <edge source="com.uon.uonwams.controllers.WorkloadController" target="com.uon.uonwams.models.Workload" relationship="CREATE">
+      <point x="-165.0" y="-177.5" />
+      <point x="440.0" y="4135.0" />
+      <point x="-55.0" y="4135.0" />
+      <point x="-55.0" y="3915.0" />
+      <point x="25.0" y="3915.0" />
+      <point x="25.0" y="3335.0" />
+      <point x="-15.0" y="3335.0" />
+      <point x="-15.0" y="2435.0" />
+      <point x="375.0" y="2435.0" />
+      <point x="-130.0" y="-212.0" />
+    </edge>
+    <edge source="com.uon.uonwams.models.UserManagement" target="com.uon.uonwams.models.EmailUtil" relationship="CREATE">
+      <point x="101.25" y="-166.0" />
+      <point x="2766.25" y="2475.0" />
+      <point x="3085.0" y="2475.0" />
+      <point x="0.0" y="74.0" />
+    </edge>
+    <edge source="com.uon.uonwams.controllers.UserViewController" target="com.uon.uonwams.controllers.ControllerInterface" relationship="REALIZATION">
+      <point x="-43.0" y="-131.5" />
+      <point x="2702.0" y="4115.0" />
+      <point x="1625.0" y="4115.0" />
+      <point x="0.0" y="50.5" />
+    </edge>
+    <edge source="com.uon.uonwams.data.ActivityData" target="com.uon.uonwams.models.DATFile" relationship="TO_ONE">
+      <point x="119.75" y="-154.5" />
+      <point x="1004.75" y="2015.0" />
+      <point x="1005.0" y="2015.0" />
+      <point x="1005.0" y="1455.0" />
+      <point x="840.75" y="1455.0" />
+      <point x="55.75" y="120.0" />
+    </edge>
+    <edge source="com.uon.uonwams.controllers.ProfileViewController" target="com.uon.uonwams.controllers.MenuController" relationship="GENERALIZATION">
+      <point x="-106.5" y="-166.0" />
+      <point x="2338.5" y="4155.0" />
+      <point x="1205.0" y="4155.0" />
+      <point x="0.0" y="131.5" />
+    </edge>
+    <edge source="com.uon.uonwams.controllers.MyWorkloadController" target="com.uon.uonwams.controllers.MenuController" relationship="GENERALIZATION">
+      <point x="35.0" y="-108.5" />
+      <point x="320.0" y="4155.0" />
+      <point x="1205.0" y="4155.0" />
+      <point x="0.0" y="131.5" />
+    </edge>
+    <edge source="com.uon.uonwams.models.DATFile" target="com.uon.uonwams.models.DATFileStructure" relationship="DEPENDENCY">
+      <point x="0.0" y="-120.0" />
+      <point x="785.0" y="255.0" />
+      <point x="791.0" y="255.0" />
+      <point x="46.0" y="39.0" />
+    </edge>
+    <edge source="com.uon.uonwams.data.UserData" target="com.uon.uonwams.models.User" relationship="CREATE">
+      <point x="-105.25" y="-97.0" />
+      <point x="1619.75" y="1955.0" />
+      <point x="725.0" y="1955.0" />
+      <point x="725.0" y="1555.0" />
+      <point x="-135.0" y="1555.0" />
+      <point x="-135.0" y="1335.0" />
+      <point x="410.25" y="1335.0" />
+      <point x="-94.75" y="315.5" />
+    </edge>
+    <edge source="com.uon.uonwams.controllers.ActivityViewController" target="com.uon.uonwams.controllers.ControllerInterface" relationship="REALIZATION">
+      <point x="114.66666666666666" y="-143.0" />
+      <point x="1319.6666666666667" y="4115.0" />
+      <point x="1625.0" y="4115.0" />
+      <point x="0.0" y="50.5" />
+    </edge>
+    <edge source="com.uon.uonwams.controllers.LoginController" target="com.uon.uonwams.models.User" relationship="CREATE">
+      <point x="-103.66666666666663" y="-154.5" />
+      <point x="-78.66666666666663" y="4255.0" />
+      <point x="-175.0" y="4255.0" />
+      <point x="-175.0" y="2175.0" />
+      <point x="-135.0" y="2175.0" />
+      <point x="-135.0" y="1335.0" />
+      <point x="410.25" y="1335.0" />
+      <point x="-94.75" y="315.5" />
+    </edge>
+    <edge source="com.uon.uonwams.controllers.ControllerInterface" target="com.uon.uonwams.controllers.AppController" relationship="TO_ONE">
+      <point x="0.0" y="-50.5" />
+      <point x="1625.0" y="2995.0" />
+      <point x="1998.25" y="2995.0" />
+      <point x="113.25" y="-292.5" />
+    </edge>
+    <edge source="com.uon.uonwams.data.ActivityData" target="com.uon.uonwams.models.Activity" relationship="TO_MANY">
+      <point x="119.75" y="-154.5" />
+      <point x="1004.75" y="2015.0" />
+      <point x="1005.0" y="2015.0" />
+      <point x="1005.0" y="1535.0" />
+      <point x="2005.0" y="1535.0" />
+      <point x="2005.0" y="535.0" />
+      <point x="1216.75" y="535.0" />
+      <point x="91.75" y="-430.5" />
+    </edge>
+    <edge source="com.uon.uonwams.models.Activity" target="com.uon.uonwams.models.DATFileStructure" relationship="GENERALIZATION">
+      <point x="-91.75" y="-430.5" />
+      <point x="1033.25" y="275.0" />
+      <point x="705.0" y="275.0" />
+      <point x="705.0" y="155.0" />
+      <point x="699.0" y="155.0" />
+      <point x="-46.0" y="39.0" />
+    </edge>
+    <edge source="com.uon.uonwams.models.Workload" target="com.uon.uonwams.data.UserData" relationship="TO_ONE">
+      <point x="130.0" y="-212.0" />
+      <point x="635.0" y="2455.0" />
+      <point x="625.0" y="2455.0" />
+      <point x="625.0" y="2395.0" />
+      <point x="1485.0" y="2395.0" />
+      <point x="1485.0" y="2055.0" />
+      <point x="1830.25" y="2055.0" />
+      <point x="105.25" y="-97.0" />
+    </edge>
+    <edge source="com.uon.uonwams.models.WAMSApplication" target="com.uon.uonwams.data.ActivityData" relationship="CREATE">
+      <point x="63.0" y="-62.0" />
+      <point x="1608.0" y="2595.0" />
+      <point x="1605.0" y="2595.0" />
+      <point x="1605.0" y="2315.0" />
+      <point x="1445.0" y="2315.0" />
+      <point x="1445.0" y="1995.0" />
+      <point x="765.25" y="1995.0" />
+      <point x="-119.75" y="-154.5" />
+    </edge>
+    <edge source="com.uon.uonwams.controllers.ForgotPasswordController" target="com.uon.uonwams.models.EmailUtil" relationship="CREATE">
+      <point x="105.0" y="-154.5" />
+      <point x="3150.0" y="4675.0" />
+      <point x="3145.0" y="4675.0" />
+      <point x="3145.0" y="3895.0" />
+      <point x="3205.0" y="3895.0" />
+      <point x="3205.0" y="2475.0" />
+      <point x="3085.0" y="2475.0" />
+      <point x="0.0" y="74.0" />
+    </edge>
+    <edge source="com.uon.uonwams.models.WAMSApplication" target="com.uon.uonwams.data.UserData" relationship="TO_ONE">
+      <point x="-63.0" y="-62.0" />
+      <point x="1482.0" y="2595.0" />
+      <point x="1485.0" y="2595.0" />
+      <point x="1485.0" y="2055.0" />
+      <point x="1830.25" y="2055.0" />
+      <point x="105.25" y="-97.0" />
+    </edge>
+    <edge source="com.uon.uonwams.models.Activity" target="com.uon.uonwams.config.ActivityType" relationship="TO_ONE">
+      <point x="91.75" y="-430.5" />
+      <point x="1216.75" y="515.0" />
+      <point x="1225.0" y="515.0" />
+      <point x="0.0" y="108.5" />
+    </edge>
+    <edge source="com.uon.uonwams.controllers.ActivityFormController" target="com.uon.uonwams.controllers.AppController" relationship="TO_ONE">
+      <point x="111.66666666666666" y="-212.0" />
+      <point x="1616.6666666666667" y="4095.0" />
+      <point x="1865.0" y="4095.0" />
+      <point x="1865.0" y="3715.0" />
+      <point x="1625.0" y="3715.0" />
+      <point x="1625.0" y="2995.0" />
+      <point x="1998.25" y="2995.0" />
+      <point x="113.25" y="-292.5" />
+    </edge>
+    <edge source="com.uon.uonwams.models.Workload" target="com.uon.uonwams.models.UserWorkloadAllocation" relationship="CREATE">
+      <point x="-130.0" y="-212.0" />
+      <point x="375.0" y="2455.0" />
+      <point x="105.0" y="2455.0" />
+      <point x="105.0" y="2415.0" />
+      <point x="185.0" y="2415.0" />
+      <point x="185.0" y="2355.0" />
+      <point x="341.25" y="2355.0" />
+      <point x="-83.75" y="200.5" />
+    </edge>
+    <edge source="com.uon.uonwams.controllers.UserFormController" target="com.uon.uonwams.controllers.AppController" relationship="TO_ONE">
+      <point x="108.0" y="-223.5" />
+      <point x="2253.0" y="4095.0" />
+      <point x="2405.0" y="4095.0" />
+      <point x="2405.0" y="3715.0" />
+      <point x="1625.0" y="3715.0" />
+      <point x="1625.0" y="2995.0" />
+      <point x="1998.25" y="2995.0" />
+      <point x="113.25" y="-292.5" />
+    </edge>
+    <edge source="com.uon.uonwams.controllers.ChangePasswordController" target="com.uon.uonwams.controllers.MenuController" relationship="GENERALIZATION">
+      <point x="-127.33333333333337" y="-154.5" />
+      <point x="1697.6666666666665" y="4155.0" />
+      <point x="1205.0" y="4155.0" />
+      <point x="0.0" y="131.5" />
+    </edge>
+    <edge source="com.uon.uonwams.controllers.ForgotPasswordController" target="com.uon.uonwams.models.User" relationship="TO_ONE">
+      <point x="0.0" y="-154.5" />
+      <point x="3045.0" y="3955.0" />
+      <point x="3245.0" y="3955.0" />
+      <point x="3245.0" y="2095.0" />
+      <point x="2405.0" y="2095.0" />
+      <point x="2405.0" y="1475.0" />
+      <point x="599.75" y="1475.0" />
+      <point x="94.75" y="315.5" />
+    </edge>
+    <edge source="com.uon.uonwams.controllers.ProfileViewController" target="com.uon.uonwams.controllers.ControllerInterface" relationship="REALIZATION">
+      <point x="-35.5" y="-166.0" />
+      <point x="2409.5" y="4115.0" />
+      <point x="1625.0" y="4115.0" />
+      <point x="0.0" y="50.5" />
+    </edge>
+    <edge source="com.uon.uonwams.controllers.AppController" target="com.uon.uonwams.models.Activity" relationship="TO_ONE">
+      <point x="113.25" y="-292.5" />
+      <point x="1998.25" y="3035.0" />
+      <point x="2005.0" y="3035.0" />
+      <point x="2005.0" y="535.0" />
+      <point x="1216.75" y="535.0" />
+      <point x="91.75" y="-430.5" />
+    </edge>
+    <edge source="com.uon.uonwams.controllers.UserViewController" target="com.uon.uonwams.models.UserManagement" relationship="CREATE">
+      <point x="129.0" y="-131.5" />
+      <point x="2874.0" y="4095.0" />
+      <point x="2885.0" y="4095.0" />
+      <point x="2885.0" y="2495.0" />
+      <point x="2766.25" y="2495.0" />
+      <point x="101.25" y="-166.0" />
+    </edge>
+    <edge source="com.uon.uonwams.controllers.WorkloadController" target="com.uon.uonwams.models.UserWorkloadAllocation" relationship="CREATE">
+      <point x="-165.0" y="-177.5" />
+      <point x="440.0" y="4135.0" />
+      <point x="-55.0" y="4135.0" />
+      <point x="-55.0" y="2375.0" />
+      <point x="185.0" y="2375.0" />
+      <point x="185.0" y="2355.0" />
+      <point x="341.25" y="2355.0" />
+      <point x="-83.75" y="200.5" />
+    </edge>
+    <edge source="com.uon.uonwams.controllers.ForgotPasswordController" target="com.uon.uonwams.controllers.ControllerInterface" relationship="REALIZATION">
+      <point x="-105.0" y="-154.5" />
+      <point x="2940.0" y="4115.0" />
+      <point x="1625.0" y="4115.0" />
+      <point x="0.0" y="50.5" />
+    </edge>
+    <edge source="com.uon.uonwams.data.UserData" target="com.uon.uonwams.models.DATFile" relationship="CREATE">
+      <point x="-105.25" y="-97.0" />
+      <point x="1619.75" y="1955.0" />
+      <point x="725.0" y="1955.0" />
+      <point x="725.0" y="555.0" />
+      <point x="729.25" y="555.0" />
+      <point x="-55.75" y="120.0" />
+    </edge>
+    <edge source="com.uon.uonwams.controllers.MyWorkloadController" target="com.uon.uonwams.controllers.AppController" relationship="TO_ONE">
+      <point x="-35.0" y="-108.5" />
+      <point x="250.0" y="4055.0" />
+      <point x="465.0" y="4055.0" />
+      <point x="465.0" y="3715.0" />
+      <point x="1625.0" y="3715.0" />
+      <point x="1625.0" y="2995.0" />
+      <point x="1998.25" y="2995.0" />
+      <point x="113.25" y="-292.5" />
+    </edge>
+    <edge source="com.uon.uonwams.models.Workload" target="com.uon.uonwams.models.CSVFile" relationship="CREATE">
+      <point x="-130.0" y="-212.0" />
+      <point x="375.0" y="2455.0" />
+      <point x="105.0" y="2455.0" />
+      <point x="0.0" y="131.5" />
+    </edge>
+    <edge source="com.uon.uonwams.controllers.ActivityFormController" target="com.uon.uonwams.controllers.MenuController" relationship="GENERALIZATION">
+      <point x="-111.66666666666663" y="-212.0" />
+      <point x="1393.3333333333335" y="4155.0" />
+      <point x="1205.0" y="4155.0" />
+      <point x="0.0" y="131.5" />
+    </edge>
+    <edge source="com.uon.uonwams.controllers.UserFormController" target="com.uon.uonwams.controllers.MenuController" relationship="GENERALIZATION">
+      <point x="-108.0" y="-223.5" />
+      <point x="2037.0" y="4155.0" />
+      <point x="1205.0" y="4155.0" />
+      <point x="0.0" y="131.5" />
+    </edge>
+    <edge source="com.uon.uonwams.controllers.ProfileFormController" target="com.uon.uonwams.controllers.MenuController" relationship="GENERALIZATION">
+      <point x="0.0" y="-166.0" />
+      <point x="925.0" y="4155.0" />
+      <point x="1205.0" y="4155.0" />
+      <point x="0.0" y="131.5" />
+    </edge>
+    <edge source="com.uon.uonwams.controllers.ChangePasswordController" target="com.uon.uonwams.controllers.AppController" relationship="TO_ONE">
+      <point x="127.33333333333334" y="-154.5" />
+      <point x="1952.3333333333335" y="3895.0" />
+      <point x="2365.0" y="3895.0" />
+      <point x="2365.0" y="3715.0" />
+      <point x="1625.0" y="3715.0" />
+      <point x="1625.0" y="2995.0" />
+      <point x="1998.25" y="2995.0" />
+      <point x="113.25" y="-292.5" />
+    </edge>
+    <edge source="com.uon.uonwams.controllers.AppController" target="com.uon.uonwams.models.User" relationship="TO_ONE">
+      <point x="113.25" y="-292.5" />
+      <point x="1998.25" y="3035.0" />
+      <point x="2005.0" y="3035.0" />
+      <point x="2005.0" y="2775.0" />
+      <point x="2405.0" y="2775.0" />
+      <point x="2405.0" y="1475.0" />
+      <point x="599.75" y="1475.0" />
+      <point x="94.75" y="315.5" />
+    </edge>
+    <edge source="com.uon.uonwams.controllers.ProfileViewController" target="com.uon.uonwams.models.UserManagement" relationship="CREATE">
+      <point x="106.5" y="-166.0" />
+      <point x="2551.5" y="4095.0" />
+      <point x="2805.0" y="4095.0" />
+      <point x="2805.0" y="3335.0" />
+      <point x="2885.0" y="3335.0" />
+      <point x="2885.0" y="2495.0" />
+      <point x="2766.25" y="2495.0" />
+      <point x="101.25" y="-166.0" />
+    </edge>
+    <edge source="com.uon.uonwams.controllers.AppController" target="com.uon.uonwams.models.UserWorkloadAllocation" relationship="TO_ONE">
+      <point x="113.25" y="-292.5" />
+      <point x="1998.25" y="3035.0" />
+      <point x="2005.0" y="3035.0" />
+      <point x="2005.0" y="2775.0" />
+      <point x="1345.0" y="2775.0" />
+      <point x="1345.0" y="2415.0" />
+      <point x="505.0" y="2415.0" />
+      <point x="505.0" y="2055.0" />
+      <point x="508.75" y="2055.0" />
+      <point x="83.75" y="200.5" />
+    </edge>
+    <edge source="com.uon.uonwams.controllers.ForgotPasswordController" target="com.uon.uonwams.models.UserManagement" relationship="CREATE">
+      <point x="105.0" y="-154.5" />
+      <point x="3150.0" y="4675.0" />
+      <point x="3145.0" y="4675.0" />
+      <point x="3145.0" y="3895.0" />
+      <point x="2845.0" y="3895.0" />
+      <point x="2845.0" y="3335.0" />
+      <point x="2885.0" y="3335.0" />
+      <point x="2885.0" y="2495.0" />
+      <point x="2766.25" y="2495.0" />
+      <point x="101.25" y="-166.0" />
+    </edge>
+    <edge source="com.uon.uonwams.models.Workload" target="com.uon.uonwams.models.UserWorkloadAllocation" relationship="TO_MANY">
+      <point x="130.0" y="-212.0" />
+      <point x="635.0" y="2455.0" />
+      <point x="625.0" y="2455.0" />
+      <point x="625.0" y="2435.0" />
+      <point x="505.0" y="2435.0" />
+      <point x="505.0" y="2055.0" />
+      <point x="508.75" y="2055.0" />
+      <point x="83.75" y="200.5" />
+    </edge>
+    <edge source="com.uon.uonwams.controllers.WorkloadController" target="com.uon.uonwams.controllers.ControllerInterface" relationship="REALIZATION">
+      <point x="165.0" y="-177.5" />
+      <point x="770.0" y="4115.0" />
+      <point x="1625.0" y="4115.0" />
+      <point x="0.0" y="50.5" />
+    </edge>
+    <edge source="com.uon.uonwams.models.User" target="com.uon.uonwams.models.DATFileStructure" relationship="GENERALIZATION">
+      <point x="0.0" y="-315.5" />
+      <point x="505.0" y="275.0" />
+      <point x="705.0" y="275.0" />
+      <point x="705.0" y="155.0" />
+      <point x="699.0" y="155.0" />
+      <point x="-46.0" y="39.0" />
+    </edge>
+    <edge source="com.uon.uonwams.controllers.AppController" target="com.uon.uonwams.models.UserManagement" relationship="TO_ONE">
+      <point x="113.25" y="-292.5" />
+      <point x="1998.25" y="3035.0" />
+      <point x="2005.0" y="3035.0" />
+      <point x="2005.0" y="2775.0" />
+      <point x="2445.0" y="2775.0" />
+      <point x="2445.0" y="2495.0" />
+      <point x="2563.75" y="2495.0" />
+      <point x="-101.25" y="-166.0" />
+    </edge>
+    <edge source="com.uon.uonwams.models.WAMSApplication" target="com.uon.uonwams.data.UserData" relationship="CREATE">
+      <point x="63.0" y="-62.0" />
+      <point x="1608.0" y="2595.0" />
+      <point x="1605.0" y="2595.0" />
+      <point x="1605.0" y="2315.0" />
+      <point x="1965.0" y="2315.0" />
+      <point x="1965.0" y="2035.0" />
+      <point x="1619.75" y="2035.0" />
+      <point x="-105.25" y="-97.0" />
+    </edge>
+    <edge source="com.uon.uonwams.WAMSApplicationConsole" target="com.uon.uonwams.models.Workload" relationship="CREATE">
+      <point x="0.0" y="-62.0" />
+      <point x="245.0" y="3235.0" />
+      <point x="-15.0" y="3235.0" />
+      <point x="-15.0" y="2435.0" />
+      <point x="375.0" y="2435.0" />
+      <point x="-130.0" y="-212.0" />
+    </edge>
+    <edge source="com.uon.uonwams.WAMSApplicationConsole" target="com.uon.uonwams.models.User" relationship="CREATE">
+      <point x="0.0" y="-62.0" />
+      <point x="245.0" y="3255.0" />
+      <point x="-135.0" y="3255.0" />
+      <point x="-135.0" y="1335.0" />
+      <point x="410.25" y="1335.0" />
+      <point x="-94.75" y="315.5" />
+    </edge>
+    <edge source="com.uon.uonwams.controllers.WorkloadController" target="com.uon.uonwams.controllers.MenuController" relationship="GENERALIZATION">
+      <point x="55.0" y="-177.5" />
+      <point x="660.0" y="4155.0" />
+      <point x="1205.0" y="4155.0" />
+      <point x="0.0" y="131.5" />
+    </edge>
+    <edge source="com.uon.uonwams.data.UserData" target="com.uon.uonwams.models.DATFile" relationship="TO_ONE">
+      <point x="105.25" y="-97.0" />
+      <point x="1830.25" y="2075.0" />
+      <point x="1825.0" y="2075.0" />
+      <point x="1825.0" y="1495.0" />
+      <point x="1005.0" y="1495.0" />
+      <point x="1005.0" y="1455.0" />
+      <point x="840.75" y="1455.0" />
+      <point x="55.75" y="120.0" />
+    </edge>
+    <edge source="com.uon.uonwams.controllers.MenuController" target="com.uon.uonwams.controllers.AppController" relationship="TO_ONE">
+      <point x="0.0" y="-131.5" />
+      <point x="1205.0" y="3715.0" />
+      <point x="1625.0" y="3715.0" />
+      <point x="1625.0" y="2995.0" />
+      <point x="1998.25" y="2995.0" />
+      <point x="113.25" y="-292.5" />
+    </edge>
+    <edge source="com.uon.uonwams.controllers.LoginController" target="com.uon.uonwams.controllers.AppController" relationship="TO_ONE">
+      <point x="0.0" y="-154.5" />
+      <point x="25.0" y="3935.0" />
+      <point x="305.0" y="3935.0" />
+      <point x="305.0" y="3715.0" />
+      <point x="1625.0" y="3715.0" />
+      <point x="1625.0" y="2995.0" />
+      <point x="1998.25" y="2995.0" />
+      <point x="113.25" y="-292.5" />
+    </edge>
+    <edge source="com.uon.uonwams.controllers.ActivityViewController" target="com.uon.uonwams.controllers.AppController" relationship="TO_ONE">
+      <point x="-114.66666666666663" y="-143.0" />
+      <point x="1090.3333333333335" y="4035.0" />
+      <point x="425.0" y="4035.0" />
+      <point x="425.0" y="3715.0" />
+      <point x="1625.0" y="3715.0" />
+      <point x="1625.0" y="2995.0" />
+      <point x="1998.25" y="2995.0" />
+      <point x="113.25" y="-292.5" />
+    </edge>
+    <edge source="com.uon.uonwams.models.UserWorkloadAllocation" target="com.uon.uonwams.models.User" relationship="GENERALIZATION">
+      <point x="0.0" y="-200.5" />
+      <point x="425.0" y="1575.0" />
+      <point x="285.0" y="1575.0" />
+      <point x="285.0" y="655.0" />
+      <point x="505.0" y="655.0" />
+      <point x="0.0" y="-315.5" />
+    </edge>
+    <edge source="com.uon.uonwams.controllers.AppController" target="com.uon.uonwams.models.Workload" relationship="TO_ONE">
+      <point x="113.25" y="-292.5" />
+      <point x="1998.25" y="3035.0" />
+      <point x="2005.0" y="3035.0" />
+      <point x="2005.0" y="2775.0" />
+      <point x="1305.0" y="2775.0" />
+      <point x="1305.0" y="2435.0" />
+      <point x="635.0" y="2435.0" />
+      <point x="130.0" y="-212.0" />
+    </edge>
+    <edge source="com.uon.uonwams.WAMSApplicationViewer" target="com.uon.uonwams.controllers.AppController" relationship="CREATE">
+      <point x="0.0" y="-50.5" />
+      <point x="2665.0" y="3015.0" />
+      <point x="1771.75" y="3015.0" />
+      <point x="-113.25" y="-292.5" />
+    </edge>
+    <edge source="com.uon.uonwams.controllers.MyWorkloadController" target="com.uon.uonwams.controllers.ControllerInterface" relationship="REALIZATION">
+      <point x="105.0" y="-108.5" />
+      <point x="390.0" y="4115.0" />
+      <point x="1625.0" y="4115.0" />
+      <point x="0.0" y="50.5" />
+    </edge>
+    <edge source="com.uon.uonwams.models.Workload" target="com.uon.uonwams.data.ActivityData" relationship="TO_ONE">
+      <point x="130.0" y="-212.0" />
+      <point x="635.0" y="2455.0" />
+      <point x="625.0" y="2455.0" />
+      <point x="625.0" y="1975.0" />
+      <point x="1004.75" y="1975.0" />
+      <point x="119.75" y="-154.5" />
+    </edge>
+    <edge source="com.uon.uonwams.controllers.MyWorkloadController" target="com.uon.uonwams.models.Workload" relationship="CREATE">
+      <point x="-105.0" y="-108.5" />
+      <point x="180.0" y="4275.0" />
+      <point x="-95.0" y="4275.0" />
+      <point x="-95.0" y="3895.0" />
+      <point x="-15.0" y="3895.0" />
+      <point x="-15.0" y="2435.0" />
+      <point x="375.0" y="2435.0" />
+      <point x="-130.0" y="-212.0" />
+    </edge>
+    <edge source="com.uon.uonwams.models.UserManagement" target="com.uon.uonwams.models.User" relationship="TO_MANY">
+      <point x="-101.25" y="-166.0" />
+      <point x="2563.75" y="2475.0" />
+      <point x="2565.0" y="2475.0" />
+      <point x="2565.0" y="2095.0" />
+      <point x="2405.0" y="2095.0" />
+      <point x="2405.0" y="1475.0" />
+      <point x="599.75" y="1475.0" />
+      <point x="94.75" y="315.5" />
+    </edge>
+    <edge source="com.uon.uonwams.data.ActivityData" target="com.uon.uonwams.models.Activity" relationship="CREATE">
+      <point x="-119.75" y="-154.5" />
+      <point x="765.25" y="2015.0" />
+      <point x="765.0" y="2015.0" />
+      <point x="765.0" y="1515.0" />
+      <point x="1125.0" y="1515.0" />
+      <point x="0.0" y="430.5" />
+    </edge>
+    <edge source="com.uon.uonwams.controllers.UserViewController" target="com.uon.uonwams.controllers.MenuController" relationship="GENERALIZATION">
+      <point x="-129.0" y="-131.5" />
+      <point x="2616.0" y="4155.0" />
+      <point x="1205.0" y="4155.0" />
+      <point x="0.0" y="131.5" />
+    </edge>
+    <edge source="com.uon.uonwams.controllers.AppController" target="com.uon.uonwams.models.WAMSApplication" relationship="CREATE">
+      <point x="-113.25" y="-292.5" />
+      <point x="1771.75" y="2975.0" />
+      <point x="1265.0" y="2975.0" />
+      <point x="1265.0" y="2715.0" />
+      <point x="1385.0" y="2715.0" />
+      <point x="1385.0" y="2575.0" />
+      <point x="1608.0" y="2575.0" />
+      <point x="63.0" y="-62.0" />
+    </edge>
+    <edge source="com.uon.uonwams.controllers.ActivityFormController" target="com.uon.uonwams.controllers.ControllerInterface" relationship="REALIZATION">
+      <point x="0.0" y="-212.0" />
+      <point x="1505.0" y="4115.0" />
+      <point x="1625.0" y="4115.0" />
+      <point x="0.0" y="50.5" />
+    </edge>
+    <edge source="com.uon.uonwams.data.ActivityData" target="com.uon.uonwams.models.DATFile" relationship="CREATE">
+      <point x="-119.75" y="-154.5" />
+      <point x="765.25" y="2015.0" />
+      <point x="765.0" y="2015.0" />
+      <point x="765.0" y="1535.0" />
+      <point x="725.0" y="1535.0" />
+      <point x="725.0" y="555.0" />
+      <point x="729.25" y="555.0" />
+      <point x="-55.75" y="120.0" />
+    </edge>
+    <edge source="com.uon.uonwams.controllers.ProfileViewController" target="com.uon.uonwams.controllers.AppController" relationship="TO_ONE">
+      <point x="35.5" y="-166.0" />
+      <point x="2480.5" y="4095.0" />
+      <point x="2445.0" y="4095.0" />
+      <point x="2445.0" y="3715.0" />
+      <point x="1625.0" y="3715.0" />
+      <point x="1625.0" y="2995.0" />
+      <point x="1998.25" y="2995.0" />
+      <point x="113.25" y="-292.5" />
+    </edge>
+    <edge source="com.uon.uonwams.controllers.ActivityViewController" target="com.uon.uonwams.controllers.MenuController" relationship="GENERALIZATION">
+      <point x="0.0" y="-143.0" />
+      <point x="0.0" y="131.5" />
+    </edge>
+    <edge source="com.uon.uonwams.WAMSApplicationConsole" target="com.uon.uonwams.models.WAMSApplication" relationship="CREATE">
+      <point x="0.0" y="-62.0" />
+      <point x="245.0" y="2935.0" />
+      <point x="1265.0" y="2935.0" />
+      <point x="1265.0" y="2715.0" />
+      <point x="1385.0" y="2715.0" />
+      <point x="1385.0" y="2575.0" />
+      <point x="1608.0" y="2575.0" />
+      <point x="63.0" y="-62.0" />
+    </edge>
+    <edge source="com.uon.uonwams.controllers.MyWorkloadController" target="com.uon.uonwams.models.UserWorkloadAllocation" relationship="CREATE">
+      <point x="-105.0" y="-108.5" />
+      <point x="180.0" y="4275.0" />
+      <point x="-95.0" y="4275.0" />
+      <point x="-95.0" y="2375.0" />
+      <point x="185.0" y="2375.0" />
+      <point x="185.0" y="2355.0" />
+      <point x="341.25" y="2355.0" />
+      <point x="-83.75" y="200.5" />
+    </edge>
+    <edge source="com.uon.uonwams.controllers.ChangePasswordController" target="com.uon.uonwams.controllers.ControllerInterface" relationship="REALIZATION">
+      <point x="0.0" y="-154.5" />
+      <point x="1825.0" y="4115.0" />
+      <point x="1625.0" y="4115.0" />
+      <point x="0.0" y="50.5" />
+    </edge>
+    <edge source="com.uon.uonwams.models.WAMSApplication" target="com.uon.uonwams.data.ActivityData" relationship="TO_ONE">
+      <point x="-63.0" y="-62.0" />
+      <point x="1482.0" y="2595.0" />
+      <point x="1485.0" y="2595.0" />
+      <point x="1485.0" y="2375.0" />
+      <point x="625.0" y="2375.0" />
+      <point x="625.0" y="1975.0" />
+      <point x="1004.75" y="1975.0" />
+      <point x="119.75" y="-154.5" />
+    </edge>
+    <edge source="com.uon.uonwams.controllers.ForgotPasswordController" target="com.uon.uonwams.controllers.AppController" relationship="TO_ONE">
+      <point x="0.0" y="-154.5" />
+      <point x="3045.0" y="3955.0" />
+      <point x="2525.0" y="3955.0" />
+      <point x="2525.0" y="3715.0" />
+      <point x="1625.0" y="3715.0" />
+      <point x="1625.0" y="2995.0" />
+      <point x="1998.25" y="2995.0" />
+      <point x="113.25" y="-292.5" />
+    </edge>
+    <edge source="com.uon.uonwams.controllers.WorkloadController" target="com.uon.uonwams.controllers.AppController" relationship="TO_ONE">
+      <point x="-55.0" y="-177.5" />
+      <point x="550.0" y="4075.0" />
+      <point x="385.0" y="4075.0" />
+      <point x="385.0" y="3715.0" />
+      <point x="1625.0" y="3715.0" />
+      <point x="1625.0" y="2995.0" />
+      <point x="1998.25" y="2995.0" />
+      <point x="113.25" y="-292.5" />
+    </edge>
+    <edge source="com.uon.uonwams.controllers.UserViewController" target="com.uon.uonwams.controllers.AppController" relationship="TO_ONE">
+      <point x="43.0" y="-131.5" />
+      <point x="2788.0" y="3975.0" />
+      <point x="2485.0" y="3975.0" />
+      <point x="2485.0" y="3715.0" />
+      <point x="1625.0" y="3715.0" />
+      <point x="1625.0" y="2995.0" />
+      <point x="1998.25" y="2995.0" />
+      <point x="113.25" y="-292.5" />
+    </edge>
+    <edge source="com.uon.uonwams.controllers.ProfileFormController" target="com.uon.uonwams.controllers.ControllerInterface" relationship="REALIZATION">
+      <point x="93.33333333333334" y="-166.0" />
+      <point x="1018.3333333333333" y="4115.0" />
+      <point x="1625.0" y="4115.0" />
+      <point x="0.0" y="50.5" />
+    </edge>
+    <edge source="com.uon.uonwams.controllers.LoginController" target="com.uon.uonwams.controllers.ControllerInterface" relationship="REALIZATION">
+      <point x="103.66666666666666" y="-154.5" />
+      <point x="128.66666666666663" y="4115.0" />
+      <point x="1625.0" y="4115.0" />
+      <point x="0.0" y="50.5" />
+    </edge>
+    <edge source="com.uon.uonwams.controllers.UserFormController" target="com.uon.uonwams.controllers.ControllerInterface" relationship="REALIZATION">
+      <point x="0.0" y="-223.5" />
+      <point x="2145.0" y="4115.0" />
+      <point x="1625.0" y="4115.0" />
+      <point x="0.0" y="50.5" />
+    </edge>
+    <edge source="com.uon.uonwams.data.UserData" target="com.uon.uonwams.models.User" relationship="TO_MANY">
+      <point x="105.25" y="-97.0" />
+      <point x="1830.25" y="2075.0" />
+      <point x="1825.0" y="2075.0" />
+      <point x="1825.0" y="2015.0" />
+      <point x="2405.0" y="2015.0" />
+      <point x="2405.0" y="1475.0" />
+      <point x="599.75" y="1475.0" />
+      <point x="94.75" y="315.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Compact" zoom="0.849163271111804" showDependencies="true" x="1221.152428027013" y="209.92064026863375" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Constructors</Category>
+    <Category>Fields</Category>
+    <Category>Methods</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
