@@ -172,6 +172,6 @@ public class UserFormController extends MenuController implements ControllerInte
                 userFormEmailTextField.getText().isEmpty() ||
                 userFormFteRatioTextField.getText().isEmpty() ||
                 userFormSubjectAreaTextField.getText().isEmpty() ||
-                userFormLineManagerCheckBox.isSelected() || userFormLineManagerChoiceBox.getValue() == null;
+                (!userFormLineManagerCheckBox.isSelected() && userFormLineManagerChoiceBox.getValue() == null);
     }
 }
