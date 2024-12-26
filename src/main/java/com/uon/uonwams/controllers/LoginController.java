@@ -38,10 +38,16 @@ public class LoginController implements ControllerInterface {
         boolean isValid = validateFields();
         if (!isValid) return;
 
-        User loginUser = new User().login(Integer.parseInt(loginUserIdTextField.getText()), loginPasswordTextField.getText());
+        int userId = Integer.parseInt(loginUserIdTextField.getText());
+        String password = loginPasswordTextField.getText();
+
+        User loginUser = new User().login(userId, password);
         if (loginUser == null) {
             loginErrorLabel.setText("Incorrect User ID or Password");
             loginErrorLabel.setVisible(true);
+        } else if (loginUser.getIsAdmin()) {
+            appController.setLoginUser(loginUser);
+            appController.loadScene("workload.fxml");
         } else {
             appController.setLoginUser(loginUser);
             appController.loadScene("my-workload.fxml");

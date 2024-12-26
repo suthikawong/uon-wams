@@ -20,6 +20,12 @@ public class Workload {
     public Workload(User loginUser) {
         this.activityData = WAMSApplication.activityData;
         this.userData = WAMSApplication.userData;
+        if (loginUser.getIsAdmin()) {
+            for (User user: userData.getUsers()) {
+                this.userWorkloadAllocation.add(new UserWorkloadAllocation(user));
+            }
+            return;
+        }
         for (User user: userData.getUsers()) {
             if (user.getUserId() == loginUser.getUserId() || (user.getLineManagerUserId() != null && user.getLineManagerUserId() == loginUser.getUserId())) {
                 this.userWorkloadAllocation.add(new UserWorkloadAllocation(user));

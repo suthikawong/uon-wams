@@ -20,6 +20,7 @@ public class User extends DATFileStructure implements Serializable {
     protected double fteRatio;
     protected String subjectArea;
     protected Integer lineManagerUserId = null;
+    protected boolean isAdmin = false;
     private static final BcryptFunction bcrypt = BcryptFunction.getInstance(Bcrypt.B, 12);
 
     public User() {}
@@ -66,7 +67,14 @@ public class User extends DATFileStructure implements Serializable {
         return lineManagerUserId;
     }
 
+    public boolean getIsAdmin() {
+        return isAdmin;
+    }
+
     public List<User> getSubordinate() {
+        if (this.isAdmin) {
+            return new ArrayList<>(WAMSApplication.userData.getUsers());
+        }
         List<User> subordinateList = new ArrayList<>();
         for (User user: WAMSApplication.userData.getUsers()) {
             if (((Integer) this.userId).equals(user.getLineManagerUserId())) {
@@ -86,6 +94,29 @@ public class User extends DATFileStructure implements Serializable {
     }
 
     public User login(int userId, String password) {
+        Dotenv dotenv = Dotenv.load();
+        String enableAdminUser = dotenv.get("ENABLE_ADMIN_USER");
+
+        if (enableAdminUser.equals("true")) {
+            int adminUserId;
+            String adminPassword = dotenv.get("ADMIN_PASSWORD");
+
+            try {
+                adminUserId = Integer.parseInt(dotenv.get("ADMIN_USER_ID"));
+            } catch(Exception e) {
+                System.out.println("Invalid ADMIN_USER_ID");
+                System.exit(0);
+                return null;
+            }
+
+            if (adminUserId == userId && adminPassword.equals(password)) {
+                this.userId = userId;
+                this.name = "Admin";
+                this.isAdmin = true;
+                return this;
+            }
+        }
+
         for (User user: WAMSApplication.userData.getUsers()) {
             if (userId == user.getUserId() & isMatchedPassword(password, user.getPassword())) {
                 this.userId = user.getUserId();

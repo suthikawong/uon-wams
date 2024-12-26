@@ -59,7 +59,7 @@ public class UserViewController extends MenuController implements ControllerInte
         subjectAreaColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getSubjectArea()));
 
         TableColumn<User, String> lineManagerUserIdColumn = new TableColumn<>("Line Manager ID");
-        lineManagerUserIdColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(Integer.toString(data.getValue().getLineManagerUserId())));
+        lineManagerUserIdColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getLineManagerUserId() != null ? Integer.toString(data.getValue().getLineManagerUserId()) : "-"));
 
         TableColumn<User, String> lineManagerNameColumn = new TableColumn<>("Line Manager Name");
         lineManagerNameColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(appController.getLoginUser().getName()));
