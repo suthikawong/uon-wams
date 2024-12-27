@@ -1,6 +1,6 @@
 package com.uon.uonwams.models;
 
-import com.uon.uonwams.config.ActivityType;
+import com.uon.uonwams.configs.ActivityType;
 
 import java.io.Serializable;
 import java.util.LinkedHashMap;

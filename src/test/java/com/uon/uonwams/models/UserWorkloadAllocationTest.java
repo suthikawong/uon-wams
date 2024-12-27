@@ -1,13 +1,12 @@
 package com.uon.uonwams.models;
 
-import com.uon.uonwams.config.ActivityType;
+import com.uon.uonwams.configs.ActivityType;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 
 import static com.uon.uonwams.models.User.hashPassword;

@@ -1,4 +1,4 @@
-package com.uon.uonwams.config;
+package com.uon.uonwams.configs;
 
 public enum ActivityType {
     ATSR("ATSR"),

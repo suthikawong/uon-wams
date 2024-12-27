@@ -1,6 +1,6 @@
 package com.uon.uonwams;
 
-import com.uon.uonwams.config.State;
+import com.uon.uonwams.configs.State;
 import com.uon.uonwams.models.*;
 
 import java.util.HashMap;

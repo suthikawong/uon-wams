@@ -1,11 +1,10 @@
 package com.uon.uonwams.models;
 
-import com.uon.uonwams.config.ActivityType;
+import com.uon.uonwams.configs.ActivityType;
 import org.junit.jupiter.api.*;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
