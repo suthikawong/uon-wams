@@ -1,12 +1,12 @@
 package com.uon.uonwams.models;
 
+import com.uon.uonwams.data.Data;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 
 import static com.uon.uonwams.models.User.hashPassword;
@@ -27,7 +27,7 @@ public class UserTest {
         lineManager = new User(1, "testname", hashPassword("password"), "email", 1, "sucjectarea", null);
         sub = new User(2, "testname", hashPassword("password"), "email", 1, "sucjectarea", 1);
         datFile.insertRecords(List.of(lineManager, sub));
-        new WAMSApplication(pathname, null);
+        new Data(pathname, null);
     }
 
     @AfterAll

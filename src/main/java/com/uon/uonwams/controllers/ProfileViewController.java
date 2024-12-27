@@ -2,7 +2,7 @@ package com.uon.uonwams.controllers;
 
 import com.uon.uonwams.models.User;
 import com.uon.uonwams.models.UserManagement;
-import com.uon.uonwams.models.WAMSApplication;
+import com.uon.uonwams.data.Data;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
@@ -42,7 +42,7 @@ public class ProfileViewController extends MenuController implements ControllerI
 
         User loginUser = appController.getLoginUser();
         User finalLoginUser = loginUser;
-        Optional<User> newLoginUser = WAMSApplication.userData.getUsers().stream().filter(user -> user.getUserId() == finalLoginUser.getUserId()).findFirst();
+        Optional<User> newLoginUser = Data.userData.getUsers().stream().filter(user -> user.getUserId() == finalLoginUser.getUserId()).findFirst();
         if (newLoginUser.isPresent()) {
             loginUser = newLoginUser.get();
             appController.setLoginUser(loginUser);
@@ -52,7 +52,7 @@ public class ProfileViewController extends MenuController implements ControllerI
         profileViewEmailLabel.setText(loginUser.getEmail());
         profileViewFteRatioLabel.setText(Double.toString(loginUser.getFteRatio()));
         profileViewSubjectAreaLabel.setText(loginUser.getSubjectArea());
-        Optional<User> lineManagerUser = WAMSApplication.userData.getUsers().stream().filter(user -> ((Integer) user.getUserId()).equals(finalLoginUser.getLineManagerUserId())).findFirst();
+        Optional<User> lineManagerUser = Data.userData.getUsers().stream().filter(user -> ((Integer) user.getUserId()).equals(finalLoginUser.getLineManagerUserId())).findFirst();
         profileViewLineManagerLabel.setText(lineManagerUser.isPresent() ? lineManagerUser.get().getName() : "-");
     }
 

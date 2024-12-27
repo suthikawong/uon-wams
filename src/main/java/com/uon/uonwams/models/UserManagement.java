@@ -1,5 +1,6 @@
 package com.uon.uonwams.models;
 
+import com.uon.uonwams.data.Data;
 import dnl.utils.text.table.TextTable;
 
 import java.util.*;
@@ -29,7 +30,7 @@ public class UserManagement {
         try {
             Optional<User> lineManagerUser;
             if (lineManagerUserId != null) {
-                lineManagerUser = WAMSApplication.userData.getUsers().stream().filter(user -> user.getUserId() == lineManagerUserId).findFirst();
+                lineManagerUser = Data.userData.getUsers().stream().filter(user -> user.getUserId() == lineManagerUserId).findFirst();
                 if (lineManagerUser.isEmpty()) {
                     System.out.println("Selected line manager is not exist");
                     return;
@@ -38,7 +39,7 @@ public class UserManagement {
                 lineManagerUser = null;
             }
             String generatedPassword = getRandomPassword();
-            WAMSApplication.userData.insertUser(userId, name, hashPassword(generatedPassword), email, fteRatio, subjectArea, lineManagerUser == null ? null : lineManagerUser.get().getUserId());
+            Data.userData.insertUser(userId, name, hashPassword(generatedPassword), email, fteRatio, subjectArea, lineManagerUser == null ? null : lineManagerUser.get().getUserId());
             EmailUtil emailUtil = new EmailUtil();
             emailUtil.sendEmail(email,"Temporary password email", "Your temporary password is \"" + generatedPassword + "\" ");
         } catch (Exception e) {
@@ -51,14 +52,14 @@ public class UserManagement {
         try {
             Optional<User> lineManagerUser;
 
-            Optional<User> updatedUser = WAMSApplication.userData.getUsers().stream().filter(user -> user.getUserId() == userId).findFirst();
+            Optional<User> updatedUser = Data.userData.getUsers().stream().filter(user -> user.getUserId() == userId).findFirst();
             if (updatedUser.isEmpty()) {
                 System.out.println("Selected user is not exist");
                 return;
             }
 
             if (lineManagerUserId != null) {
-                lineManagerUser = WAMSApplication.userData.getUsers().stream().filter(user -> user.getUserId() == lineManagerUserId).findFirst();
+                lineManagerUser = Data.userData.getUsers().stream().filter(user -> user.getUserId() == lineManagerUserId).findFirst();
                 if (lineManagerUser.isEmpty()) {
                     System.out.println("Selected line manager is not exist");
                     return;
@@ -67,7 +68,7 @@ public class UserManagement {
                 lineManagerUser = null;
             }
 
-            WAMSApplication.userData.updateUser(userId, name, updatedUser.get().getPassword(), email, fteRatio, subjectArea, lineManagerUser == null ? null : lineManagerUser.get().getUserId());
+            Data.userData.updateUser(userId, name, updatedUser.get().getPassword(), email, fteRatio, subjectArea, lineManagerUser == null ? null : lineManagerUser.get().getUserId());
         } catch (Exception e) {
             System.out.println("Cannot update user: " + e.getMessage());
         }
@@ -75,19 +76,19 @@ public class UserManagement {
 
     public void deleteUser(int userId) {
         try {
-            WAMSApplication.userData.deleteUser(userId);
+            Data.userData.deleteUser(userId);
         } catch (Exception e) {
             System.out.println("Cannot delete user: " + e.getMessage());
         }
     }
 
     public void changePassword(String password) throws Exception {
-        WAMSApplication.userData.updateUser(loginUser.getUserId(), loginUser.getName(), hashPassword(password), loginUser.getEmail(), loginUser.getFteRatio(), loginUser.getSubjectArea(), loginUser.getLineManagerUserId());
+        Data.userData.updateUser(loginUser.getUserId(), loginUser.getName(), hashPassword(password), loginUser.getEmail(), loginUser.getFteRatio(), loginUser.getSubjectArea(), loginUser.getLineManagerUserId());
     }
 
     public String resetPassword(User user) throws Exception {
         String password = getRandomPassword();
-        WAMSApplication.userData.updateUser(user.getUserId(), user.getName(), hashPassword(password), user.getEmail(), user.getFteRatio(), user.getSubjectArea(), user.getLineManagerUserId());
+        Data.userData.updateUser(user.getUserId(), user.getName(), hashPassword(password), user.getEmail(), user.getFteRatio(), user.getSubjectArea(), user.getLineManagerUserId());
         return password;
     }
 

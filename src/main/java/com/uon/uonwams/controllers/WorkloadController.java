@@ -1,5 +1,6 @@
 package com.uon.uonwams.controllers;
 
+import com.uon.uonwams.data.Data;
 import com.uon.uonwams.models.*;
 import io.github.cdimascio.dotenv.Dotenv;
 import javafx.collections.FXCollections;
@@ -37,7 +38,7 @@ public class WorkloadController extends MenuController implements ControllerInte
 
         List<String> options = new ArrayList<>();
         options.add("All");
-        for (User user: WAMSApplication.userData.getUsers()) {
+        for (User user: Data.userData.getUsers()) {
             if (!options.contains(user.getSubjectArea())) {
                 options.add(user.getSubjectArea());
             }

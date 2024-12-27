@@ -2,7 +2,7 @@ package com.uon.uonwams.controllers;
 
 import com.uon.uonwams.models.User;
 import com.uon.uonwams.models.UserManagement;
-import com.uon.uonwams.models.WAMSApplication;
+import com.uon.uonwams.data.Data;
 import com.uon.uonwams.models.EmailUtil;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -106,7 +106,7 @@ public class ForgotPasswordController implements ControllerInterface {
             forgotPasswordUserIdErrorLabel.setVisible(true);
             return false;
         }
-        for (User user: WAMSApplication.userData.getUsers()) {
+        for (User user: Data.userData.getUsers()) {
             if (user.getUserId() == userId) {
                 this.user = user;
                 return true;

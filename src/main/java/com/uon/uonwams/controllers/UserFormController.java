@@ -1,7 +1,7 @@
 package com.uon.uonwams.controllers;
 
 import com.uon.uonwams.models.User;
-import com.uon.uonwams.models.WAMSApplication;
+import com.uon.uonwams.data.Data;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
@@ -52,7 +52,7 @@ public class UserFormController extends MenuController implements ControllerInte
         userFormErrorLabel.setVisible(false);
         this.isEdit = appController.getSelectedUser() != null;
         List<User> options = new ArrayList<>();
-        for (User user: WAMSApplication.userData.getUsers()) {
+        for (User user: Data.userData.getUsers()) {
             if (appController.getSelectedUser() != null && user.getUserId() == appController.getSelectedUser().getUserId()) continue;
             options.add(user);
         }
@@ -148,7 +148,7 @@ public class UserFormController extends MenuController implements ControllerInte
             return false;
         }
         if (!this.isEdit) {
-            for (User user: WAMSApplication.userData.getUsers()) {
+            for (User user: Data.userData.getUsers()) {
                 if (user.getUserId() == userId) {
                     userFormErrorLabel.setText("This User ID already exists");
                     userFormErrorLabel.setVisible(true);

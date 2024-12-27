@@ -1,10 +1,10 @@
 package com.uon.uonwams.models;
 
+import com.uon.uonwams.data.Data;
 import org.junit.jupiter.api.*;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,7 +31,7 @@ class UserManagementTest {
         sub = new User(2, "testname", hashPassword("password"), "email", 1, "sucjectarea", 1);
         datFile.insertRecords(List.of(lineManager, sub));
 
-        new WAMSApplication(pathname, null);
+        new Data(pathname, null);
         um = new UserManagement(lineManager);
     }
 
@@ -75,9 +75,9 @@ class UserManagementTest {
                 lineManagerUserId
         );
 
-        new WAMSApplication(pathname, null);
-        assertEquals(3, WAMSApplication.userData.getUsers().size());
-        User user = WAMSApplication.userData.getUsers().get(2);
+        new Data(pathname, null);
+        assertEquals(3, Data.userData.getUsers().size());
+        User user = Data.userData.getUsers().get(2);
         assertEquals(userId, user.userId);
         assertEquals(name, user.name);
         assertEquals(email, user.email);
@@ -105,9 +105,9 @@ class UserManagementTest {
                 lineManagerUserId
         );
 
-        new WAMSApplication(pathname, null);
-        assertEquals(3, WAMSApplication.userData.getUsers().size());
-        User user = WAMSApplication.userData.getUsers().get(2);
+        new Data(pathname, null);
+        assertEquals(3, Data.userData.getUsers().size());
+        User user = Data.userData.getUsers().get(2);
         assertEquals(userId, user.userId);
         assertEquals(name, user.name);
         assertEquals(email, user.email);
@@ -120,7 +120,7 @@ class UserManagementTest {
     @Order(5)
     void testDeleteUser() throws Exception {
         um.deleteUser(3);
-        new WAMSApplication(pathname, null);
-        assertEquals(2, WAMSApplication.userData.getUsers().size());
+        new Data(pathname, null);
+        assertEquals(2, Data.userData.getUsers().size());
     }
 }

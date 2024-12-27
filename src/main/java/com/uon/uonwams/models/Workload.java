@@ -3,6 +3,7 @@ package com.uon.uonwams.models;
 import com.uon.uonwams.configs.ActivityType;
 import com.uon.uonwams.data.ActivityData;
 import com.uon.uonwams.data.UserData;
+import com.uon.uonwams.data.Data;
 import dnl.utils.text.table.TextTable;
 import org.apache.commons.beanutils.ConversionException;
 
@@ -18,8 +19,8 @@ public class Workload {
     }
 
     public Workload(User loginUser) {
-        this.activityData = WAMSApplication.activityData;
-        this.userData = WAMSApplication.userData;
+        this.activityData = Data.activityData;
+        this.userData = Data.userData;
         if (loginUser.getIsAdmin()) {
             for (User user: userData.getUsers()) {
                 this.userWorkloadAllocation.add(new UserWorkloadAllocation(user));
@@ -55,7 +56,7 @@ public class Workload {
 
     public void addActivity(String activityName, String type, String description, int responsibleUserId, String year, int duration, int noOfInstances) {
         ActivityType activityType = convertStringToActivityType(type);
-        Optional<User> responsibleUser = WAMSApplication.userData.getUsers().stream().filter(user -> user.getUserId() == responsibleUserId).findFirst();
+        Optional<User> responsibleUser = Data.userData.getUsers().stream().filter(user -> user.getUserId() == responsibleUserId).findFirst();
         if (responsibleUser.isEmpty()) {
             System.out.println("Selected responsible user not exist");
             return;
@@ -65,7 +66,7 @@ public class Workload {
 
     public void updateActivity(int activityId, String activityName, String type, String description, int responsibleUserId, String year, int duration, int noOfInstances) {
         ActivityType activityType = convertStringToActivityType(type);
-        Optional<User> responsibleUser = WAMSApplication.userData.getUsers().stream().filter(user -> user.getUserId() == responsibleUserId).findFirst();
+        Optional<User> responsibleUser = Data.userData.getUsers().stream().filter(user -> user.getUserId() == responsibleUserId).findFirst();
         if (responsibleUser.isEmpty()) {
             System.out.println("Selected responsible user not exist");
             return;

@@ -4,6 +4,7 @@ import com.password4j.BcryptFunction;
 import com.password4j.Hash;
 import com.password4j.Password;
 import com.password4j.types.Bcrypt;
+import com.uon.uonwams.data.Data;
 import io.github.cdimascio.dotenv.Dotenv;
 
 import java.io.Serializable;
@@ -73,10 +74,10 @@ public class User extends DATFileStructure implements Serializable {
 
     public List<User> getSubordinate() {
         if (this.isAdmin) {
-            return new ArrayList<>(WAMSApplication.userData.getUsers());
+            return new ArrayList<>(Data.userData.getUsers());
         }
         List<User> subordinateList = new ArrayList<>();
-        for (User user: WAMSApplication.userData.getUsers()) {
+        for (User user: Data.userData.getUsers()) {
             if (((Integer) this.userId).equals(user.getLineManagerUserId())) {
                 subordinateList.add(user);
             }
@@ -85,7 +86,7 @@ public class User extends DATFileStructure implements Serializable {
     }
 
     public boolean checkIsLineManager() {
-        for (User user: WAMSApplication.userData.getUsers()) {
+        for (User user: Data.userData.getUsers()) {
             if (((Integer) this.userId).equals(user.getLineManagerUserId())) {
                 return true;
             }
@@ -117,7 +118,7 @@ public class User extends DATFileStructure implements Serializable {
             }
         }
 
-        for (User user: WAMSApplication.userData.getUsers()) {
+        for (User user: Data.userData.getUsers()) {
             if (userId == user.getUserId() & isMatchedPassword(password, user.getPassword())) {
                 this.userId = user.getUserId();
                 this.name = user.getName();

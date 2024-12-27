@@ -1,6 +1,7 @@
 package com.uon.uonwams.models;
 
 import com.uon.uonwams.configs.ActivityType;
+import com.uon.uonwams.data.Data;
 import org.junit.jupiter.api.*;
 
 import java.io.File;
@@ -42,7 +43,7 @@ class WorkloadTest {
         subActivity = new Activity(1, "activityname", ActivityType.ATSR, "test", sub.userId, sub.name, "All Year", 2, 80);
         activityDatFile.insertRecord(subActivity);
 
-        new WAMSApplication(userPathname, activityPathname);
+        new Data(userPathname, activityPathname);
         workload = new Workload(lineManager);
     }
 
@@ -92,9 +93,9 @@ class WorkloadTest {
                 noOfInstances
         );
 
-        new WAMSApplication(userPathname, activityPathname);
-        assertEquals(2, WAMSApplication.activityData.getActivities().size());
-        Activity activity = WAMSApplication.activityData.getActivities().get(1);
+        new Data(userPathname, activityPathname);
+        assertEquals(2, Data.activityData.getActivities().size());
+        Activity activity = Data.activityData.getActivities().get(1);
         assertEquals(activityName, activity.getActivityName());
         assertEquals(activityType, activity.getActivityType());
         assertEquals(description, activity.getDescription());
@@ -126,9 +127,9 @@ class WorkloadTest {
                 noOfInstances
         );
 
-        new WAMSApplication(userPathname, activityPathname);
-        assertEquals(2, WAMSApplication.activityData.getActivities().size());
-        Activity activity = WAMSApplication.activityData.getActivities().get(1);
+        new Data(userPathname, activityPathname);
+        assertEquals(2, Data.activityData.getActivities().size());
+        Activity activity = Data.activityData.getActivities().get(1);
         assertEquals(activityName, activity.getActivityName());
         assertEquals(activityType, activity.getActivityType());
         assertEquals(description, activity.getDescription());
@@ -142,7 +143,7 @@ class WorkloadTest {
     @Order(5)
     void testDeleteActivity() throws Exception {
         workload.deleteActivity(2);
-        new WAMSApplication(userPathname, activityPathname);
-        assertEquals(1, WAMSApplication.activityData.getActivities().size());
+        new Data(userPathname, activityPathname);
+        assertEquals(1, Data.activityData.getActivities().size());
     }
 }

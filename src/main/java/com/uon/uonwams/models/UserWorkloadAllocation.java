@@ -1,5 +1,7 @@
 package com.uon.uonwams.models;
 
+import com.uon.uonwams.data.Data;
+
 import java.util.List;
 
 public class UserWorkloadAllocation extends User {
@@ -18,7 +20,7 @@ public class UserWorkloadAllocation extends User {
     }
 
     private void calculateWorkloadAllocation() {
-        List<Activity> activities = WAMSApplication.activityData.getActivities();
+        List<Activity> activities = Data.activityData.getActivities();
         int scale = (int) Math.pow(10, 1);
         int sumATSR = 0;
         int sumTS = 0;

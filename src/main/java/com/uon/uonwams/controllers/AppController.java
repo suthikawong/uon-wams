@@ -1,6 +1,7 @@
 package com.uon.uonwams.controllers;
 
 import com.uon.uonwams.WAMSApplicationViewer;
+import com.uon.uonwams.data.Data;
 import com.uon.uonwams.models.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -29,7 +30,7 @@ public class AppController {
     private User selectedUser = null;
 
     public AppController(Stage stage) throws Exception {
-        new WAMSApplication();
+        new Data();
         this.stage = stage;
         stage.setTitle("Workload Allocation System");
         stage.setResizable(false);

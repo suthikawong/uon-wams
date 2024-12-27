@@ -1,6 +1,7 @@
 package com.uon.uonwams;
 
 import com.uon.uonwams.configs.State;
+import com.uon.uonwams.data.Data;
 import com.uon.uonwams.models.*;
 
 import java.util.HashMap;
@@ -13,9 +14,9 @@ public class WAMSApplicationConsole {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         State state;
-        WAMSApplication app;
+        Data app;
         try {
-            app = new WAMSApplication();
+            app = new Data();
             state = State.LOGIN;
         } catch (Exception e) {
             System.out.println(e.getMessage());
