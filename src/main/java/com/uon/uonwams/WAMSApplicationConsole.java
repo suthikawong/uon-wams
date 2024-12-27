@@ -14,9 +14,8 @@ public class WAMSApplicationConsole {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         State state;
-        Data app;
         try {
-            app = new Data();
+            new Data();
             state = State.LOGIN;
         } catch (Exception e) {
             System.out.println(e.getMessage());
