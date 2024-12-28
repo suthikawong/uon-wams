@@ -1,6 +1,7 @@
 package com.uon.uonwams.controllers;
 
 import com.uon.uonwams.data.Data;
+import com.uon.uonwams.models.Activity;
 import com.uon.uonwams.models.User;
 import com.uon.uonwams.models.UserManagement;
 import javafx.collections.FXCollections;
@@ -110,6 +111,38 @@ public class UserViewController extends MenuController implements ControllerInte
     }
 
     private static <T> void handleClickDeleteButton(T data, AppController appController) throws IOException {
+        if (User.class.isInstance(data)) {
+            User user = User.class.cast(data);
+            boolean isUsed = checkUserIsUsed(user);
+            if (isUsed) {
+                denyDeleteDialog(appController);
+            } else {
+                confirmDeleteDialog(user, appController);
+            }
+        }
+    }
+
+    private static void denyDeleteDialog(AppController appController) {
+        Stage popupStage = new Stage();
+        popupStage.initModality(Modality.APPLICATION_MODAL); // block interaction with the main window
+        popupStage.initOwner(appController.getStage());
+
+        Label message = new Label("This user have been used. Delete is not allowed.");
+        Button cancelButton = new Button("Close");
+
+        cancelButton.setOnAction(e -> popupStage.close());
+
+        HBox buttonLayout = new HBox(10, cancelButton);
+        buttonLayout.setStyle("-fx-padding: 10; -fx-alignment: center; -fx-spacing: 10;");
+        VBox popupLayout = new VBox(20, message, buttonLayout);
+        popupLayout.setStyle("-fx-padding: 10; -fx-alignment: center; -fx-spacing: 10;");
+        Scene popupScene = new Scene(popupLayout, 300, 150);
+        popupStage.setTitle("Confirm Delete");
+        popupStage.setScene(popupScene);
+        popupStage.showAndWait();
+    }
+
+    private static void confirmDeleteDialog(User user, AppController appController) {
         Stage popupStage = new Stage();
         popupStage.initModality(Modality.APPLICATION_MODAL); // block interaction with the main window
         popupStage.initOwner(appController.getStage());
@@ -120,7 +153,7 @@ public class UserViewController extends MenuController implements ControllerInte
 
         cancelButton.setOnAction(e -> popupStage.close());
         deleteButton.setOnAction(e -> {
-            deleteUser(data, appController);
+            appController.getUserManagement().deleteUser(user.getUserId());
             popupStage.close();
             // reload users
             try {
@@ -140,11 +173,25 @@ public class UserViewController extends MenuController implements ControllerInte
         popupStage.showAndWait();
     }
 
-    private static <T> void deleteUser(T data, AppController appController) {
-        if (User.class.isInstance(data)) {
-            User user = User.class.cast(data);
-            appController.getUserManagement().deleteUser(user.getUserId());
+    private static boolean checkUserIsUsed(User user) {
+        // check is user has activities
+        for (Activity activity: Data.activityData.getActivities()) {
+            if (activity.getResponsibleUserId() == user.getUserId()) {
+                return true;
+            }
         }
+        // check is user a line manager
+        if (user.checkIsLineManager()) {
+            return true;
+        }
+        return false;
     }
+
+//    private static <T> void deleteUser(T data, AppController appController) {
+//        if (User.class.isInstance(data)) {
+//            User user = User.class.cast(data);
+//            appController.getUserManagement().deleteUser(user.getUserId());
+//        }
+//    }
 
 }
