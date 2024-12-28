@@ -53,7 +53,7 @@ public class UserFormController extends MenuController implements ControllerInte
         this.isEdit = appController.getSelectedUser() != null;
         List<User> options = new ArrayList<>();
         for (User user: Data.userData.getUsers()) {
-            if (appController.getSelectedUser() != null && user.getUserId() == appController.getSelectedUser().getUserId()) continue;
+            if (!appController.getLoginUser().getIsAdmin() && appController.getSelectedUser() != null && user.getUserId() == appController.getSelectedUser().getUserId()) continue;
             options.add(user);
         }
         userFormLineManagerChoiceBox.getItems().addAll(options);

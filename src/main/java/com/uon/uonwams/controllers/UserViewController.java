@@ -1,5 +1,6 @@
 package com.uon.uonwams.controllers;
 
+import com.uon.uonwams.data.Data;
 import com.uon.uonwams.models.User;
 import com.uon.uonwams.models.UserManagement;
 import javafx.collections.FXCollections;
@@ -62,7 +63,19 @@ public class UserViewController extends MenuController implements ControllerInte
         lineManagerUserIdColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getLineManagerUserId() == null ? "-" : Integer.toString(data.getValue().getLineManagerUserId())));
 
         TableColumn<User, String> lineManagerNameColumn = new TableColumn<>("Line Manager Name");
-        lineManagerNameColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getLineManagerUserId() == null ? "-" : appController.getUserManagement().getUserById(data.getValue().getLineManagerUserId()).get().getName()));
+        lineManagerNameColumn.setCellValueFactory(data -> {
+            if (data.getValue().getLineManagerUserId() == null) {
+                return new javafx.beans.property.SimpleStringProperty("-");
+            } else {
+                User lineManager = null;
+                for (User user: Data.userData.getUsers()) {
+                    if (user.getUserId() == data.getValue().getLineManagerUserId()) {
+                        lineManager = user;
+                    }
+                }
+                return lineManager == null ? new javafx.beans.property.SimpleStringProperty("-") : new javafx.beans.property.SimpleStringProperty(lineManager.getName());
+            }
+        });
 
         TableColumn<User, String> actionColumn = new TableColumn<>("Action");
         actionColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty("dummy"));
