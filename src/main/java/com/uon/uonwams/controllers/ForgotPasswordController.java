@@ -17,6 +17,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+import static com.uon.uonwams.models.User.resetPassword;
+
 public class ForgotPasswordController implements ControllerInterface {
     private AppController appController;
     private User user = null;
@@ -46,8 +48,7 @@ public class ForgotPasswordController implements ControllerInterface {
 
         String password;
         try {
-            UserManagement um = new UserManagement(user);
-            password = um.resetPassword(user);
+            password = resetPassword(user);
         } catch (Exception e) {
             forgotPasswordUserIdErrorLabel.setText("Cannot reset password. Please try again.");
             forgotPasswordUserIdErrorLabel.setVisible(true);

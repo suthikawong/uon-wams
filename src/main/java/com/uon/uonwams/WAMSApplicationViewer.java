@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public class WAMSApplicationViewer extends Application {
     @Override
-    public void start(Stage stage) throws IOException {
+    public void start(Stage stage) {
         try {
             new AppController(stage);
         } catch (Exception e) {

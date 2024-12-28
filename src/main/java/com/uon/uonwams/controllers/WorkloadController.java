@@ -119,24 +119,12 @@ public class WorkloadController extends MenuController implements ControllerInte
         String staffName = null;
         Integer staffId = null;
         String subjectArea = workloadSubjectAreaSearchChoiceBox.getValue() == null ? null : workloadSubjectAreaSearchChoiceBox.getValue().toString();
-        List<UserWorkloadAllocation> list = appController.getWorkload().getUserWorkloadAllocation();
         try {
             staffId = Integer.parseInt(workloadStaffSearchTextField.getText().trim());
         } catch (Exception e) {
             staffName = workloadStaffSearchTextField.getText().trim();
         }
-
-        if (subjectArea != null && !subjectArea.equals("All")) {
-            list = list.stream().filter(user -> user.getSubjectArea().equals(subjectArea)).toList();
-        }
-
-        if (staffId != null) {
-            Integer finalStaffId = staffId;
-            list = list.stream().filter(user -> user.getUserId() == finalStaffId).toList();
-        } else if (staffName != null && !staffName.isBlank()) {
-            String finalStaffName = staffName;
-            list = list.stream().filter(user -> user.getName().toLowerCase().contains(finalStaffName)).toList();
-        }
+        List<UserWorkloadAllocation> list = appController.getWorkload().searchWorkloadAllocationUser(staffId, staffName, subjectArea);
         createUserWorkloadTable(list);
     }
 

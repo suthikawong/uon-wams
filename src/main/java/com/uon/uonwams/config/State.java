@@ -1,4 +1,4 @@
-package com.uon.uonwams.configs;
+package com.uon.uonwams.config;
 
 public enum State {
     LOGIN,

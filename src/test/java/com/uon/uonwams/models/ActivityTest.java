@@ -1,6 +1,6 @@
 package com.uon.uonwams.models;
 
-import com.uon.uonwams.configs.ActivityType;
+import com.uon.uonwams.config.ActivityType;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Random;
 
 public class User extends DATFileStructure implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -131,6 +132,23 @@ public class User extends DATFileStructure implements Serializable {
             }
         }
         return null;
+    }
+
+    public void changePassword(String password) throws Exception {
+        Data.userData.updateUser(userId, name, hashPassword(password), email, fteRatio, subjectArea, lineManagerUserId);
+    }
+
+    public static String resetPassword(User user) throws Exception {
+        String password = getRandomPassword();
+        Data.userData.updateUser(user.getUserId(), user.getName(), hashPassword(password), user.getEmail(), user.getFteRatio(), user.getSubjectArea(), user.getLineManagerUserId());
+        return password;
+    }
+
+    public static String getRandomPassword() {
+        // https://stackoverflow.com/questions/51322750/generate-6-digit-random-number
+        Random rnd = new Random();
+        int number = rnd.nextInt(999999);
+        return String.format("%06d", number);
     }
 
     public static String hashPassword(String password) {

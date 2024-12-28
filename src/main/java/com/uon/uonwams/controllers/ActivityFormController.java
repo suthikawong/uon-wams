@@ -1,6 +1,6 @@
 package com.uon.uonwams.controllers;
 
-import com.uon.uonwams.configs.ActivityType;
+import com.uon.uonwams.config.ActivityType;
 import com.uon.uonwams.models.Activity;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;

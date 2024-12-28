@@ -1,6 +1,6 @@
 package com.uon.uonwams.data;
 
-import com.uon.uonwams.configs.ActivityType;
+import com.uon.uonwams.config.ActivityType;
 import com.uon.uonwams.models.Activity;
 import com.uon.uonwams.models.DATFile;
 

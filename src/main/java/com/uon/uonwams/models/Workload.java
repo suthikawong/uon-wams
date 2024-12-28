@@ -1,6 +1,6 @@
 package com.uon.uonwams.models;
 
-import com.uon.uonwams.configs.ActivityType;
+import com.uon.uonwams.config.ActivityType;
 import com.uon.uonwams.data.ActivityData;
 import com.uon.uonwams.data.UserData;
 import com.uon.uonwams.data.Data;
@@ -92,6 +92,19 @@ public class Workload {
             record.put("responsibleUser", responsibleUser.get().getName());
         }
         activityData.insertActivities(importedData);
+    }
+
+    public List<UserWorkloadAllocation> searchWorkloadAllocationUser(Integer staffId, String staffName, String subjectArea) {
+        List<UserWorkloadAllocation> list = this.getUserWorkloadAllocation();
+        if (subjectArea != null && !subjectArea.equals("All")) {
+            list = list.stream().filter(user -> user.getSubjectArea().equals(subjectArea)).toList();
+        }
+        if (staffId != null) {
+            list = list.stream().filter(user -> user.getUserId() == staffId).toList();
+        } else if (staffName != null && !staffName.isBlank()) {
+            list = list.stream().filter(user -> user.getName().toLowerCase().contains(staffName)).toList();
+        }
+        return list;
     }
 
     private ActivityType convertStringToActivityType(String activityType) {

@@ -1,6 +1,6 @@
 package com.uon.uonwams.models;
 
-import com.uon.uonwams.configs.ActivityType;
+import com.uon.uonwams.config.ActivityType;
 import com.uon.uonwams.data.Data;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;

@@ -5,6 +5,7 @@ import dnl.utils.text.table.TextTable;
 
 import java.util.*;
 
+import static com.uon.uonwams.models.User.getRandomPassword;
 import static com.uon.uonwams.models.User.hashPassword;
 
 public class UserManagement {
@@ -80,23 +81,6 @@ public class UserManagement {
         } catch (Exception e) {
             System.out.println("Cannot delete user: " + e.getMessage());
         }
-    }
-
-    public void changePassword(String password) throws Exception {
-        Data.userData.updateUser(loginUser.getUserId(), loginUser.getName(), hashPassword(password), loginUser.getEmail(), loginUser.getFteRatio(), loginUser.getSubjectArea(), loginUser.getLineManagerUserId());
-    }
-
-    public String resetPassword(User user) throws Exception {
-        String password = getRandomPassword();
-        Data.userData.updateUser(user.getUserId(), user.getName(), hashPassword(password), user.getEmail(), user.getFteRatio(), user.getSubjectArea(), user.getLineManagerUserId());
-        return password;
-    }
-
-    public static String getRandomPassword() {
-        // https://stackoverflow.com/questions/51322750/generate-6-digit-random-number
-        Random rnd = new Random();
-        int number = rnd.nextInt(999999);
-        return String.format("%06d", number);
     }
 
     public void logUsers() {

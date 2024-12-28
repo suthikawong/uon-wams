@@ -41,7 +41,7 @@ public class ChangePasswordController extends MenuController implements Controll
         if (!isValid) return;
 
         try {
-            appController.getUserManagement().changePassword(changePasswordNewPasswordTextField.getText());
+            appController.getLoginUser().changePassword(changePasswordNewPasswordTextField.getText());
             appController.loadScene("profile-view.fxml");
         } catch (Exception e) {
             changePasswordErrorLabel.setText("Cannot updated password, please try again");
