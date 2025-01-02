@@ -106,16 +106,20 @@ public class WAMSApplicationConsole {
 
                     HashMap<String, Object> values = scanUserValues(scanner);
 
-                    // add user
-                    um.addUser(
-                            userId,
-                            (String) values.get("name"),
-                            (String) values.get("email"),
-                            (double) values.get("fteRatio"),
-                            (String) values.get("subjectArea"),
-                            (Integer) values.get("lineManagerUserId")
-                    );
-                    System.out.println("Successfully added user");
+                    try {
+                        // add user
+                        um.addUser(
+                                userId,
+                                (String) values.get("name"),
+                                (String) values.get("email"),
+                                (double) values.get("fteRatio"),
+                                (String) values.get("subjectArea"),
+                                (Integer) values.get("lineManagerUserId")
+                        );
+                        System.out.println("Successfully added user");
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
 
                     // control flow
                     state = State.VIEW_USERS;

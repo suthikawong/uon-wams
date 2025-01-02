@@ -27,26 +27,26 @@ public class UserManagement {
                 .findFirst();
     }
 
-    public void addUser(int userId, String name, String email, double fteRatio, String subjectArea, Integer lineManagerUserId) {
-        try {
-            Optional<User> lineManagerUser;
-            if (lineManagerUserId != null) {
-                lineManagerUser = Data.userData.getUsers().stream().filter(user -> user.getUserId() == lineManagerUserId).findFirst();
-                if (lineManagerUser.isEmpty()) {
-                    System.out.println("Selected line manager is not exist");
-                    return;
-                }
-            } else {
-                lineManagerUser = null;
+    public void addUser(int userId, String name, String email, double fteRatio, String subjectArea, Integer lineManagerUserId) throws Exception {
+        Optional<User> lineManagerUser;
+        if (lineManagerUserId != null) {
+            lineManagerUser = Data.userData.getUsers().stream().filter(user -> user.getUserId() == lineManagerUserId).findFirst();
+            if (lineManagerUser.isEmpty()) {
+                System.out.println("Selected line manager is not exist");
+                return;
             }
-            String generatedPassword = getRandomPassword();
-            Data.userData.insertUser(userId, name, hashPassword(generatedPassword), email, fteRatio, subjectArea, lineManagerUser == null ? null : lineManagerUser.get().getUserId());
+        } else {
+            lineManagerUser = null;
+        }
+        String generatedPassword = getRandomPassword();
+
+        try {
             EmailUtil emailUtil = new EmailUtil();
             emailUtil.sendEmail(email,"Temporary password email", "Your temporary password is \"" + generatedPassword + "\" ");
         } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Cannot add user: " + e.getMessage());
+            throw new Exception("Email is invalid.");
         }
+        Data.userData.insertUser(userId, name, hashPassword(generatedPassword), email, fteRatio, subjectArea, lineManagerUser == null ? null : lineManagerUser.get().getUserId());
     }
 
     public void updateUser(int userId, String name, String email, double fteRatio, String subjectArea, Integer lineManagerUserId) {

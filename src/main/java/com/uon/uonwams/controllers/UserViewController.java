@@ -115,14 +115,14 @@ public class UserViewController extends MenuController implements ControllerInte
             User user = User.class.cast(data);
             boolean isUsed = checkUserIsUsed(user);
             if (isUsed) {
-                denyDeleteDialog(appController);
+                unableDeleteDialog(appController);
             } else {
                 confirmDeleteDialog(user, appController);
             }
         }
     }
 
-    private static void denyDeleteDialog(AppController appController) {
+    private static void unableDeleteDialog(AppController appController) {
         Stage popupStage = new Stage();
         popupStage.initModality(Modality.APPLICATION_MODAL); // block interaction with the main window
         popupStage.initOwner(appController.getStage());
@@ -137,7 +137,7 @@ public class UserViewController extends MenuController implements ControllerInte
         VBox popupLayout = new VBox(20, message, buttonLayout);
         popupLayout.setStyle("-fx-padding: 10; -fx-alignment: center; -fx-spacing: 10;");
         Scene popupScene = new Scene(popupLayout, 300, 150);
-        popupStage.setTitle("Confirm Delete");
+        popupStage.setTitle("Unable Delete");
         popupStage.setScene(popupScene);
         popupStage.showAndWait();
     }

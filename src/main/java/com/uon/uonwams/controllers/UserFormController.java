@@ -119,14 +119,20 @@ public class UserFormController extends MenuController implements ControllerInte
                     userFormLineManagerCheckBox.isSelected() ? null : lineManager.getUserId()
             );
         } else {
-            appController.getUserManagement().addUser(
-                    Integer.parseInt(userFormIdTextField.getText()),
-                    userFormNameTextField.getText(),
-                    userFormEmailTextField.getText(),
-                    Double.parseDouble(userFormFteRatioTextField.getText()),
-                    userFormSubjectAreaTextField.getText(),
-                    userFormLineManagerCheckBox.isSelected() ? null : lineManager.getUserId()
-            );
+            try {
+                appController.getUserManagement().addUser(
+                        Integer.parseInt(userFormIdTextField.getText()),
+                        userFormNameTextField.getText(),
+                        userFormEmailTextField.getText(),
+                        Double.parseDouble(userFormFteRatioTextField.getText()),
+                        userFormSubjectAreaTextField.getText(),
+                        userFormLineManagerCheckBox.isSelected() ? null : lineManager.getUserId()
+                );
+            } catch (Exception e) {
+                userFormErrorLabel.setText(e.getMessage());
+                userFormErrorLabel.setVisible(true);
+                return;
+            }
         }
         appController.setSelectedUser(null);
         appController.loadScene("user-view.fxml");
