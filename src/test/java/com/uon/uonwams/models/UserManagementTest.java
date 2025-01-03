@@ -61,7 +61,7 @@ class UserManagementTest {
     void testAddUser() throws Exception {
         int userId = 3;
         String name = "addname";
-        String email = "addemail";
+        String email = "addname@mail.com";
         double fteRatio = 1;
         String subjectArea = "addsubjectarea";
         int lineManagerUserId = 1;
@@ -91,7 +91,7 @@ class UserManagementTest {
     void testUpdateUser() throws Exception {
         int userId = 3;
         String name = "updatename";
-        String email = "updateemail";
+        String email = "updatename@mail.com";
         double fteRatio = 1;
         String subjectArea = "updatesubjectarea";
         int lineManagerUserId = 1;
