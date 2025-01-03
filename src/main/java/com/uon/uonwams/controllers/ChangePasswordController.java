@@ -58,7 +58,7 @@ public class ChangePasswordController extends MenuController implements Controll
         }
         boolean isMatch = checkPasswordMatch();
         if (!isMatch) {
-            changePasswordErrorLabel.setText("Password do not match");
+            changePasswordErrorLabel.setText("Password does not match");
             changePasswordErrorLabel.setVisible(true);
             return false;
         }
