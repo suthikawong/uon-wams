@@ -1,3 +1,12 @@
+/**
+ Program: UON WAMS Application
+ Filename: User.java
+ @author: © Suthika Wongsiridech
+ Course: MSc Computing
+ Module: Visual Object Software
+ Tutor: Suraj Ajit
+ */
+
 package com.uon.uonwams.models;
 
 import com.password4j.BcryptFunction;
@@ -158,17 +167,23 @@ public class User extends DATFileStructure implements Serializable {
         return password;
     }
 
+    /**
+     Generate 6 digit random number. [source code]. Available
+     from: https://stackoverflow.com/questions/51322750/generate-6-digit-random-number [Accessed 28th December 2024].
+     */
     // generate 6 digits password
     public static String getRandomPassword() {
-        // Ref: https://stackoverflow.com/questions/51322750/generate-6-digit-random-number
         Random rnd = new Random();
         int number = rnd.nextInt(999999);
         return String.format("%06d", number);
     }
 
+    /**
+     Hashing passwords in Java. [source code]. Available
+     from: https://davidbertoldi.medium.com/hashing-passwords-in-java-757e787ce71c [Accessed 24th November 2024].
+     */
     // hash password
     public static String hashPassword(String password) {
-        // Ref: https://davidbertoldi.medium.com/hashing-passwords-in-java-757e787ce71c
         Dotenv dotenv = Dotenv.load();
         String secret = dotenv.get("PASSWORD_SECRET");
         Hash hash = Password.hash(password)

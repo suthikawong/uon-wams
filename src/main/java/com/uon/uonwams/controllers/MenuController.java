@@ -1,3 +1,12 @@
+/**
+ Program: UON WAMS Application
+ Filename: MenuController.java
+ @author: © Suthika Wongsiridech
+ Course: MSc Computing
+ Module: Visual Object Software
+ Tutor: Suraj Ajit
+ */
+
 package com.uon.uonwams.controllers;
 
 import javafx.fxml.FXML;

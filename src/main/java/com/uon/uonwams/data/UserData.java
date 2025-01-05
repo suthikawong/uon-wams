@@ -1,3 +1,12 @@
+/**
+ Program: UON WAMS Application
+ Filename: UserData.java
+ @author: © Suthika Wongsiridech
+ Course: MSc Computing
+ Module: Visual Object Software
+ Tutor: Suraj Ajit
+ */
+
 package com.uon.uonwams.data;
 
 import com.uon.uonwams.models.DATFile;

@@ -1,3 +1,12 @@
+/**
+ Program: UON WAMS Application
+ Filename: UserWorkloadAllocation.java
+ @author: © Suthika Wongsiridech
+ Course: MSc Computing
+ Module: Visual Object Software
+ Tutor: Suraj Ajit
+ */
+
 package com.uon.uonwams.models;
 
 import com.uon.uonwams.data.Data;

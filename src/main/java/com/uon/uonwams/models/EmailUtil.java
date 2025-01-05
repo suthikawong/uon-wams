@@ -1,3 +1,12 @@
+/**
+ Program: UON WAMS Application
+ Filename: EmailUtil.java
+ @author: © Suthika Wongsiridech
+ Course: MSc Computing
+ Module: Visual Object Software
+ Tutor: Suraj Ajit
+ */
+
 package com.uon.uonwams.models;
 
 import io.github.cdimascio.dotenv.Dotenv;
@@ -15,9 +24,12 @@ public class EmailUtil {
     String fromEmailPassword;
     Session session;
 
+    /**
+     JavaMail Example - Send Mail in Java using SMTP. [source code]. Available
+     from: https://www.digitalocean.com/community/tutorials/javamail-example-send-mail-in-java-smtp [Accessed 23th December 2024].
+     */
     // initialize session
     public EmailUtil() {
-        // Ref: https://www.digitalocean.com/community/tutorials/javamail-example-send-mail-in-java-smtp
         // load email and app password of email from .env file
         Dotenv dotenv = Dotenv.load();
         this.fromEmail = dotenv.get("FROM_EMAIL");
@@ -39,6 +51,10 @@ public class EmailUtil {
         session = Session.getInstance(props, auth);
     }
 
+    /**
+     JavaMail Example - Send Mail in Java using SMTP. [source code]. Available
+     from: https://www.digitalocean.com/community/tutorials/javamail-example-send-mail-in-java-smtp [Accessed 23th December 2024].
+     */
     public void sendEmail(String toEmail, String subject, String body) throws MessagingException, UnsupportedEncodingException {
         MimeMessage msg = new MimeMessage(session);
         //set message headers

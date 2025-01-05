@@ -1,3 +1,12 @@
+/**
+ Program: UON WAMS Application
+ Filename: CSVFile.java
+ @author: © Suthika Wongsiridech
+ Course: MSc Computing
+ Module: Visual Object Software
+ Tutor: Suraj Ajit
+ */
+
 package com.uon.uonwams.models;
 
 import com.opencsv.CSVReader;
@@ -20,9 +29,12 @@ public class CSVFile {
         return data;
     }
 
+    /**
+     Reading a CSV file in Java using OpenCSV. [source code]. Available
+     from: https://www.geeksforgeeks.org/reading-csv-file-java-using-opencsv [Accessed 22th November 2024].
+     */
     // read all data from CSV file
     public void readRecords() {
-        // Ref: https://www.geeksforgeeks.org/reading-csv-file-java-using-opencsv/
         List<LinkedHashMap<String, String>> records = new ArrayList<>();
         try {
             FileReader filereader = new FileReader(this.pathname);
