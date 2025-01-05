@@ -21,7 +21,6 @@ public class WAMSApplicationConsole {
             System.out.println(e.getMessage());
             System.exit(0);
             return;
-//            throw e;
         }
 
         User loginUser = null;
@@ -43,7 +42,7 @@ public class WAMSApplicationConsole {
                 if (loginUser == null) {
                     System.out.println("Incorrect user id or password");
                 } else {
-                    // control flow
+                    // set state
                     state = State.HOME;
                 }
                 System.out.println("---------------------------------");
@@ -121,7 +120,7 @@ public class WAMSApplicationConsole {
                         System.out.println(e.getMessage());
                     }
 
-                    // control flow
+                    // set state
                     state = State.VIEW_USERS;
                     System.out.println("---------------------------------");
                 } else if (state == State.EDIT_USER) {
@@ -150,7 +149,7 @@ public class WAMSApplicationConsole {
                     );
                     System.out.println("Successfully updated user");
 
-                    // control flow
+                    // set state
                     state = State.VIEW_USERS;
                     System.out.println("---------------------------------");
                 } else if (state == State.DELETE_USER) {
@@ -169,7 +168,7 @@ public class WAMSApplicationConsole {
                     um.deleteUser(userId);
                     System.out.println("Successfully deleted user");
 
-                    // control flow
+                    // set state
                     state = State.VIEW_USERS;
                     System.out.println("---------------------------------");
                 }
@@ -210,7 +209,7 @@ public class WAMSApplicationConsole {
                 System.out.println("\nWorkload of: " + workloadUser.getName());
                 workload.logActivities(workloadUser.getUserId());
 
-                // control flow
+                // set state
                 System.out.print("A=Add Activity | B=Edit Activity | C=Delete Activity | Y=Back: ");
                 String command = scanner.next();
 
@@ -241,7 +240,7 @@ public class WAMSApplicationConsole {
                 );
                 System.out.println("Successfully added activity");
 
-                // control flow
+                // set state
                 state = State.VIEW_WORKLOAD;
                 System.out.println("---------------------------------");
             } else if (state == State.EDIT_ACTIVITY) {
@@ -272,7 +271,7 @@ public class WAMSApplicationConsole {
                 );
                 System.out.println("Successfully updated activity");
 
-                // control flow
+                // set state
                 state = State.VIEW_WORKLOAD;
                 System.out.println("---------------------------------");
             } else if (state == State.DELETE_ACTIVITY) {
@@ -291,7 +290,7 @@ public class WAMSApplicationConsole {
                 workload.deleteActivity(activityId);
                 System.out.println("Successfully deleted activity");
 
-                // control flow
+                // set state
                 state = State.VIEW_WORKLOAD;
                 System.out.println("---------------------------------");
             }
@@ -316,14 +315,10 @@ public class WAMSApplicationConsole {
         String description = scanner.nextLine();
         values.put("description", description);
 
-        // TODO: Display code section depending on user role
-        // Role - User: use responsibleUserId, responsibleUser from loginUser
-        // Role - Admin: accept responsibleUserId, responsibleUser from console
         System.out.print("Responsible User ID: ");
         int responsibleUserId = scanner.nextInt();
         values.put("responsibleUserId", responsibleUserId);
         scanner.nextLine();
-        // TODO;
 
         System.out.print("Year: ");
         String year = scanner.nextLine();

@@ -21,7 +21,9 @@ public class ActivityViewController extends MenuController implements Controller
     private TableView activityTableView;
 
     public void setup() {
+        // add menu controller to manage page permission
         this.setMenuAppController(appController);
+        // display activity table
         createActivityTable();
     }
 
@@ -30,18 +32,21 @@ public class ActivityViewController extends MenuController implements Controller
         this.appController = appController;
     }
 
+    // when back button is clicked, navigate to the workload.fxml
     @FXML
     protected void onClickBackButton() throws IOException {
         appController.setWorkloadUser(null);
         appController.loadScene("workload.fxml");
     }
 
+    // when add button is clicked, navigate to the activity-form.fxml
     @FXML
     protected void onClickAddButton() throws IOException {
         appController.setSelectedActivity(null);
         appController.loadScene("activity-form.fxml");
     }
 
+    // display activities of the selected user in the table
     private void createActivityTable() {
         TableColumn<Activity, String> activityIdColumn = new TableColumn<>("Activity ID");
         activityIdColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(Integer.toString(data.getValue().getActivityId())));
@@ -90,9 +95,10 @@ public class ActivityViewController extends MenuController implements Controller
 
         TableColumn<Activity, String> actionColumn = new TableColumn<>("Action");
         actionColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty("dummy"));
+        // create edit and delete buttons in the table
         appController.createEditDeleteButtons(actionColumn, ActivityViewController::handleClickEditButton, ActivityViewController::handleClickDeleteButton);
 
-        // Add Columns to TableView
+        // add columns to TableView
         activityTableView.getColumns().addAll(
                 activityIdColumn,
                 activityTypeColumn,
@@ -112,14 +118,17 @@ public class ActivityViewController extends MenuController implements Controller
                 actionColumn
         );
 
+        // find activities of the selected user
         List<Activity> activities = appController.getWorkload().getActivitiesByUserId(appController.getWorkloadUser().getUserId());
         ObservableList<Activity> list = FXCollections.observableArrayList();
         for(Activity activity: activities) {
             list.add(activity);
         }
+        // add data to TableView
         activityTableView.setItems(list);
     }
 
+    // when edit button is clicked, set it as a selected activity and navigate to the activity-form.fxml
     private static <T> void handleClickEditButton(T data, AppController appController) throws IOException {
         if (Activity.class.isInstance(data)) {
             Activity activity = Activity.class.cast(data);
@@ -128,7 +137,10 @@ public class ActivityViewController extends MenuController implements Controller
         }
     }
 
+    // when delete button is clicked, display the dialog
+    // activity will be deleted when clicking Delete button
     private static <T> void handleClickDeleteButton(T data, AppController appController) throws IOException {
+        // create dialog
         Stage popupStage = new Stage();
         popupStage.initModality(Modality.APPLICATION_MODAL); // block interaction with the main window
         popupStage.initOwner(appController.getStage());
@@ -137,28 +149,37 @@ public class ActivityViewController extends MenuController implements Controller
         Button cancelButton = new Button("Cancel");
         Button deleteButton = new Button("Delete");
 
+        // attach event listener when buttons are clicked
+        // click cancel: close dialog
         cancelButton.setOnAction(e -> popupStage.close());
+        // click delete: delete that activity
         deleteButton.setOnAction(e -> {
+            // delete activity
             deleteActivity(data, appController);
+            // close dialog
             popupStage.close();
-            // reload activities
             try {
+                // navigate to activity-view.fxml
                 appController.loadScene("activity-view.fxml");
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
         });
 
+        // dialog layout
         HBox buttonLayout = new HBox(10, cancelButton, deleteButton);
         buttonLayout.setStyle("-fx-padding: 10; -fx-alignment: center; -fx-spacing: 10;");
         VBox popupLayout = new VBox(20, message, buttonLayout);
         popupLayout.setStyle("-fx-padding: 10; -fx-alignment: center; -fx-spacing: 10;");
         Scene popupScene = new Scene(popupLayout, 300, 150);
+
+        // set scene
         popupStage.setTitle("Confirm Delete");
         popupStage.setScene(popupScene);
         popupStage.showAndWait();
     }
 
+    // when delete button in dialog is clicked, delete the selected activity
     private static <T> void deleteActivity(T data, AppController appController) {
         if (Activity.class.isInstance(data)) {
             Activity activity = Activity.class.cast(data);

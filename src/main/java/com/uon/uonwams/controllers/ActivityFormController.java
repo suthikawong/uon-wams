@@ -41,14 +41,21 @@ public class ActivityFormController extends MenuController implements Controller
 
 
     public void setup() {
+        // add menu controller to manage page permission
         this.setMenuAppController(appController);
         activityFormErrorLabel.setVisible(false);
+
+        // if activity is selected, the current form is for edit activity
         this.isEdit = appController.getSelectedActivity() != null;
+
+        // initialize activity type options
         List<String> options = new ArrayList<>();
         for (ActivityType type: ActivityType.values()) {
             options.add(type.label);
         }
         activityFormTypeChoiceBox.getItems().addAll(options);
+
+        // if form is in editing state, fill the form with the selected activity information
         if (this.isEdit) {
             Activity selectedActivity = appController.getSelectedActivity();
             activityFormLabel.setText("Edit Activity");
@@ -69,17 +76,22 @@ public class ActivityFormController extends MenuController implements Controller
         this.appController = appController;
     }
 
+    // when back button is clicked, navigate to the activity-view.fxml
     @FXML
     protected void onClickBackButton() throws IOException {
         appController.loadScene("activity-view.fxml");
     }
 
+    // when save button is clicked, save data and navigate to the activity-view.fxml
     @FXML
     protected void onClickSaveButton() throws IOException {
+        // validate activity data
+        // if they are invalid, exit the function and display error message on the page
         boolean isValid = validateFields();
         if (!isValid) return;
 
         if (this.isEdit) {
+            // update activity
             appController.getWorkload().updateActivity(
                 appController.getSelectedActivity().getActivityId(),
                 activityFormNameTextField.getText(),
@@ -91,6 +103,7 @@ public class ActivityFormController extends MenuController implements Controller
                 Integer.parseInt(activityFormNoOfInstancesTextField.getText())
             );
         } else {
+            // add a new activity
             appController.getWorkload().addActivity(
                     activityFormNameTextField.getText(),
                     activityFormTypeChoiceBox.getValue().toString(),
@@ -101,17 +114,21 @@ public class ActivityFormController extends MenuController implements Controller
                     Integer.parseInt(activityFormNoOfInstancesTextField.getText())
             );
         }
+        // reset selected activity to null and navigate back to the activity-view.fxml
         appController.setSelectedActivity(null);
         appController.loadScene("activity-view.fxml");
     }
 
     private boolean validateFields() {
+        // check are fields empty
         boolean isEmpty = checkFieldsEmpty();
         if (isEmpty) {
             activityFormErrorLabel.setText("Please fill all required fields");
             activityFormErrorLabel.setVisible(true);
             return false;
         }
+
+        // check is activity duration valid
         try {
             Integer.parseInt(activityFormDurationTextField.getText());
         } catch (Exception e) {
@@ -119,6 +136,8 @@ public class ActivityFormController extends MenuController implements Controller
             activityFormErrorLabel.setVisible(true);
             return false;
         }
+
+        // check is no. of instances valid
         try {
             Integer.parseInt(activityFormNoOfInstancesTextField.getText());
         } catch (Exception e) {
@@ -129,6 +148,7 @@ public class ActivityFormController extends MenuController implements Controller
         return true;
     }
 
+    // check are fields empty
     private boolean checkFieldsEmpty() {
         return activityFormNameTextField.getText().isEmpty() ||
                 activityFormTypeChoiceBox.getValue() == null ||

@@ -15,17 +15,19 @@ public class EmailUtil {
     String fromEmailPassword;
     Session session;
 
+    // initialize session
     public EmailUtil() {
         // Ref: https://www.digitalocean.com/community/tutorials/javamail-example-send-mail-in-java-smtp
+        // load email and app password of email from .env file
         Dotenv dotenv = Dotenv.load();
         this.fromEmail = dotenv.get("FROM_EMAIL");
         this.fromEmailPassword = dotenv.get("FROM_EMAIL_APP_PASSWORD");
 
         Properties props = new Properties();
-        props.put("mail.smtp.host", "smtp.gmail.com"); //SMTP Host
-        props.put("mail.smtp.port", "587"); //TLS Port
-        props.put("mail.smtp.auth", "true"); //enable authentication
-        props.put("mail.smtp.starttls.enable", "true"); //enable STARTTLS
+        props.put("mail.smtp.host", "smtp.gmail.com"); // SMTP Host
+        props.put("mail.smtp.port", "587"); // TLS Port
+        props.put("mail.smtp.auth", "true"); // enable authentication
+        props.put("mail.smtp.starttls.enable", "true"); // enable STARTTLS
 
         //create Authenticator object to pass in Session.getInstance argument
         Authenticator auth = new Authenticator() {
@@ -45,16 +47,13 @@ public class EmailUtil {
         msg.addHeader("Content-Transfer-Encoding", "8bit");
 
         msg.setFrom(new InternetAddress("no_reply@example.com", "NoReply-JD"));
-
         msg.setReplyTo(InternetAddress.parse("no_reply@example.com", false));
-
         msg.setSubject(subject, "UTF-8");
-
         msg.setText(body, "UTF-8");
-
         msg.setSentDate(new Date());
-
         msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail, false));
+
+        // send message to email
         Transport.send(msg);
 
         System.out.println("EMail Sent Successfully!!");

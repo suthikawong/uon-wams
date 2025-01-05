@@ -34,6 +34,7 @@ public class ForgotPasswordController implements ControllerInterface {
         forgotPasswordUserIdErrorLabel.setVisible(false);
     }
 
+    // when back button is clicked, navigate to the login.fxml
     @FXML
     protected void onClickBackButton() throws IOException {
         appController.loadScene("login.fxml");
@@ -41,6 +42,8 @@ public class ForgotPasswordController implements ControllerInterface {
 
     @FXML
     protected void onClickSendEmailButton(ActionEvent event) {
+        // validate fields and userId
+        // if they are invalid, exit the function and display error message on the page
         boolean isValid = validateFields();
         if (!isValid || user == null) {
             return;
@@ -48,6 +51,7 @@ public class ForgotPasswordController implements ControllerInterface {
 
         String password;
         try {
+            // generate new password and update it to user data
             password = resetPassword(user);
         } catch (Exception e) {
             forgotPasswordUserIdErrorLabel.setText("Cannot reset password. Please try again.");
@@ -56,8 +60,10 @@ public class ForgotPasswordController implements ControllerInterface {
         }
 
         try {
+            // send new password to user's email address
             EmailUtil emailUtil = new EmailUtil();
             emailUtil.sendEmail(user.getEmail(),"Forget password email", "Your new password is \"" + password + "\" ");
+            // display dialog
             sendEmailDialog();
         } catch (Exception e) {
             forgotPasswordUserIdErrorLabel.setText("Something went wrong. Please try again.");
@@ -65,7 +71,9 @@ public class ForgotPasswordController implements ControllerInterface {
         }
     }
 
+    // show send email dialog
     private void sendEmailDialog() {
+        // create dialog
         Stage popupStage = new Stage();
         popupStage.initModality(Modality.APPLICATION_MODAL); // block interaction with the main window
         popupStage.initOwner(appController.getStage());
@@ -73,26 +81,34 @@ public class ForgotPasswordController implements ControllerInterface {
         Label message = new Label("Temporary password was sent to your email.");
         Button cancelButton = new Button("Close");
 
+        // attach event listener when buttons are clicked
+        // click cancel: close dialog
         cancelButton.setOnAction(e -> {
+            // close dialog
             popupStage.close();
             try {
+                // navigate to login.fxml
                 appController.loadScene("login.fxml");
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
         });
 
+        // dialog layout
         HBox buttonLayout = new HBox(10, cancelButton);
         buttonLayout.setStyle("-fx-padding: 10; -fx-alignment: center; -fx-spacing: 10;");
         VBox popupLayout = new VBox(20, message, buttonLayout);
         popupLayout.setStyle("-fx-padding: 10; -fx-alignment: center; -fx-spacing: 10;");
         Scene popupScene = new Scene(popupLayout, 300, 150);
+
+        // set scene
         popupStage.setTitle("Email was sent");
         popupStage.setScene(popupScene);
         popupStage.showAndWait();
     }
 
     private boolean validateFields() {
+        // check are fields empty
         boolean isEmpty = checkFieldsEmpty();
         int userId;
         if (isEmpty) {
@@ -100,6 +116,8 @@ public class ForgotPasswordController implements ControllerInterface {
             forgotPasswordUserIdErrorLabel.setVisible(true);
             return false;
         }
+
+        // check is userId valid
         try {
             userId = Integer.parseInt(forgotPasswordUserIdTextField.getText());
         } catch (Exception e) {
@@ -107,6 +125,8 @@ public class ForgotPasswordController implements ControllerInterface {
             forgotPasswordUserIdErrorLabel.setVisible(true);
             return false;
         }
+
+        // check is userId exist
         for (User user: Data.userData.getUsers()) {
             if (user.getUserId() == userId) {
                 this.user = user;
@@ -118,6 +138,7 @@ public class ForgotPasswordController implements ControllerInterface {
         return false;
     }
 
+    // check is field empty
     private boolean checkFieldsEmpty() {
         return forgotPasswordUserIdTextField.getText().isEmpty();
     }

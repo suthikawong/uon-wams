@@ -35,6 +35,7 @@ public class Activity extends DATFileStructure implements Serializable {
         this.noOfInstances = noOfInstances;
 
         try {
+            // calculate ATSR, TS, TLR, SA and Other hours for activity
             calculateWorkload(activityType, duration, noOfInstances);
         } catch (Exception e) {
             System.out.println("Cannot create activity: " + e.getMessage());
@@ -46,7 +47,7 @@ public class Activity extends DATFileStructure implements Serializable {
         switch (activityType) {
             case ActivityType.ATSR:
                 this.ATSR = this.hours;
-                this.TS = (int) Math.ceil(this.hours * 1.2); // REMARK: Round up if result is decimal number
+                this.TS = (int) Math.ceil(this.hours * 1.2); // round up if result is decimal number
                 this.TLR = 0;
                 this.SA = 0;
                 this.other = 0;
@@ -139,43 +140,5 @@ public class Activity extends DATFileStructure implements Serializable {
 
     public int getOther() {
         return other;
-    }
-
-    public LinkedHashMap<String, String> toHashMap() {
-        LinkedHashMap<String, String> mapActivity = new LinkedHashMap<String, String>();
-        mapActivity.put("activityId", Integer.toString(this.activityId));
-        mapActivity.put("activityType", this.activityType.label);
-        mapActivity.put("activityName", this.activityName);
-        mapActivity.put("description", this.description);
-        mapActivity.put("responsibleUserId", Integer.toString(this.responsibleUserId));
-        mapActivity.put("responsibleUser", this.responsibleUser);
-        mapActivity.put("year", this.year);
-        mapActivity.put("duration", Integer.toString(this.duration));
-        mapActivity.put("noOfInstances", Integer.toString(this.noOfInstances));
-        mapActivity.put("hours", Integer.toString(this.hours));
-        mapActivity.put("ATSR", Integer.toString(this.ATSR));
-        mapActivity.put("TS", Integer.toString(this.TS));
-        mapActivity.put("TLR", Integer.toString(this.TLR));
-        mapActivity.put("SA", Integer.toString(this.SA));
-        mapActivity.put("other", Integer.toString(this.other));
-        return mapActivity;
-    }
-
-    @Override
-    public String toString() {
-        return "activityName='" + activityName + '\'' +
-                ", activityType='" + activityType + '\'' +
-                ", description='" + description + '\'' +
-                ", responsibleUserId=" + responsibleUserId +
-                ", responsibleUser='" + responsibleUser + '\'' +
-                ", year='" + year + '\'' +
-                ", duration=" + duration +
-                ", noOfInstances=" + noOfInstances +
-                ", hours=" + hours +
-                ", ATSR=" + ATSR +
-                ", TS=" + TS +
-                ", TLR=" + TLR +
-                ", SA=" + SA +
-                ", other=" + other;
     }
 }

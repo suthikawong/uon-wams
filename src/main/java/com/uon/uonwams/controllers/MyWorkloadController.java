@@ -21,12 +21,16 @@ public class MyWorkloadController extends MenuController implements ControllerIn
     private TableView myActivityTableView;
 
     public void setup() {
+        // add menu controller to manage page permission
         this.setMenuAppController(appController);
 
+        // initialize Workload and UserWorkloadAllocation from logged-in user
         Workload workload = new Workload(appController.getLoginUser());
         UserWorkloadAllocation workloadUser = new UserWorkloadAllocation(appController.getLoginUser());
         appController.setWorkload(workload);
         appController.setWorkloadUser(workloadUser);
+
+        // display workload allocations and activities in tables
         createUserWorkloadTable();
         createActivityTable();
 
@@ -37,6 +41,7 @@ public class MyWorkloadController extends MenuController implements ControllerIn
         this.appController = appController;
     }
 
+    // display workload allocations in the table
     private void createUserWorkloadTable() {
         TableColumn<UserWorkloadAllocation, String> idColumn = new TableColumn<>("User ID");
         idColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(Integer.toString(data.getValue().getUserId())));
@@ -72,13 +77,14 @@ public class MyWorkloadController extends MenuController implements ControllerIn
             protected void updateItem(String value, boolean empty) {
                 super.updateItem(value, empty);
                 if (empty || value == null) {
+                    // reset text and style
                     setText(null);
-                    setStyle(""); // Reset style
+                    setStyle("");
                 } else {
                     double percent = Double.parseDouble(value);
                     setText(value.toString());
 
-                    // Change color based on value
+                    // change color based on percentage
                     if (percent < 70) {
                         setStyle("-fx-background-color: lightgreen; -fx-text-fill: black;");
                     } else if (percent < 90) {
@@ -93,8 +99,7 @@ public class MyWorkloadController extends MenuController implements ControllerIn
         TableColumn<UserWorkloadAllocation, String> fteAtsrHoursColumn = new TableColumn<>("FTE ATSR Hours");
         fteAtsrHoursColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(Integer.toString(data.getValue().getFteAtsrHours())));
 
-
-        // Add Columns to TableView
+        // add columns to TableView
         myWorkloadTableView.getColumns().addAll(
                 idColumn,
                 nameColumn,
@@ -110,11 +115,13 @@ public class MyWorkloadController extends MenuController implements ControllerIn
         );
 
         ObservableList<UserWorkloadAllocation> list = FXCollections.observableArrayList();
+        // find workload allocation of the logged-in user
         list.add(appController.getWorkloadUser());
+        // add data to TableView
         myWorkloadTableView.setItems(list);
     }
 
-
+    // display activities of the selected user in the table
     private void createActivityTable() {
         TableColumn<Activity, String> activityIdColumn = new TableColumn<>("Activity ID");
         activityIdColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(Integer.toString(data.getValue().getActivityId())));
@@ -161,7 +168,7 @@ public class MyWorkloadController extends MenuController implements ControllerIn
         TableColumn<Activity, String> otherColumn = new TableColumn<>("Other");
         otherColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(Integer.toString(data.getValue().getOther())));
 
-        // Add Columns to TableView
+        // add columns to TableView
         myActivityTableView.getColumns().addAll(
                 activityIdColumn,
                 activityTypeColumn,
@@ -180,11 +187,13 @@ public class MyWorkloadController extends MenuController implements ControllerIn
                 otherColumn
         );
 
+        // find activities of the logged-in user
         List<Activity> activities = appController.getWorkload().getActivitiesByUserId(appController.getLoginUser().getUserId());
         ObservableList<Activity> list = FXCollections.observableArrayList();
         for(Activity activity: activities) {
             list.add(activity);
         }
+        // add data to TableView
         myActivityTableView.setItems(list);
     }
 }

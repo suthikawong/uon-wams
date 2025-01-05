@@ -6,6 +6,7 @@ public class Data {
     public static UserData userData;
     public static ActivityData activityData;
 
+    // initialize ActivityData and UserData instance from file path in .env file
     public Data() throws Exception {
         Dotenv dotenv = Dotenv.load();
         String userFilePath = dotenv.get("USER_FILE_PATH");
@@ -14,6 +15,7 @@ public class Data {
         activityData = new ActivityData(activityFilePath);
     }
 
+    // initialize ActivityData and UserData instance from input parameters
     public Data(String userFilePath, String activityFilePath) throws Exception {
         if (userFilePath != null) userData = new UserData(userFilePath);
         if (activityFilePath != null) activityData = new ActivityData(activityFilePath);

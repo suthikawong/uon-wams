@@ -10,6 +10,7 @@ public class WAMSApplicationViewer extends Application {
     @Override
     public void start(Stage stage) {
         try {
+            // initialize Java FX application
             new AppController(stage);
         } catch (Exception e) {
             System.out.println(e.getMessage());

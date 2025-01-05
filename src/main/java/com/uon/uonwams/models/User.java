@@ -9,7 +9,6 @@ import io.github.cdimascio.dotenv.Dotenv;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -23,6 +22,7 @@ public class User extends DATFileStructure implements Serializable {
     protected String subjectArea;
     protected Integer lineManagerUserId = null;
     protected boolean isAdmin = false;
+    // initialize bcrypt
     private static final BcryptFunction bcrypt = BcryptFunction.getInstance(Bcrypt.B, 12);
 
     public User() {}
@@ -73,12 +73,15 @@ public class User extends DATFileStructure implements Serializable {
         return isAdmin;
     }
 
+    // find all subordinates of this user
     public List<User> getSubordinate() {
+        // if this user is admin, return all users in the system
         if (this.isAdmin) {
             return new ArrayList<>(Data.userData.getUsers());
         }
         List<User> subordinateList = new ArrayList<>();
         for (User user: Data.userData.getUsers()) {
+            // if this user isn't admin, return users that their line manager is this user
             if (((Integer) this.userId).equals(user.getLineManagerUserId())) {
                 subordinateList.add(user);
             }
@@ -86,8 +89,10 @@ public class User extends DATFileStructure implements Serializable {
         return subordinateList;
     }
 
+    // check whether this user is line manager or not
     public boolean checkIsLineManager() {
         for (User user: Data.userData.getUsers()) {
+            // if at least one staff have this user as their line manager, return true
             if (((Integer) this.userId).equals(user.getLineManagerUserId())) {
                 return true;
             }
@@ -95,10 +100,14 @@ public class User extends DATFileStructure implements Serializable {
         return false;
     }
 
+    // attach user information when userId and password are matched with the one in the system
     public User login(int userId, String password) {
         Dotenv dotenv = Dotenv.load();
+        // get value ENABLE_ADMIN_USER from .env file
+        // if it is "true", admin account will available
         String enableAdminUser = dotenv.get("ENABLE_ADMIN_USER");
 
+        // if admin user is available
         if (enableAdminUser.equals("true")) {
             int adminUserId;
             String adminPassword = dotenv.get("ADMIN_PASSWORD");
@@ -110,7 +119,8 @@ public class User extends DATFileStructure implements Serializable {
                 System.exit(0);
                 return null;
             }
-
+            // check whether userId and password are match with ADMIN_USER_ID and ADMIN_PASSWORD
+            // if they match, assign admin information
             if (adminUserId == userId && adminPassword.equals(password)) {
                 this.userId = userId;
                 this.name = "Admin";
@@ -120,6 +130,8 @@ public class User extends DATFileStructure implements Serializable {
         }
 
         for (User user: Data.userData.getUsers()) {
+            // check whether userId and password are match with the one in the system
+            // if they match, assign the match user information
             if (userId == user.getUserId() & isMatchedPassword(password, user.getPassword())) {
                 this.userId = user.getUserId();
                 this.name = user.getName();
@@ -134,23 +146,27 @@ public class User extends DATFileStructure implements Serializable {
         return null;
     }
 
+    // hash and update password in the system
     public void changePassword(String password) throws Exception {
         Data.userData.updateUser(userId, name, hashPassword(password), email, fteRatio, subjectArea, lineManagerUserId);
     }
 
+    // generate new password and update it into the system
     public static String resetPassword(User user) throws Exception {
         String password = getRandomPassword();
         Data.userData.updateUser(user.getUserId(), user.getName(), hashPassword(password), user.getEmail(), user.getFteRatio(), user.getSubjectArea(), user.getLineManagerUserId());
         return password;
     }
 
+    // generate 6 digits password
     public static String getRandomPassword() {
-        // https://stackoverflow.com/questions/51322750/generate-6-digit-random-number
+        // Ref: https://stackoverflow.com/questions/51322750/generate-6-digit-random-number
         Random rnd = new Random();
         int number = rnd.nextInt(999999);
         return String.format("%06d", number);
     }
 
+    // hash password
     public static String hashPassword(String password) {
         // Ref: https://davidbertoldi.medium.com/hashing-passwords-in-java-757e787ce71c
         Dotenv dotenv = Dotenv.load();
@@ -161,36 +177,12 @@ public class User extends DATFileStructure implements Serializable {
         return hash.getResult();
     }
 
+    // check are the input passwords match
     private boolean isMatchedPassword(String plainPassword, String storedPassword) {
         Dotenv dotenv = Dotenv.load();
         String secret = dotenv.get("PASSWORD_SECRET");
         return Password.check(plainPassword, storedPassword)
                 .addPepper(secret)
                 .with(bcrypt);
-    }
-
-    public LinkedHashMap<String, String> toHashMap() {
-        LinkedHashMap<String, String> mapUser = new LinkedHashMap<String, String>();
-        mapUser.put("userId", Integer.toString(this.userId));
-        mapUser.put("name", this.name);
-        mapUser.put("password", this.password);
-        mapUser.put("email", this.email);
-        mapUser.put("fteRatio", Double.toString(this.fteRatio));
-        mapUser.put("subjectArea", this.subjectArea);
-        mapUser.put("lineManagerUserId", this.lineManagerUserId == null ? "" : Integer.toString(this.lineManagerUserId));
-        return mapUser;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "userId=" + userId +
-                ", name='" + name + '\'' +
-                ", password='" + password + '\'' +
-                ", email='" + email + '\'' +
-                ", fteRatio=" + fteRatio +
-                ", subjectArea='" + subjectArea + '\'' +
-                ", lineManagerUserId='" + lineManagerUserId + '\'' +
-                '}';
     }
 }

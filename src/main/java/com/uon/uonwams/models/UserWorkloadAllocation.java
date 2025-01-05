@@ -14,14 +14,17 @@ public class UserWorkloadAllocation extends User {
     private final int MaxFteHours = 1570;
     private final int MaxFteAtsrHours = 550;
 
+    // calculate workload allocation of that user when initializing a new instance
     public UserWorkloadAllocation(User user) {
         super(user.getUserId(), user.getName(), user.getPassword(), user.getEmail(), user.getFteRatio(), user.getSubjectArea(), user.getLineManagerUserId());
         calculateWorkloadAllocation();
     }
 
+    // calculate workload allocation
     private void calculateWorkloadAllocation() {
+        // get all activities in the system
         List<Activity> activities = Data.activityData.getActivities();
-        int scale = (int) Math.pow(10, 1);
+        int scale = (int) Math.pow(10, 1); // multiplier for converting double to have one decimal place
         int sumATSR = 0;
         int sumTS = 0;
         int sumTLR = 0;
@@ -36,7 +39,8 @@ public class UserWorkloadAllocation extends User {
                 sumOther += activity.getOther();
             }
         }
-        // REMARK: Round up if result is decimal number
+        // using Math.ceil to round up number
+        // using scale to get number that have one decimal place
         this.totalHours = sumATSR + sumTS + sumTLR + sumSA + sumOther;
         this.fteHours = (int) Math.ceil(MaxFteHours * this.fteRatio);
         this.totalAtsrTs = sumATSR + sumTS;
