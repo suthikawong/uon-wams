@@ -113,7 +113,6 @@ public class Workload {
         importedData.removeFirst();
         // iterate through CSV data and check whether responsibleUserId in each row exists in the system
         // except for the line manager that responsibleUserId is null
-        // BUG??? if import line manager ??
         for (LinkedHashMap<String, String> record: importedData) {
             int responsibleUserId = Integer.parseInt(record.get("responsibleUserId"));
             Optional<User> responsibleUser = userData.getUsers().stream().filter(user -> user.getUserId() == responsibleUserId).findFirst();
