@@ -71,6 +71,12 @@ public class MenuController {
         appController.loadScene("user-view.fxml");
     }
 
+    // navigate to the configuration-view.fxml
+    @FXML
+    protected void onClickConfigurationMenuItem() throws IOException {
+        appController.loadScene("configuration-view.fxml");
+    }
+
     // navigate to the login.fxml
     @FXML
     protected void onClickLogoutMenuItem() throws IOException {

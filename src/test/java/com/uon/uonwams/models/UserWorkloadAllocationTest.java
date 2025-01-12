@@ -73,7 +73,7 @@ class UserWorkloadAllocationTest {
         }}
         ));
 
-        Data.activityTypeData.insertActivityTypesToDAT(activityTypesList);
+        Data.configurationData.insertActivityTypes(activityTypesList);
 
         user = new User(1, "testname", hashPassword("password"), "email", 1, "sucjectarea", null);
 

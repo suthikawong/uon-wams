@@ -14,24 +14,24 @@ import io.github.cdimascio.dotenv.Dotenv;
 public class Data {
     public static UserData userData;
     public static ActivityData activityData;
-    public static ActivityTypeData activityTypeData;
+    public static ConfigurationData configurationData;
 
-    // initialize ActivityData, UserData, and ActivityTypeData instance from file path in .env file
+    // initialize ActivityData, UserData, and ConfigurationData instance from file path in .env file
     public Data() throws Exception {
         Dotenv dotenv = Dotenv.load();
         String userFilePath = dotenv.get("USER_FILE_PATH");
         String activityFilePath = dotenv.get("ACTIVITY_FILE_PATH");
-        String activityTypeFilePath = dotenv.get("ACTIVITY_TYPE_FILE_PATH");
+        String configurationFilePath = dotenv.get("CONFIGURATION_FILE_PATH");
         userData = new UserData(userFilePath);
         activityData = new ActivityData(activityFilePath);
-        activityTypeData = new ActivityTypeData(activityTypeFilePath);
+        configurationData = new ConfigurationData(configurationFilePath);
     }
 
     // initialize ActivityData UserData, and ActivityTypeData instance from input parameters
-    public Data(String userFilePath, String activityFilePath, String activityTypeFilePath) throws Exception {
+    public Data(String userFilePath, String activityFilePath, String configurationFilePath) throws Exception {
         if (userFilePath != null) userData = new UserData(userFilePath);
         if (activityFilePath != null) activityData = new ActivityData(activityFilePath);
-        if (activityTypeFilePath != null) activityTypeData = new ActivityTypeData(activityTypeFilePath);
+        if (configurationFilePath != null) configurationData = new ConfigurationData(configurationFilePath);
     }
 
 }

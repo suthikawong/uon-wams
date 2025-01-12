@@ -29,15 +29,21 @@ import java.io.File;
 import java.io.IOException;
 import java.util.LinkedHashMap;
 
-public class FormulaViewController extends MenuController implements ControllerInterface {
+public class ConfigurationViewController extends MenuController implements ControllerInterface {
     AppController appController;
 
     @FXML
-    private TableView formulaTableView;
+    private TableView configurationTableView;
+
+    @FXML
+    private Label configurationFormTotalFullTimeHoursLabel;
 
     public void setup() {
         // add menu controller to manage page permission
         this.setMenuAppController(appController);
+
+        // set total full time hours value
+        configurationFormTotalFullTimeHoursLabel.setText(Integer.toString(Data.configurationData.getTotalFullTimeHours()));
         // display activity type table
         createActivityTypeTable();
     }
@@ -47,14 +53,7 @@ public class FormulaViewController extends MenuController implements ControllerI
         this.appController = appController;
     }
 
-    // when back button is clicked, navigate to the workload.fxml
-    @FXML
-    protected void onClickBackButton() throws IOException {
-        appController.setWorkloadUser(null);
-        appController.loadScene("workload.fxml");
-    }
-
-    // when add button is clicked, navigate to the activity-form.fxml
+    // import activity types from the selected CSV file
     @FXML
     protected void onClickImportActivityTypesButton() {
         try {
@@ -76,33 +75,39 @@ public class FormulaViewController extends MenuController implements ControllerI
         }
     }
 
+    // when edit button is clicked, navigate to the configuration-form.fxml
+    @FXML
+    protected void onClickEditConfigurationButton() throws IOException {
+        appController.loadScene("configuration-form.fxml");
+    }
+
     // display activity types in the table
     private void createActivityTypeTable() {
         TableColumn<ActivityType, String> activityTypeIdColumn = new TableColumn<>("ID");
         activityTypeIdColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(Integer.toString(data.getValue().getId())));
         // add columns to TableView
-        formulaTableView.getColumns().add(activityTypeIdColumn);
+        configurationTableView.getColumns().add(activityTypeIdColumn);
 
         TableColumn<ActivityType, String> activityTypeColumn = new TableColumn<>("Activity Type");
         activityTypeColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getName()));
         // add columns to TableView
-        formulaTableView.getColumns().add(activityTypeColumn);
+        configurationTableView.getColumns().add(activityTypeColumn);
 
-        if (Data.activityTypeData.getActivityTypes().size() > 0) {
-            LinkedHashMap<String, Double> formula = Data.activityTypeData.getActivityTypes().getFirst().getFormula();
+        if (Data.configurationData.getActivityTypes().size() > 0) {
+            LinkedHashMap<String, Double> formula = Data.configurationData.getActivityTypes().getFirst().getFormula();
             for(String key : formula.keySet()) {
                 TableColumn<ActivityType, String> column = new TableColumn<>(key);
                 column.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(Double.toString(data.getValue().getFormula().get(key))));
                 // add columns to TableView
-                formulaTableView.getColumns().add(column);
+                configurationTableView.getColumns().add(column);
             }
         }
 
         // find activity types
         ObservableList<ActivityType> list = FXCollections.observableArrayList();
-        list.addAll(Data.activityTypeData.getActivityTypes());
+        list.addAll(Data.configurationData.getActivityTypes());
         // add data to TableView
-        formulaTableView.setItems(list);
+        configurationTableView.setItems(list);
     }
 
     // show import error dialog
@@ -151,7 +156,7 @@ public class FormulaViewController extends MenuController implements ControllerI
             popupStage.close();
             try {
                 // navigate to workload.fxml
-                appController.loadScene("formula-view.fxml");
+                appController.loadScene("configuration-view.fxml");
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }

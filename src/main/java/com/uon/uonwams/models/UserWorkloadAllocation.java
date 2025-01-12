@@ -18,7 +18,6 @@ public class UserWorkloadAllocation extends User {
     private int totalHours = 0;
     private int fteHours = 0;
     private double parcentageOfTotalHoursAllocated = 0;
-    private final int MaxFteHours = 1570;
 
     // calculate workload allocation of that user when initializing a new instance
     public UserWorkloadAllocation(User user) {
@@ -42,8 +41,9 @@ public class UserWorkloadAllocation extends User {
         // using Math.ceil to round up number
         // using scale to get number that have one decimal place
         this.totalHours = sum;
-        this.fteHours = (int) Math.ceil(MaxFteHours * this.fteRatio);
-        this.parcentageOfTotalHoursAllocated = Math.ceil(((double) this.totalHours / (MaxFteHours * this.fteRatio) * 100) * scale) / scale;
+        int totalFullTimeHours = Data.configurationData.getTotalFullTimeHours();
+        this.fteHours = (int) Math.ceil(totalFullTimeHours * this.fteRatio);
+        this.parcentageOfTotalHoursAllocated = Math.ceil(((double) this.totalHours / (totalFullTimeHours * this.fteRatio) * 100) * scale) / scale;
     }
 
     public int getTotalHours() {

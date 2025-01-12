@@ -10,18 +10,17 @@
 package com.uon.uonwams.models;
 
 import com.uon.uonwams.data.ActivityData;
-import com.uon.uonwams.data.ActivityTypeData;
+import com.uon.uonwams.data.ConfigurationData;
 import com.uon.uonwams.data.UserData;
 import com.uon.uonwams.data.Data;
 import dnl.utils.text.table.TextTable;
-import org.apache.commons.beanutils.ConversionException;
 
 import java.util.*;
 
 public class Workload {
     private final ActivityData activityData; // declare activityData to access activities data
     private final UserData userData; // declare activityData to access users data
-    private final ActivityTypeData activityTypeData; // declare activityTypeData to access activity types data
+    private final ConfigurationData configurationData; // declare configurationData to access activity types data
     private final List<UserWorkloadAllocation> userWorkloadAllocation = new ArrayList<>();
 
     public List<UserWorkloadAllocation> getUserWorkloadAllocation() {
@@ -32,7 +31,7 @@ public class Workload {
         // initialize data in the system
         this.activityData = Data.activityData;
         this.userData = Data.userData;
-        this.activityTypeData = Data.activityTypeData;
+        this.configurationData = Data.configurationData;
 
         // if logged-in user is admin, they have permission to see all users in the system
         if (loginUser.getIsAdmin()) {
@@ -126,13 +125,13 @@ public class Workload {
     // import activity types from the CSV file
     public void importActivityTypes(String csvPathname) throws Exception {
         // read activity types data from CSV file
-        List<ActivityType> newActivityTypes = activityTypeData.readActivityTypesFromCSV(csvPathname);
+        List<ActivityType> newActivityTypes = configurationData.readActivityTypesFromCSV(csvPathname);
 
         // validation
         importActivityTypesValidation(newActivityTypes);
 
         // insert new activity types data to DAT file
-        activityTypeData.insertActivityTypesToDAT(newActivityTypes);
+        configurationData.insertActivityTypes(newActivityTypes);
         // recalculate hours of each activity
         for (Activity activity: activityData.getActivities()) {
             activity.calculateWorkload();
@@ -166,7 +165,7 @@ public class Workload {
 
         // check is the remove activity type have been used
         ActivityType removedActivityType = null;
-        for (ActivityType type: activityTypeData.getActivityTypes()) {
+        for (ActivityType type: configurationData.getActivityTypes()) {
             boolean isMatch = newActivityTypes.stream().anyMatch(item -> item.getName().equals(type.getName()));
             if (!isMatch) {
                 removedActivityType = type;
@@ -235,7 +234,7 @@ public class Workload {
 
     public static Object[][] convertWorkloadListToArray(List<Activity> list) {
         int rows = list.size();
-        int columns = 10 + Data.activityTypeData.getActivityTypes().size();
+        int columns = 10 + Data.configurationData.getActivityTypes().size();
         Object[][] array = new Object[rows][columns];
 
         for (int i = 0; i < rows; i++) {

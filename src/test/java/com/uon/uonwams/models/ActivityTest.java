@@ -19,9 +19,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Optional;
 
-import static com.uon.uonwams.models.User.hashPassword;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ActivityTest {
@@ -70,7 +68,7 @@ class ActivityTest {
             }}
         ));
 
-        Data.activityTypeData.insertActivityTypesToDAT(list);
+        Data.configurationData.insertActivityTypes(list);
     }
 
     @AfterAll

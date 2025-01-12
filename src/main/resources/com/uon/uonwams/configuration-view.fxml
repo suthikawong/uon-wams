@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="myWorkloadAnchorPane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.uon.uonwams.controllers.MyWorkloadController">
+<AnchorPane fx:id="configurationViewAnchorPane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.uon.uonwams.controllers.ConfigurationViewController">
    <children>
       <VBox alignment="TOP_CENTER" layoutX="63.0" layoutY="45.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -22,7 +22,7 @@
                      </items></Menu>
               </menus>
             </MenuBar>
-            <Label text="My Workload">
+            <Label text="Configuration">
                <font>
                   <Font name="System Bold" size="28.0" />
                </font>
@@ -34,26 +34,38 @@
                <children>
                   <VBox alignment="TOP_CENTER" prefHeight="328.0" prefWidth="800.0">
                      <children>
-                        <VBox prefHeight="16.0" prefWidth="100.0">
-                           <children>
-                              <Label text="Workload Allocation">
-                                 <font>
-                                    <Font name="System Bold" size="16.0" />
-                                 </font>
-                              </Label>
-                           </children>
-                           <VBox.margin>
-                              <Insets bottom="10.0" />
-                           </VBox.margin>
-                        </VBox>
-                        <TableView fx:id="myWorkloadTableView" maxHeight="-Infinity" prefHeight="230.0" prefWidth="760.0">
-                           <VBox.margin>
-                              <Insets bottom="20.0" />
-                           </VBox.margin>
-                        </TableView>
                         <VBox layoutX="30.0" layoutY="10.0" prefHeight="16.0" prefWidth="100.0">
                            <children>
-                              <Label text="Activities">
+                              <HBox prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <Label text="Total contractual hours for full-time contract: ">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="configurationFormTotalFullTimeHoursLabel" text="&lt;totalFullTimeHours&gt;">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                              <VBox prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <Button mnemonicParsing="false" onAction="#onClickEditConfigurationButton" prefHeight="25.0" prefWidth="71.0" text="Edit " />
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin>
+                              </VBox>
+                           </children>
+                           <VBox.margin>
+                              <Insets bottom="20.0" />
+                           </VBox.margin>
+                        </VBox>
+                        <VBox prefHeight="16.0" prefWidth="100.0">
+                           <children>
+                              <Label text="Activity Type Formula">
                                  <font>
                                     <Font name="System Bold" size="16.0" />
                                  </font>
@@ -63,11 +75,19 @@
                               <Insets bottom="10.0" />
                            </VBox.margin>
                         </VBox>
-                        <TableView fx:id="myActivityTableView" prefHeight="440.0" prefWidth="760.0">
+                        <TableView fx:id="configurationTableView" maxHeight="-Infinity" prefHeight="331.0" prefWidth="760.0">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </TableView>
+                        <ButtonBar prefHeight="40.0" prefWidth="200.0">
+                          <buttons>
+                            <Button fx:id="configurationViewImportActivityTypesButton" layoutX="695.0" layoutY="10.0" mnemonicParsing="false" onAction="#onClickImportActivityTypesButton" text="Import Activity Types" />
+                          </buttons>
                            <VBox.margin>
                               <Insets bottom="20.0" />
                            </VBox.margin>
-                        </TableView>
+                        </ButtonBar>
                      </children>
                      <padding>
                         <Insets left="20.0" right="20.0" />

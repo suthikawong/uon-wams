@@ -13,7 +13,6 @@ import com.uon.uonwams.data.Data;
 import org.junit.jupiter.api.*;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -86,7 +85,7 @@ class WorkloadTest {
         }}
         ));
 
-        Data.activityTypeData.insertActivityTypesToDAT(activityTypesList);
+        Data.configurationData.insertActivityTypes(activityTypesList);
 
         subActivity = new Activity(1, "activityname", "ATSR", "test", sub.userId, sub.name, "All Year", 2, 80);
         Data.activityData.insertActivity(subActivity.getActivityName(), subActivity.getActivityType(), subActivity.getDescription(), subActivity.getResponsibleUserId(), subActivity.getResponsibleUser(), subActivity.getYear(), subActivity.getDuration(), subActivity.getNoOfInstances());

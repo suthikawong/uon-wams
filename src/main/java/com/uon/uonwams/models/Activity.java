@@ -52,7 +52,7 @@ public class Activity extends DATFileStructure implements Serializable {
         this.workloadHours = new LinkedHashMap<>();
         this.hours = this.duration * this.noOfInstances;
         // iterate through activity types and store them into this.workloadHours
-        for (ActivityType type: Data.activityTypeData.getActivityTypes()) {
+        for (ActivityType type: Data.configurationData.getActivityTypes()) {
             if (type.getName().equals(this.activityType)) {
                 LinkedHashMap<String, Double> formula = type.formula;
                 for (String key : formula.keySet()) {

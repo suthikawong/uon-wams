@@ -72,12 +72,6 @@ public class WorkloadController extends MenuController implements ControllerInte
         this.appController = appController;
     }
 
-    // when add button is clicked, navigate to the activity-form.fxml
-    @FXML
-    protected void onClickViewFormulaButton() throws IOException {
-        appController.loadScene("formula-view.fxml");
-    }
-
     // import activities from the selected CSV file
     @FXML
     protected void onClickImportWorkloadButton() {

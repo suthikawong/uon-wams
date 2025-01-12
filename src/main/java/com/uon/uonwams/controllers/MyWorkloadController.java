@@ -170,8 +170,8 @@ public class MyWorkloadController extends MenuController implements ControllerIn
                 hoursColumn
         );
 
-        if (Data.activityTypeData.getActivityTypes().size() > 0) {
-            LinkedHashMap<String, Double> formula = Data.activityTypeData.getActivityTypes().getFirst().getFormula();
+        if (Data.configurationData.getActivityTypes().size() > 0) {
+            LinkedHashMap<String, Double> formula = Data.configurationData.getActivityTypes().getFirst().getFormula();
             for(String key : formula.keySet()) {
                 TableColumn<Activity, String> column = new TableColumn<>(key);
                 column.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(Double.toString(data.getValue().getWorkloadHours().get(key))));

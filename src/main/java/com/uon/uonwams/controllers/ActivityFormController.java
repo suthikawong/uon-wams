@@ -60,7 +60,7 @@ public class ActivityFormController extends MenuController implements Controller
 
         // initialize activity type options
         List<String> options = new ArrayList<>();
-        for (ActivityType type: Data.activityTypeData.getActivityTypes()) {
+        for (ActivityType type: Data.configurationData.getActivityTypes()) {
             options.add(type.getName());
         }
         activityFormTypeChoiceBox.getItems().addAll(options);

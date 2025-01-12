@@ -15,18 +15,26 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-public class ActivityTypeData {
+public class ConfigurationData {
     private final DATFile DATfile;
-    private List<ActivityType> activityTypes;
+    private List<Configuration> configurations;
 
     // initialize DATFile instance and read data from that file
-    public ActivityTypeData(String pathname) throws Exception {
-        this.DATfile = new DATFile<ActivityType>(pathname);
-        this.activityTypes = DATfile.getData();
+    public ConfigurationData(String pathname) throws Exception {
+        this.DATfile = new DATFile<Configuration>(pathname);
+        this.configurations = DATfile.getData();
+        if (configurations.size() == 0) {
+            // default totalFullTimeHours value as 1570
+            this.configurations.add(new Configuration(1570, new ArrayList<>()));
+        }
+    }
+
+    public int getTotalFullTimeHours() {
+        return this.configurations.getFirst().getTotalFullTimeHours();
     }
 
     public List<ActivityType> getActivityTypes() {
-        return this.activityTypes;
+        return this.configurations.getFirst().getActivityTypes();
     }
 
     // read activity types from the CSV file
@@ -37,15 +45,27 @@ public class ActivityTypeData {
     }
 
     // insert a new activity type into DAT file
-    public void insertActivityTypesToDAT(List<ActivityType> activityTypes) {
-        // insert a new activity type
-        DATfile.insertRecords(activityTypes);
-        // reload latest data and store them into this.activityTypes
-        this.activityTypes = DATfile.getData();
+    public void insertActivityTypes(List<ActivityType> activityTypes) {
+        Configuration configuration = this.configurations.getFirst();
+        configuration.setActivityTypes(activityTypes);
+        // update configuration
+        DATfile.updateRecord(configuration);
+        // reload latest data and store them into this.configurations
+        this.configurations = DATfile.getData();
+    }
+
+    // update totalFullTimeHours in DAT file
+    public void updateTotalFullTimeHours(int totalFullTimeHours) {
+        Configuration configuration = this.configurations.getFirst();
+        configuration.setTotalFullTimeHours(totalFullTimeHours);
+        // update configuration
+        DATfile.updateRecord(configuration);
+        // reload latest data and store them into this.configurations
+        this.configurations = DATfile.getData();
     }
 
     // convert List<LinkedHashMap<String, String>> to List<ActivityType>
-    public List<ActivityType> parseCSVToActivityTypes(List<LinkedHashMap<String, String>> records) throws Exception {
+    private List<ActivityType> parseCSVToActivityTypes(List<LinkedHashMap<String, String>> records) throws Exception {
         List<ActivityType> activityTypes = new ArrayList<>();
         for (int i=0; i<records.size(); i++) {
             activityTypes.add(parseCSVToActivityType(i + 1, records.get(i)));
@@ -54,7 +74,7 @@ public class ActivityTypeData {
     }
 
     // convert LinkedHashMap<String, String> to ActivityType
-    public ActivityType parseCSVToActivityType(int id, LinkedHashMap<String, String> record) throws Exception {
+    private ActivityType parseCSVToActivityType(int id, LinkedHashMap<String, String> record) throws Exception {
         LinkedHashMap<String, Double> formula = new LinkedHashMap<>();
         try {
             // convert string to double

@@ -17,6 +17,7 @@
                         <MenuItem fx:id="profileMenuItem" mnemonicParsing="false" onAction="#onClickProfileMenuItem" text="Profile" />
                         <MenuItem fx:id="workloadMenuItem" mnemonicParsing="false" onAction="#onClickWorkloadMenuItem" text="Workload Management" />
                         <MenuItem fx:id="umMenuItem" mnemonicParsing="false" onAction="#onClickUmMenuItem" text="User Management" />
+                        <MenuItem fx:id="configurationMenuItem" mnemonicParsing="false" onAction="#onClickConfigurationMenuItem" text="Configuration" />
                         <MenuItem fx:id="logoutMenuItem" mnemonicParsing="false" onAction="#onClickLogoutMenuItem" text="Logout" />
                      </items></Menu>
               </menus>
@@ -82,7 +83,6 @@
                         </TableView>
                         <ButtonBar prefHeight="40.0" prefWidth="200.0">
                            <buttons>
-                              <Button fx:id="workloadViewFormulaButton" layoutX="515.0" layoutY="10.0" mnemonicParsing="false" onAction="#onClickViewFormulaButton" text="View Formula" />
                               <Button fx:id="workloadDownloadTemplateButton" mnemonicParsing="false" onAction="#onClickDownloadTemplateButton" text="Download Template" />
                               <Button fx:id="workloadImportWorkloadButton" layoutX="695.0" layoutY="10.0" mnemonicParsing="false" onAction="#onClickImportWorkloadButton" text="Import Workload" />
                            </buttons>
