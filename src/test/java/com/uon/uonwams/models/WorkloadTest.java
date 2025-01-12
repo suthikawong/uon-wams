@@ -14,6 +14,8 @@ import org.junit.jupiter.api.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,10 +26,11 @@ import static org.junit.jupiter.api.Assertions.*;
 class WorkloadTest {
     private static String userPathname = "files/test-workload-user-class.dat";
     private static String activityPathname = "files/test-workload-activity-class.dat";
+    private static String activityTypePathname = "files/test-workload-activitytype-class.dat";
     private static File userFile;
     private static File activityFile;
+    private static File activityTypeFile;
     private static DATFile userDatFile;
-    private static DATFile activityDatFile;
     private static User lineManager;
     private static User sub;
     private static Activity subActivity;
@@ -38,30 +41,69 @@ class WorkloadTest {
         userFile = new File(userPathname);
         userFile.createNewFile();
         userDatFile = new DATFile<User>(userPathname);
+        activityFile = new File(activityPathname);
+        activityFile.createNewFile();
+        activityTypeFile = new File(activityTypePathname);
+        activityTypeFile.createNewFile();
 
         lineManager = new User(1, "testname", hashPassword("password"), "email", 1, "sucjectarea", null);
         sub = new User(2, "testname", hashPassword("password"), "email", 1, "sucjectarea", 1);
         userDatFile.appendRecords(List.of(lineManager, sub));
 
+        new Data(userPathname, activityPathname, activityTypePathname);
 
-        activityFile = new File(activityPathname);
-        activityFile.createNewFile();
-        activityDatFile = new DATFile<User>(activityPathname);
+        List<ActivityType> activityTypesList = new ArrayList<>();
+        activityTypesList.add(new ActivityType(1, "ATSR", new LinkedHashMap<>() {{
+            put("ATSR", 1.0);
+            put("TS", 1.2);
+            put("TLR", 0.0);
+            put("SA", 0.0);
+            put("Other", 0.0);
+        }}
+        ));
+        activityTypesList.add(new ActivityType(2, "TLR", new LinkedHashMap<>() {{
+            put("ATSR", 0.0);
+            put("TS", 0.0);
+            put("TLR", 1.0);
+            put("SA", 0.0);
+            put("Other", 0.0);
+        }}
+        ));
+        activityTypesList.add(new ActivityType(3, "SA", new LinkedHashMap<>() {{
+            put("ATSR", 0.0);
+            put("TS", 0.0);
+            put("TLR", 0.0);
+            put("SA", 1.0);
+            put("Other", 0.0);
+        }}
+        ));
+        activityTypesList.add(new ActivityType(4, "Other", new LinkedHashMap<>() {{
+            put("ATSR", 0.0);
+            put("TS", 0.0);
+            put("TLR", 0.0);
+            put("SA", 0.0);
+            put("Other", 1.0);
+        }}
+        ));
 
-        subActivity = new Activity(1, "activityname", ActivityType.ATSR, "test", sub.userId, sub.name, "All Year", 2, 80);
-        activityDatFile.appendRecord(subActivity);
+        Data.activityTypeData.insertActivityTypesToDAT(activityTypesList);
 
-        new Data(userPathname, activityPathname, null);
+        subActivity = new Activity(1, "activityname", "ATSR", "test", sub.userId, sub.name, "All Year", 2, 80);
+        Data.activityData.insertActivity(subActivity.getActivityName(), subActivity.getActivityType(), subActivity.getDescription(), subActivity.getResponsibleUserId(), subActivity.getResponsibleUser(), subActivity.getYear(), subActivity.getDuration(), subActivity.getNoOfInstances());
+
         workload = new Workload(lineManager);
     }
 
     @AfterAll
-    public static void teardown() throws IOException {
+    public static void teardown() {
         if (userFile.exists()) {
             userFile.delete();
         }
         if (activityFile.exists()) {
             activityFile.delete();
+        }
+        if (activityTypeFile.exists()) {
+            activityTypeFile.delete();
         }
     }
 
@@ -84,7 +126,7 @@ class WorkloadTest {
     @Order(3)
     void testAddActivity() throws Exception {
         String activityName = "test activity";
-        ActivityType activityType = ActivityType.ATSR;
+        String activityType = "ATSR";
         String description = "test";
         int responsibleUserId = sub.userId;
         String year = "All Year";
@@ -93,7 +135,7 @@ class WorkloadTest {
 
         workload.addActivity(
                 activityName,
-                activityType.label,
+                activityType,
                 description,
                 responsibleUserId,
                 year,
@@ -117,7 +159,7 @@ class WorkloadTest {
     @Order(4)
     void testUpdateActivity() throws Exception {
         String activityName = "test activity1";
-        ActivityType activityType = ActivityType.OTHER;
+        String activityType = "Other";
         String description = "test1";
         int responsibleUserId = sub.userId;
         String year = "Trimester";
@@ -127,7 +169,7 @@ class WorkloadTest {
         workload.updateActivity(
                 2,
                 activityName,
-                activityType.label,
+                activityType,
                 description,
                 responsibleUserId,
                 year,

@@ -40,7 +40,7 @@ class UserManagementTest {
         sub = new User(2, "testname", hashPassword("password"), "email", 1, "sucjectarea", 1);
         datFile.appendRecords(List.of(lineManager, sub));
 
-        new Data(pathname, null);
+        new Data(pathname, null, null);
         um = new UserManagement(lineManager);
     }
 
@@ -84,7 +84,7 @@ class UserManagementTest {
                 lineManagerUserId
         );
 
-        new Data(pathname, null);
+        new Data(pathname, null, null);
         assertEquals(3, Data.userData.getUsers().size());
         User user = Data.userData.getUsers().get(2);
         assertEquals(userId, user.userId);
@@ -114,7 +114,7 @@ class UserManagementTest {
                 lineManagerUserId
         );
 
-        new Data(pathname, null);
+        new Data(pathname, null, null);
         assertEquals(3, Data.userData.getUsers().size());
         User user = Data.userData.getUsers().get(2);
         assertEquals(userId, user.userId);
@@ -129,7 +129,7 @@ class UserManagementTest {
     @Order(5)
     void testDeleteUser() throws Exception {
         um.deleteUser(3);
-        new Data(pathname, null);
+        new Data(pathname, null, null);
         assertEquals(2, Data.userData.getUsers().size());
     }
 }

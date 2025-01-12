@@ -201,4 +201,18 @@ public class User extends DATFileStructure implements Serializable {
                 .addPepper(secret)
                 .with(bcrypt);
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", fteRatio=" + fteRatio +
+                ", subjectArea='" + subjectArea + '\'' +
+                ", lineManagerUserId=" + lineManagerUserId +
+                ", isAdmin=" + isAdmin +
+                '}';
+    }
 }

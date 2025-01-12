@@ -111,4 +111,21 @@ public class Activity extends DATFileStructure implements Serializable {
     public LinkedHashMap<String, Integer> getWorkloadHours() {
         return workloadHours;
     }
+
+    @Override
+    public String toString() {
+        return "Activity{" +
+                "activityId=" + activityId +
+                ", activityName='" + activityName + '\'' +
+                ", activityType='" + activityType + '\'' +
+                ", description='" + description + '\'' +
+                ", responsibleUserId=" + responsibleUserId +
+                ", responsibleUser='" + responsibleUser + '\'' +
+                ", year='" + year + '\'' +
+                ", duration=" + duration +
+                ", noOfInstances=" + noOfInstances +
+                ", hours=" + hours +
+                ", workloadHours=" + workloadHours +
+                '}';
+    }
 }
