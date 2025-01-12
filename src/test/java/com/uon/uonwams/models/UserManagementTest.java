@@ -38,7 +38,7 @@ class UserManagementTest {
 
         lineManager = new User(1, "testname", hashPassword("password"), "email", 1, "sucjectarea", null);
         sub = new User(2, "testname", hashPassword("password"), "email", 1, "sucjectarea", 1);
-        datFile.insertRecords(List.of(lineManager, sub));
+        datFile.appendRecords(List.of(lineManager, sub));
 
         new Data(pathname, null);
         um = new UserManagement(lineManager);

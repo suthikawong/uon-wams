@@ -9,7 +9,6 @@
 
 package com.uon.uonwams.models;
 
-import com.uon.uonwams.config.ActivityType;
 import com.uon.uonwams.data.Data;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -40,9 +39,9 @@ class UserWorkloadAllocationTest {
 
         activity1 = new Activity(1, "actname1", ActivityType.ATSR, "test1", user.userId, user.name, "All Year", 2, 100);
         activity2 = new Activity(2, "actname2", ActivityType.SA, "test2", user.userId, user.name, "All Year", 1, 30);
-        datFile.insertRecords(List.of(activity1, activity2));
+        datFile.appendRecords(List.of(activity1, activity2));
 
-        new Data(null, pathname);
+        new Data(null, pathname, null);
 
     }
 

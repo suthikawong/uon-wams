@@ -9,7 +9,7 @@
 
 package com.uon.uonwams.models;
 
-import com.uon.uonwams.config.ActivityType;
+import com.uon.uonwams.data.Data;
 
 import java.io.Serializable;
 import java.util.LinkedHashMap;
@@ -18,7 +18,7 @@ public class Activity extends DATFileStructure implements Serializable {
     private static final long serialVersionUID = 1L;
     private final int activityId;
     private final String activityName;
-    private final ActivityType activityType;
+    private final String activityType;
     private final String description;
     private final int responsibleUserId;
     private final String responsibleUser;
@@ -26,13 +26,9 @@ public class Activity extends DATFileStructure implements Serializable {
     private final int duration;
     private final int noOfInstances;
     private int hours;
-    private int ATSR;
-    private int TS;
-    private int TLR;
-    private int SA;
-    private int other;
+    private LinkedHashMap<String, Integer> workloadHours;
 
-    public Activity(int activityId, String activityName, ActivityType activityType, String description, int responsibleUserId, String responsibleUser, String year, int duration, int noOfInstances) {
+    public Activity(int activityId, String activityName, String activityType, String description, int responsibleUserId, String responsibleUser, String year, int duration, int noOfInstances) {
         this.activityId = activityId;
         this.activityName = activityName;
         this.activityType = activityType;
@@ -45,46 +41,27 @@ public class Activity extends DATFileStructure implements Serializable {
 
         try {
             // calculate ATSR, TS, TLR, SA and Other hours for activity
-            calculateWorkload(activityType, duration, noOfInstances);
+            calculateWorkload();
         } catch (Exception e) {
             System.out.println("Cannot create activity: " + e.getMessage());
         }
     }
 
-    private void calculateWorkload(ActivityType activityType, int duration, int noOfInstances) throws Exception {
-        this.hours = duration * noOfInstances;
-        switch (activityType) {
-            case ActivityType.ATSR:
-                this.ATSR = this.hours;
-                this.TS = (int) Math.ceil(this.hours * 1.2); // round up if result is decimal number
-                this.TLR = 0;
-                this.SA = 0;
-                this.other = 0;
-                break;
-            case ActivityType.TLR:
-                this.ATSR = 0;
-                this.TS = 0;
-                this.TLR = this.hours;
-                this.SA = 0;
-                this.other = 0;
-                break;
-            case ActivityType.SA:
-                this.ATSR = 0;
-                this.TS = 0;
-                this.TLR = 0;
-                this.SA = this.hours;
-                this.other = 0;
-                break;
-            case ActivityType.OTHER:
-                this.ATSR = 0;
-                this.TS = 0;
-                this.TLR = 0;
-                this.SA = 0;
-                this.other = this.hours;
-                break;
-            default:
-                throw new Exception("Invalid activity type");
+    // calculate workload allocation
+    public void calculateWorkload() throws Exception {
+        this.workloadHours = new LinkedHashMap<>();
+        this.hours = this.duration * this.noOfInstances;
+        // iterate through activity types and store them into this.workloadHours
+        for (ActivityType type: Data.activityTypeData.getActivityTypes()) {
+            if (type.getName().equals(this.activityType)) {
+                LinkedHashMap<String, Double> formula = type.formula;
+                for (String key : formula.keySet()) {
+                    this.workloadHours.put(key, (int) Math.ceil(this.hours * formula.get(key)));
+                }
+                return;
+            }
         }
+        throw new Exception("Invalid activity type");
     }
 
     public int getId() {
@@ -99,7 +76,7 @@ public class Activity extends DATFileStructure implements Serializable {
         return activityName;
     }
 
-    public ActivityType getActivityType() {
+    public String getActivityType() {
         return activityType;
     }
 
@@ -131,23 +108,7 @@ public class Activity extends DATFileStructure implements Serializable {
         return hours;
     }
 
-    public int getATSR() {
-        return ATSR;
-    }
-
-    public int getTS() {
-        return TS;
-    }
-
-    public int getTLR() {
-        return TLR;
-    }
-
-    public int getSA() {
-        return SA;
-    }
-
-    public int getOther() {
-        return other;
+    public LinkedHashMap<String, Integer> getWorkloadHours() {
+        return workloadHours;
     }
 }

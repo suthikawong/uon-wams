@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane fx:id="formulaViewAnchorPane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.uon.uonwams.controllers.FormulaViewController">
+   <children>
+      <VBox alignment="TOP_CENTER" layoutX="63.0" layoutY="45.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <MenuBar>
+              <menus>
+                  <Menu mnemonicParsing="false" text="Menu">
+                     <items>
+                        <MenuItem fx:id="myWorkloadMenuItem" mnemonicParsing="false" onAction="#onClickMyWorkloadMenuItem" text="My Workload" />
+                        <MenuItem fx:id="profileMenuItem" mnemonicParsing="false" onAction="#onClickProfileMenuItem" text="Profile" />
+                        <MenuItem fx:id="workloadMenuItem" mnemonicParsing="false" onAction="#onClickWorkloadMenuItem" text="Workload Management" />
+                        <MenuItem fx:id="umMenuItem" mnemonicParsing="false" onAction="#onClickUmMenuItem" text="User Management" />
+                        <MenuItem fx:id="logoutMenuItem" mnemonicParsing="false" onAction="#onClickLogoutMenuItem" text="Logout" />
+                     </items></Menu>
+              </menus>
+            </MenuBar>
+            <Label text="Workload Formula">
+               <font>
+                  <Font name="System Bold" size="28.0" />
+               </font>
+               <VBox.margin>
+                  <Insets bottom="20.0" top="20.0" />
+               </VBox.margin>
+            </Label>
+            <StackPane alignment="TOP_CENTER" layoutX="10.0" layoutY="95.0" prefHeight="496.0" prefWidth="800.0">
+               <children>
+                  <VBox alignment="TOP_CENTER" prefHeight="328.0" prefWidth="800.0">
+                     <children>
+                        <VBox prefHeight="16.0" prefWidth="100.0">
+                           <children>
+                              <Label text="Activitie Types">
+                                 <font>
+                                    <Font name="System Bold" size="16.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                        </VBox>
+                        <TableView fx:id="formulaTableView" maxHeight="-Infinity" prefHeight="502.0" prefWidth="760.0">
+                           <VBox.margin>
+                              <Insets bottom="20.0" />
+                           </VBox.margin>
+                        </TableView>
+                        <ButtonBar prefHeight="40.0" prefWidth="200.0">
+                          <buttons>
+                            <Button fx:id="formulaViewBackButton" mnemonicParsing="false" onAction="#onClickBackButton" text="Back" />
+                              <Button fx:id="formulaViewImportActivityTypesButton" layoutX="695.0" layoutY="10.0" mnemonicParsing="false" onAction="#onClickImportActivityTypesButton" text="Import Activity Types" />
+                          </buttons>
+                           <VBox.margin>
+                              <Insets bottom="20.0" />
+                           </VBox.margin>
+                        </ButtonBar>
+                     </children>
+                     <padding>
+                        <Insets left="20.0" right="20.0" />
+                     </padding>
+                  </VBox>
+               </children>
+            </StackPane>
+         </children></VBox>
+   </children>
+</AnchorPane>

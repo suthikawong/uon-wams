@@ -32,7 +32,7 @@ public class UserData {
     public void insertUser(int userId, String name, String password, String email, double fteRatio, String subjectArea, Integer lineManagerUserId) {
         User user = new User(userId, name, password, email, fteRatio, subjectArea, lineManagerUserId);
         // insert a new user
-        file.insertRecord(user);
+        file.appendRecord(user);
         // reload latest data and store them into this.users
         this.users = file.getData();
     }
@@ -53,5 +53,4 @@ public class UserData {
         // reload latest data and store them into this.users
         this.users = file.getData();
     }
-
 }

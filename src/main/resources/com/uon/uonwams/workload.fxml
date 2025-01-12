@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="workloadAnchorPane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.uon.uonwams.controllers.WorkloadController">
+<AnchorPane fx:id="workloadAnchorPane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.uon.uonwams.controllers.WorkloadController">
    <children>
       <VBox alignment="TOP_CENTER" layoutX="63.0" layoutY="45.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -82,6 +82,7 @@
                         </TableView>
                         <ButtonBar prefHeight="40.0" prefWidth="200.0">
                            <buttons>
+                              <Button fx:id="workloadViewFormulaButton" layoutX="515.0" layoutY="10.0" mnemonicParsing="false" onAction="#onClickViewFormulaButton" text="View Formula" />
                               <Button fx:id="workloadDownloadTemplateButton" mnemonicParsing="false" onAction="#onClickDownloadTemplateButton" text="Download Template" />
                               <Button fx:id="workloadImportWorkloadButton" layoutX="695.0" layoutY="10.0" mnemonicParsing="false" onAction="#onClickImportWorkloadButton" text="Import Workload" />
                            </buttons>

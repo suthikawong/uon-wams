@@ -10,18 +10,15 @@
 package com.uon.uonwams.models;
 
 import com.uon.uonwams.data.Data;
+import javafx.scene.control.TableColumn;
 
 import java.util.List;
 
 public class UserWorkloadAllocation extends User {
     private int totalHours = 0;
     private int fteHours = 0;
-    private int totalAtsrTs = 0;
-    private double percentageOfAtsrAllocated = 0;
     private double parcentageOfTotalHoursAllocated = 0;
-    private int fteAtsrHours = 0;
     private final int MaxFteHours = 1570;
-    private final int MaxFteAtsrHours = 550;
 
     // calculate workload allocation of that user when initializing a new instance
     public UserWorkloadAllocation(User user) {
@@ -30,32 +27,23 @@ public class UserWorkloadAllocation extends User {
     }
 
     // calculate workload allocation
-    private void calculateWorkloadAllocation() {
+    public void calculateWorkloadAllocation() {
         // get all activities in the system
         List<Activity> activities = Data.activityData.getActivities();
         int scale = (int) Math.pow(10, 1); // multiplier for converting double to have one decimal place
-        int sumATSR = 0;
-        int sumTS = 0;
-        int sumTLR = 0;
-        int sumSA = 0;
-        int sumOther = 0;
+        int sum = 0;
         for (Activity activity: activities) {
             if (this.userId == activity.getResponsibleUserId()) {
-                sumATSR += activity.getATSR();
-                sumTS += activity.getTS();
-                sumTLR += activity.getTLR();
-                sumSA += activity.getSA();
-                sumOther += activity.getOther();
+                for(String key : activity.getWorkloadHours().keySet()) {
+                    sum += activity.getWorkloadHours().get(key);
+                }
             }
         }
         // using Math.ceil to round up number
         // using scale to get number that have one decimal place
-        this.totalHours = sumATSR + sumTS + sumTLR + sumSA + sumOther;
+        this.totalHours = sum;
         this.fteHours = (int) Math.ceil(MaxFteHours * this.fteRatio);
-        this.totalAtsrTs = sumATSR + sumTS;
-        this.percentageOfAtsrAllocated = Math.ceil(((double) sumATSR / (MaxFteHours * this.fteRatio) * 100) * scale) / scale;
         this.parcentageOfTotalHoursAllocated = Math.ceil(((double) this.totalHours / (MaxFteHours * this.fteRatio) * 100) * scale) / scale;
-        this.fteAtsrHours = (int) Math.ceil(MaxFteAtsrHours * this.fteRatio);
     }
 
     public int getTotalHours() {
@@ -66,19 +54,7 @@ public class UserWorkloadAllocation extends User {
         return fteHours;
     }
 
-    public int getTotalAtsrTs() {
-        return totalAtsrTs;
-    }
-
-    public double getPercentageOfAtsrAllocated() {
-        return percentageOfAtsrAllocated;
-    }
-
     public double getParcentageOfTotalHoursAllocated() {
         return parcentageOfTotalHoursAllocated;
-    }
-
-    public int getFteAtsrHours() {
-        return fteAtsrHours;
     }
 }

@@ -35,8 +35,8 @@ public class UserTest {
         datFile = new DATFile<User>(pathname);
         lineManager = new User(1, "testname", hashPassword("password"), "email", 1, "sucjectarea", null);
         sub = new User(2, "testname", hashPassword("password"), "email", 1, "sucjectarea", 1);
-        datFile.insertRecords(List.of(lineManager, sub));
-        new Data(pathname, null);
+        datFile.appendRecords(List.of(lineManager, sub));
+        new Data(pathname, null, null);
     }
 
     @AfterAll

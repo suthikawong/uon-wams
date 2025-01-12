@@ -45,9 +45,9 @@ public class DATFileTest {
 
     @Test
     @Order(2)
-    void testInsertRecord() {
+    void testAppendRecord() {
         User user = new User(1, "testname", "password", "email", 1, "sucjectarea", 1);
-        datFile.insertRecord(user);
+        datFile.appendRecord(user);
         List<User> list = datFile.getData();
         assertEquals(1, list.size());
         User data = list.getFirst();
@@ -62,10 +62,10 @@ public class DATFileTest {
 
     @Test
     @Order(3)
-    void testInsertRecords() {
+    void testAppendRecords() {
         User user1 = new User(2, "testname", "password", "email", 1, "sucjectarea", 1);
         User user2 = new User(3, "testname", "password", "email", 1, "sucjectarea", 1);
-        datFile.insertRecords(List.of(user1, user2));
+        datFile.appendRecords(List.of(user1, user2));
         List<User> list = datFile.getData();
         assertEquals(3, list.size());
     }

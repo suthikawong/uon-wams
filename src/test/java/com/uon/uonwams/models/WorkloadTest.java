@@ -9,7 +9,6 @@
 
 package com.uon.uonwams.models;
 
-import com.uon.uonwams.config.ActivityType;
 import com.uon.uonwams.data.Data;
 import org.junit.jupiter.api.*;
 
@@ -42,7 +41,7 @@ class WorkloadTest {
 
         lineManager = new User(1, "testname", hashPassword("password"), "email", 1, "sucjectarea", null);
         sub = new User(2, "testname", hashPassword("password"), "email", 1, "sucjectarea", 1);
-        userDatFile.insertRecords(List.of(lineManager, sub));
+        userDatFile.appendRecords(List.of(lineManager, sub));
 
 
         activityFile = new File(activityPathname);
@@ -50,9 +49,9 @@ class WorkloadTest {
         activityDatFile = new DATFile<User>(activityPathname);
 
         subActivity = new Activity(1, "activityname", ActivityType.ATSR, "test", sub.userId, sub.name, "All Year", 2, 80);
-        activityDatFile.insertRecord(subActivity);
+        activityDatFile.appendRecord(subActivity);
 
-        new Data(userPathname, activityPathname);
+        new Data(userPathname, activityPathname, null);
         workload = new Workload(lineManager);
     }
 
@@ -102,7 +101,7 @@ class WorkloadTest {
                 noOfInstances
         );
 
-        new Data(userPathname, activityPathname);
+        new Data(userPathname, activityPathname, null);
         assertEquals(2, Data.activityData.getActivities().size());
         Activity activity = Data.activityData.getActivities().get(1);
         assertEquals(activityName, activity.getActivityName());
@@ -136,7 +135,7 @@ class WorkloadTest {
                 noOfInstances
         );
 
-        new Data(userPathname, activityPathname);
+        new Data(userPathname, activityPathname, null);
         assertEquals(2, Data.activityData.getActivities().size());
         Activity activity = Data.activityData.getActivities().get(1);
         assertEquals(activityName, activity.getActivityName());
@@ -152,7 +151,7 @@ class WorkloadTest {
     @Order(5)
     void testDeleteActivity() throws Exception {
         workload.deleteActivity(2);
-        new Data(userPathname, activityPathname);
+        new Data(userPathname, activityPathname, null);
         assertEquals(1, Data.activityData.getActivities().size());
     }
 }

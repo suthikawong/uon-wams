@@ -63,8 +63,8 @@ public class DATFile<T extends DATFileStructure> {
         }
     }
 
-    // insert a data into a DAT file
-    public void insertRecord(T record) {
+    // append a data into a DAT file
+    public void appendRecord(T record) {
         try {
             List<T> list = new ArrayList<T>(this.data);
             // add a new record to the list
@@ -83,8 +83,8 @@ public class DATFile<T extends DATFileStructure> {
         }
     }
 
-    // insert multiple data into a DAT file
-    public void insertRecords(List<T> records) {
+    // append multiple data into a DAT file
+    public void appendRecords(List<T> records) {
         try {
             List<T> list = new ArrayList<T>(this.data);
             // concat new records to the list
@@ -98,6 +98,22 @@ public class DATFile<T extends DATFileStructure> {
 
             // assign new data to this.data
             this.data = list;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // insert multiple data into a DAT file
+    public void insertRecords(List<T> records) {
+        try {
+            FileOutputStream outStream = new FileOutputStream(this.pathname);
+            ObjectOutputStream objectOutputFile = new ObjectOutputStream(outStream);
+            // write data to the DAT file
+            objectOutputFile.writeObject(records);
+            objectOutputFile.close();
+
+            // assign new data to this.data
+            this.data = records;
         } catch (IOException e) {
             e.printStackTrace();
         }

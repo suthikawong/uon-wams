@@ -9,7 +9,9 @@
 
 package com.uon.uonwams.controllers;
 
+import com.uon.uonwams.data.Data;
 import com.uon.uonwams.models.Activity;
+import com.uon.uonwams.models.ActivityType;
 import com.uon.uonwams.models.UserWorkloadAllocation;
 import com.uon.uonwams.models.Workload;
 import javafx.collections.FXCollections;
@@ -18,6 +20,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 
 public class MyWorkloadController extends MenuController implements ControllerInterface {
@@ -73,12 +76,6 @@ public class MyWorkloadController extends MenuController implements ControllerIn
         TableColumn<UserWorkloadAllocation, String> fteHoursColumn = new TableColumn<>("FTE Hours");
         fteHoursColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(Integer.toString(data.getValue().getFteHours())));
 
-        TableColumn<UserWorkloadAllocation, String> totalAtsrTsColumn = new TableColumn<>("Total ATSR + TS");
-        totalAtsrTsColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(Integer.toString(data.getValue().getTotalAtsrTs())));
-
-        TableColumn<UserWorkloadAllocation, String> percentAtsrColumn = new TableColumn<>("Parcentage of ATSR allocated");
-        percentAtsrColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(Double.toString(data.getValue().getPercentageOfAtsrAllocated())));
-
         TableColumn<UserWorkloadAllocation, String> percentTotalHoursColumn = new TableColumn<>("Parcentage of Total Hours Allocated");
         percentTotalHoursColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(Double.toString(data.getValue().getParcentageOfTotalHoursAllocated())));
         percentTotalHoursColumn.setCellFactory(column -> new javafx.scene.control.TableCell<UserWorkloadAllocation, String>() {
@@ -105,9 +102,6 @@ public class MyWorkloadController extends MenuController implements ControllerIn
             }
         });
 
-        TableColumn<UserWorkloadAllocation, String> fteAtsrHoursColumn = new TableColumn<>("FTE ATSR Hours");
-        fteAtsrHoursColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(Integer.toString(data.getValue().getFteAtsrHours())));
-
         // add columns to TableView
         myWorkloadTableView.getColumns().addAll(
                 idColumn,
@@ -117,10 +111,7 @@ public class MyWorkloadController extends MenuController implements ControllerIn
                 subjectAreaColumn,
                 totalHoursColumn,
                 fteHoursColumn,
-                totalAtsrTsColumn,
-                percentAtsrColumn,
-                percentTotalHoursColumn,
-                fteAtsrHoursColumn
+                percentTotalHoursColumn
         );
 
         ObservableList<UserWorkloadAllocation> list = FXCollections.observableArrayList();
@@ -132,11 +123,14 @@ public class MyWorkloadController extends MenuController implements ControllerIn
 
     // display activities of the selected user in the table
     private void createActivityTable() {
+        // find activities of the logged-in user
+        List<Activity> activities = appController.getWorkload().getActivitiesByUserId(appController.getLoginUser().getUserId());
+
         TableColumn<Activity, String> activityIdColumn = new TableColumn<>("Activity ID");
         activityIdColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(Integer.toString(data.getValue().getActivityId())));
 
         TableColumn<Activity, String> activityTypeColumn = new TableColumn<>("Activity Type");
-        activityTypeColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getActivityType().label));
+        activityTypeColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getActivityType()));
 
         TableColumn<Activity, String> activityNameColumn = new TableColumn<>("Activity Name");
         activityNameColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getActivityName()));
@@ -162,21 +156,6 @@ public class MyWorkloadController extends MenuController implements ControllerIn
         TableColumn<Activity, String> hoursColumn = new TableColumn<>("Hours");
         hoursColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(Integer.toString(data.getValue().getHours())));
 
-        TableColumn<Activity, String> atsrColumn = new TableColumn<>("ATSR");
-        atsrColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(Integer.toString(data.getValue().getATSR())));
-
-        TableColumn<Activity, String> tsColumn = new TableColumn<>("TS");
-        tsColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(Integer.toString(data.getValue().getTS())));
-
-        TableColumn<Activity, String> tlrColumn = new TableColumn<>("TLR");
-        tlrColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(Integer.toString(data.getValue().getTLR())));
-
-        TableColumn<Activity, String> saColumn = new TableColumn<>("SA");
-        saColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(Integer.toString(data.getValue().getSA())));
-
-        TableColumn<Activity, String> otherColumn = new TableColumn<>("Other");
-        otherColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(Integer.toString(data.getValue().getOther())));
-
         // add columns to TableView
         myActivityTableView.getColumns().addAll(
                 activityIdColumn,
@@ -188,20 +167,21 @@ public class MyWorkloadController extends MenuController implements ControllerIn
                 yearColumn,
                 durationColumn,
                 noOfInstancesColumn,
-                hoursColumn,
-                atsrColumn,
-                tsColumn,
-                tlrColumn,
-                saColumn,
-                otherColumn
+                hoursColumn
         );
 
-        // find activities of the logged-in user
-        List<Activity> activities = appController.getWorkload().getActivitiesByUserId(appController.getLoginUser().getUserId());
-        ObservableList<Activity> list = FXCollections.observableArrayList();
-        for(Activity activity: activities) {
-            list.add(activity);
+        if (Data.activityTypeData.getActivityTypes().size() > 0) {
+            LinkedHashMap<String, Double> formula = Data.activityTypeData.getActivityTypes().getFirst().getFormula();
+            for(String key : formula.keySet()) {
+                TableColumn<Activity, String> column = new TableColumn<>(key);
+                column.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(Double.toString(data.getValue().getWorkloadHours().get(key))));
+                // add columns to TableView
+                myActivityTableView.getColumns().add(column);
+            }
         }
+
+        ObservableList<Activity> list = FXCollections.observableArrayList();
+        list.addAll(activities);
         // add data to TableView
         myActivityTableView.setItems(list);
     }

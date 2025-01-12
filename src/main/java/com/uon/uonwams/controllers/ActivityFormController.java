@@ -9,8 +9,9 @@
 
 package com.uon.uonwams.controllers;
 
-import com.uon.uonwams.config.ActivityType;
+import com.uon.uonwams.data.Data;
 import com.uon.uonwams.models.Activity;
+import com.uon.uonwams.models.ActivityType;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -59,8 +60,8 @@ public class ActivityFormController extends MenuController implements Controller
 
         // initialize activity type options
         List<String> options = new ArrayList<>();
-        for (ActivityType type: ActivityType.values()) {
-            options.add(type.label);
+        for (ActivityType type: Data.activityTypeData.getActivityTypes()) {
+            options.add(type.getName());
         }
         activityFormTypeChoiceBox.getItems().addAll(options);
 
@@ -73,7 +74,7 @@ public class ActivityFormController extends MenuController implements Controller
             activityFormYearTextField.setText(selectedActivity.getYear());
             activityFormDurationTextField.setText(Integer.toString(selectedActivity.getDuration()));
             activityFormNoOfInstancesTextField.setText(Integer.toString(selectedActivity.getNoOfInstances()));
-            StringProperty defaultChoice = new javafx.beans.property.SimpleStringProperty(selectedActivity.getActivityType().label);
+            StringProperty defaultChoice = new javafx.beans.property.SimpleStringProperty(selectedActivity.getActivityType());
             activityFormTypeChoiceBox.valueProperty().bindBidirectional(defaultChoice);
         } else {
             activityFormLabel.setText("Add Activity");

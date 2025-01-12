@@ -72,6 +72,12 @@ public class WorkloadController extends MenuController implements ControllerInte
         this.appController = appController;
     }
 
+    // when add button is clicked, navigate to the activity-form.fxml
+    @FXML
+    protected void onClickViewFormulaButton() throws IOException {
+        appController.loadScene("formula-view.fxml");
+    }
+
     // import activities from the selected CSV file
     @FXML
     protected void onClickImportWorkloadButton() {
@@ -178,12 +184,6 @@ public class WorkloadController extends MenuController implements ControllerInte
         TableColumn<UserWorkloadAllocation, String> fteHoursColumn = new TableColumn<>("FTE Hours");
         fteHoursColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(Integer.toString(data.getValue().getFteHours())));
 
-        TableColumn<UserWorkloadAllocation, String> totalAtsrTsColumn = new TableColumn<>("Total ATSR + TS");
-        totalAtsrTsColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(Integer.toString(data.getValue().getTotalAtsrTs())));
-
-        TableColumn<UserWorkloadAllocation, String> percentAtsrColumn = new TableColumn<>("Parcentage of ATSR allocated");
-        percentAtsrColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(Double.toString(data.getValue().getPercentageOfAtsrAllocated())));
-
         TableColumn<UserWorkloadAllocation, String> percentTotalHoursColumn = new TableColumn<>("Parcentage of Total Hours Allocated");
         percentTotalHoursColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(Double.toString(data.getValue().getParcentageOfTotalHoursAllocated())));
         percentTotalHoursColumn.setCellFactory(column -> new javafx.scene.control.TableCell<UserWorkloadAllocation, String>() {
@@ -210,9 +210,6 @@ public class WorkloadController extends MenuController implements ControllerInte
             }
         });
 
-        TableColumn<UserWorkloadAllocation, String> fteAtsrHoursColumn = new TableColumn<>("FTE ATSR Hours");
-        fteAtsrHoursColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(Integer.toString(data.getValue().getFteAtsrHours())));
-
         TableColumn<UserWorkloadAllocation, String> actionColumn = new TableColumn<>("Action");
         actionColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty("dummy"));
         // create view button in the table
@@ -231,10 +228,7 @@ public class WorkloadController extends MenuController implements ControllerInte
                 subjectAreaColumn,
                 totalHoursColumn,
                 fteHoursColumn,
-                totalAtsrTsColumn,
-                percentAtsrColumn,
                 percentTotalHoursColumn,
-                fteAtsrHoursColumn,
                 actionColumn
         );
 

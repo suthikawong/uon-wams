@@ -9,8 +9,8 @@
 
 package com.uon.uonwams.models;
 
-import com.uon.uonwams.config.ActivityType;
 import com.uon.uonwams.data.ActivityData;
+import com.uon.uonwams.data.ActivityTypeData;
 import com.uon.uonwams.data.UserData;
 import com.uon.uonwams.data.Data;
 import dnl.utils.text.table.TextTable;
@@ -21,6 +21,7 @@ import java.util.*;
 public class Workload {
     private final ActivityData activityData; // declare activityData to access activities data
     private final UserData userData; // declare activityData to access users data
+    private final ActivityTypeData activityTypeData; // declare activityTypeData to access activity types data
     private final List<UserWorkloadAllocation> userWorkloadAllocation = new ArrayList<>();
 
     public List<UserWorkloadAllocation> getUserWorkloadAllocation() {
@@ -31,6 +32,7 @@ public class Workload {
         // initialize data in the system
         this.activityData = Data.activityData;
         this.userData = Data.userData;
+        this.activityTypeData = Data.activityTypeData;
 
         // if logged-in user is admin, they have permission to see all users in the system
         if (loginUser.getIsAdmin()) {
@@ -72,8 +74,6 @@ public class Workload {
 
     // add a new activity to the system
     public void addActivity(String activityName, String type, String description, int responsibleUserId, String year, int duration, int noOfInstances) {
-        // convert activity type from String data to ActivityType enum
-        ActivityType activityType = convertStringToActivityType(type);
         // check whether responsibleUserId exists in the system
         Optional<User> responsibleUser = Data.userData.getUsers().stream().filter(user -> user.getUserId() == responsibleUserId).findFirst();
         if (responsibleUser.isEmpty()) {
@@ -81,13 +81,11 @@ public class Workload {
             return;
         }
         // add activity
-        activityData.insertActivity(activityName, activityType, description, responsibleUserId, responsibleUser.get().getName(), year, duration, noOfInstances);
+        activityData.insertActivity(activityName, type, description, responsibleUserId, responsibleUser.get().getName(), year, duration, noOfInstances);
     }
 
     // update a specific activity in the system
     public void updateActivity(int activityId, String activityName, String type, String description, int responsibleUserId, String year, int duration, int noOfInstances) {
-        // convert activity type from String data to ActivityType enum
-        ActivityType activityType = convertStringToActivityType(type);
         // check whether responsibleUserId exists in the system
         Optional<User> responsibleUser = Data.userData.getUsers().stream().filter(user -> user.getUserId() == responsibleUserId).findFirst();
         if (responsibleUser.isEmpty()) {
@@ -95,7 +93,7 @@ public class Workload {
             return;
         }
         // update activity
-        activityData.updateActivity(activityId, activityName, activityType, description, responsibleUserId, responsibleUser.get().getName(), year, duration, noOfInstances);
+        activityData.updateActivity(activityId, activityName, type, description, responsibleUserId, responsibleUser.get().getName(), year, duration, noOfInstances);
     }
 
     public void deleteActivity(int activityId) {
@@ -125,6 +123,65 @@ public class Workload {
         activityData.insertActivities(importedData);
     }
 
+    // import activity types from the CSV file
+    public void importActivityTypes(String csvPathname) throws Exception {
+        // read activity types data from CSV file
+        List<ActivityType> newActivityTypes = activityTypeData.readActivityTypesFromCSV(csvPathname);
+
+        // validation
+        importActivityTypesValidation(newActivityTypes);
+
+        // insert new activity types data to DAT file
+        activityTypeData.insertActivityTypesToDAT(newActivityTypes);
+        // recalculate hours of each activity
+        for (Activity activity: activityData.getActivities()) {
+            activity.calculateWorkload();
+            // update hours in the file
+            updateActivity(
+                activity.getActivityId(),
+                activity.getActivityName(),
+                activity.getActivityType(),
+                activity.getDescription(),
+                activity.getResponsibleUserId(),
+                activity.getYear(),
+                activity.getDuration(),
+                activity.getNoOfInstances()
+            );
+        }
+        // recalculate workload allocation of each user
+        for (UserWorkloadAllocation userWorkload: this.userWorkloadAllocation) {
+            userWorkload.calculateWorkloadAllocation();
+        }
+    }
+
+    private void importActivityTypesValidation(List<ActivityType> newActivityTypes) throws Exception {
+        // check is there a duplicated activity type
+        LinkedHashMap<String, Boolean> set = new LinkedHashMap<>();
+        for (ActivityType type: newActivityTypes) {
+            set.put(type.getName(), true);
+        }
+        if (set.size() < newActivityTypes.size()) {
+            throw new Exception("Import Failed: Duplicate activity type was found in CSV file.\nPlease try again.");
+        }
+
+        // check is the remove activity type have been used
+        ActivityType removedActivityType = null;
+        for (ActivityType type: activityTypeData.getActivityTypes()) {
+            boolean isMatch = newActivityTypes.stream().anyMatch(item -> item.getName().equals(type.getName()));
+            if (!isMatch) {
+                removedActivityType = type;
+                break;
+            }
+        }
+        if (removedActivityType != null) {
+            ActivityType finalRemovedActivityType = removedActivityType;
+            boolean isMatch = Data.activityData.getActivities().stream().anyMatch(item -> item.getActivityType().equals(finalRemovedActivityType.getName()));
+            if (isMatch) {
+                throw new Exception("Import Failed: Activity type '" + removedActivityType.name + "' has been used in activities.\nPlease change those activities type before try again.");
+            }
+        }
+    }
+
     // search workload allocation of user by their id, name, and subject area
     public List<UserWorkloadAllocation> searchWorkloadAllocationUser(Integer userId, String userName, String subjectArea) {
         List<UserWorkloadAllocation> list = this.getUserWorkloadAllocation();
@@ -139,21 +196,6 @@ public class Workload {
         return list;
     }
 
-    // convert string type value to ActivityType enum
-    private ActivityType convertStringToActivityType(String activityType) {
-        if (activityType.equalsIgnoreCase(ActivityType.ATSR.label)) {
-            return ActivityType.ATSR;
-        } else if (activityType.equalsIgnoreCase(ActivityType.TLR.label)) {
-            return ActivityType.TLR;
-        } else if (activityType.equalsIgnoreCase(ActivityType.SA.label)) {
-            return ActivityType.SA;
-        } else if (activityType.equalsIgnoreCase(ActivityType.OTHER.label)) {
-            return ActivityType.OTHER;
-        } else {
-            throw new ConversionException("Invalid activity type");
-        }
-    }
-
     // display workload allocations in table format (console application)
     public void logWorkloadUsers() {
         List<String> displayColumns = Arrays.asList("User ID", "Name", "Email", "FTE Ratio", "Subject Area", "Total Hours", "FTE Hours", "Total ATSR + TS", "Parcentage of ATSR allocated", "Parcentage of Total Hours Allocated", "FTE ATSR Hours");
@@ -165,7 +207,7 @@ public class Workload {
 
     public static Object[][] convertWorkloadUserListToArray(List<UserWorkloadAllocation> list) {
         int rows = list.size();
-        int columns = 11;
+        int columns = 8;
         Object[][] array = new Object[rows][columns];
 
         for (int i = 0; i < rows; i++) {
@@ -177,10 +219,7 @@ public class Workload {
             array[i][4] = user.getSubjectArea();
             array[i][5] = user.getTotalHours();
             array[i][6] = user.getFteHours();
-            array[i][7] = user.getTotalAtsrTs();
-            array[i][8] = user.getPercentageOfAtsrAllocated() + "%";
-            array[i][9] = user.getParcentageOfTotalHoursAllocated() + "%";
-            array[i][10] = user.getFteAtsrHours();
+            array[i][7] = user.getParcentageOfTotalHoursAllocated() + "%";
         }
         return array;
     }
@@ -196,13 +235,13 @@ public class Workload {
 
     public static Object[][] convertWorkloadListToArray(List<Activity> list) {
         int rows = list.size();
-        int columns = 15;
+        int columns = 10 + Data.activityTypeData.getActivityTypes().size();
         Object[][] array = new Object[rows][columns];
 
         for (int i = 0; i < rows; i++) {
             Activity activity = list.get(i);
             array[i][0] = activity.getActivityId();
-            array[i][1] = activity.getActivityType().label;
+            array[i][1] = activity.getActivityType();
             array[i][2] = activity.getActivityName();
             array[i][3] = activity.getDescription();
             array[i][4] = activity.getResponsibleUserId();
@@ -211,11 +250,11 @@ public class Workload {
             array[i][7] = activity.getDuration();
             array[i][8] = activity.getNoOfInstances();
             array[i][9] = activity.getHours();
-            array[i][10] = activity.getATSR();
-            array[i][11] = activity.getTS();
-            array[i][12] = activity.getTLR();
-            array[i][13] = activity.getSA();
-            array[i][14] = activity.getOther();
+            int count = 10;
+            for(String key : activity.getWorkloadHours().keySet()) {
+                array[i][count] = activity.getWorkloadHours().get(key);
+                count++;
+            }
         }
         return array;
     }
