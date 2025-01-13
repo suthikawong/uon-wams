@@ -29,6 +29,9 @@ public class MenuController {
     @FXML
     private MenuItem umMenuItem;
 
+    @FXML
+    private MenuItem configurationMenuItem;
+
     // display menu according to the user permission
     protected void setMenuAppController(AppController appController) {
         this.appController = appController;
@@ -44,6 +47,7 @@ public class MenuController {
         if (!appController.getLoginUser().checkIsLineManager()) {
             workloadMenuItem.setVisible(false);
             umMenuItem.setVisible(false);
+            configurationMenuItem.setVisible(false);
         }
     }
 

@@ -11,6 +11,7 @@ package com.uon.uonwams.controllers;
 
 import com.uon.uonwams.data.Data;
 import com.uon.uonwams.models.ActivityType;
+import io.github.cdimascio.dotenv.Dotenv;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -26,6 +27,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.LinkedHashMap;
 
@@ -72,6 +75,50 @@ public class ConfigurationViewController extends MenuController implements Contr
             e.printStackTrace();
             // display import fail dialog
             importErrorDialog(e.getMessage());
+        }
+    }
+
+    // download CSV template
+    @FXML
+    protected void onClickDownloadTemplateButton() {
+        Dotenv dotenv = Dotenv.load();
+        // get CSV template file path
+        String activityTypeTemplateFilePath = dotenv.get("ACTIVITY_TYPE_TEMPLATE_FILE_PATH");
+
+        File existingFile = new File(activityTypeTemplateFilePath);
+        // if there is no CSV file in that file path, log in the monitor and exits the function
+        if (!existingFile.exists()) {
+            System.out.println("File not found: " + existingFile.getAbsolutePath());
+            return;
+        }
+
+        // initialize FileChooser to save the file
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save CSV File");
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("CSV Files", "*.csv")
+        );
+
+        // set a default name for the CSV file
+        fileChooser.setInitialFileName("activity-type-template.csv");
+
+        // show save dialog
+        File targetFile = fileChooser.showSaveDialog(appController.getStage());
+        // if file is selected
+        if (targetFile != null) {
+            try (FileInputStream inputStream = new FileInputStream(existingFile);
+                 FileOutputStream outputStream = new FileOutputStream(targetFile)) {
+
+                byte[] buffer = new byte[1024];
+                int bytesRead;
+
+                // copy the file
+                while ((bytesRead = inputStream.read(buffer)) != -1) {
+                    outputStream.write(buffer, 0, bytesRead);
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 

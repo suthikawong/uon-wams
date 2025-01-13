@@ -82,6 +82,7 @@
                         </TableView>
                         <ButtonBar prefHeight="40.0" prefWidth="200.0">
                           <buttons>
+                              <Button fx:id="configurationViewDownloadActivityTypeTemplateButton" layoutX="642.0" layoutY="17.0" mnemonicParsing="false" onAction="#onClickDownloadTemplateButton" text="Download Activity Type Template" />
                             <Button fx:id="configurationViewImportActivityTypesButton" layoutX="695.0" layoutY="10.0" mnemonicParsing="false" onAction="#onClickImportActivityTypesButton" text="Import Activity Types" />
                           </buttons>
                            <VBox.margin>
