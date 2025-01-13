@@ -237,17 +237,21 @@ public class WAMSApplicationConsole {
 
                 HashMap<String, Object> values = scanActivityValues(scanner);
 
-                // add activity
-                workload.addActivity(
-                        (String) values.get("activityName"),
-                        (String) values.get("activityType"),
-                        (String) values.get("description"),
-                        (int) values.get("responsibleUserId"),
-                        (String) values.get("year"),
-                        (int)values.get("duration"),
-                        (int)values.get("noOfInstances")
-                );
-                System.out.println("Successfully added activity");
+                try {
+                    // add activity
+                    workload.addActivity(
+                            (String) values.get("activityName"),
+                            (String) values.get("activityType"),
+                            (String) values.get("description"),
+                            (int) values.get("responsibleUserId"),
+                            (String) values.get("year"),
+                            (int)values.get("duration"),
+                            (int)values.get("noOfInstances")
+                    );
+                    System.out.println("Successfully added activity");
+                } catch (Exception e) {
+                    System.out.println("Cannot create activity: " + e.getMessage());
+                }
 
                 // set state
                 state = State.VIEW_WORKLOAD;
@@ -267,18 +271,22 @@ public class WAMSApplicationConsole {
 
                 HashMap<String, Object> values = scanActivityValues(scanner);
 
-                // update activity
-                workload.updateActivity(
-                        activityId,
-                        (String) values.get("activityName"),
-                        (String) values.get("activityType"),
-                        (String) values.get("description"),
-                        (int) values.get("responsibleUserId"),
-                        (String) values.get("year"),
-                        (int)values.get("duration"),
-                        (int)values.get("noOfInstances")
-                );
-                System.out.println("Successfully updated activity");
+                try {
+                    // update activity
+                    workload.updateActivity(
+                            activityId,
+                            (String) values.get("activityName"),
+                            (String) values.get("activityType"),
+                            (String) values.get("description"),
+                            (int) values.get("responsibleUserId"),
+                            (String) values.get("year"),
+                            (int)values.get("duration"),
+                            (int)values.get("noOfInstances")
+                    );
+                    System.out.println("Successfully updated activity");
+                } catch (Exception e) {
+                    System.out.println("Cannot update activity: " + e.getMessage());
+                }
 
                 // set state
                 state = State.VIEW_WORKLOAD;

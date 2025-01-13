@@ -38,7 +38,7 @@ public class ActivityData {
     }
 
     // insert a new activity into DAT file
-    public void insertActivity(String activityName, String activityType, String description, int responsibleUserId, String responsibleUser, String year, int duration, int noOfInstances) {
+    public void insertActivity(String activityName, String activityType, String description, int responsibleUserId, String responsibleUser, String year, int duration, int noOfInstances) throws Exception {
         // get the latest activityId in DAT file and increase it by 1 to get a new uniquely activityId
         int activityId = this.getLatestActivityId() + 1;
         // initialize activity instance
@@ -60,7 +60,7 @@ public class ActivityData {
     }
 
     // update activity in the DAT file
-    public void updateActivity(int activityId, String activityName, String type, String description, int responsibleUserId, String responsibleUser, String year, int duration, int noOfInstances) {
+    public void updateActivity(int activityId, String activityName, String type, String description, int responsibleUserId, String responsibleUser, String year, int duration, int noOfInstances) throws Exception {
         Activity activity = new Activity(activityId, activityName, type, description, responsibleUserId, responsibleUser, year, duration, noOfInstances);
         // update activities
         file.updateRecord(activity);

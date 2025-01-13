@@ -28,7 +28,7 @@ public class Activity extends DATFileStructure implements Serializable {
     private int hours;
     private LinkedHashMap<String, Integer> workloadHours;
 
-    public Activity(int activityId, String activityName, String activityType, String description, int responsibleUserId, String responsibleUser, String year, int duration, int noOfInstances) {
+    public Activity(int activityId, String activityName, String activityType, String description, int responsibleUserId, String responsibleUser, String year, int duration, int noOfInstances) throws Exception {
         this.activityId = activityId;
         this.activityName = activityName;
         this.activityType = activityType;
@@ -39,12 +39,8 @@ public class Activity extends DATFileStructure implements Serializable {
         this.duration = duration;
         this.noOfInstances = noOfInstances;
 
-        try {
-            // calculate ATSR, TS, TLR, SA and Other hours for activity
-            calculateWorkload();
-        } catch (Exception e) {
-            System.out.println("Cannot create activity: " + e.getMessage());
-        }
+        // calculate ATSR, TS, TLR, SA and Other hours for activity
+        calculateWorkload();
     }
 
     // calculate workload allocation

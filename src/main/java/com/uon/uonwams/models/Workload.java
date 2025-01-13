@@ -72,24 +72,22 @@ public class Workload {
     }
 
     // add a new activity to the system
-    public void addActivity(String activityName, String type, String description, int responsibleUserId, String year, int duration, int noOfInstances) {
+    public void addActivity(String activityName, String type, String description, int responsibleUserId, String year, int duration, int noOfInstances) throws Exception {
         // check whether responsibleUserId exists in the system
         Optional<User> responsibleUser = Data.userData.getUsers().stream().filter(user -> user.getUserId() == responsibleUserId).findFirst();
         if (responsibleUser.isEmpty()) {
-            System.out.println("Selected responsible user not exist");
-            return;
+            throw new Exception("Selected responsible user not exist");
         }
         // add activity
         activityData.insertActivity(activityName, type, description, responsibleUserId, responsibleUser.get().getName(), year, duration, noOfInstances);
     }
 
     // update a specific activity in the system
-    public void updateActivity(int activityId, String activityName, String type, String description, int responsibleUserId, String year, int duration, int noOfInstances) {
+    public void updateActivity(int activityId, String activityName, String type, String description, int responsibleUserId, String year, int duration, int noOfInstances) throws Exception {
         // check whether responsibleUserId exists in the system
         Optional<User> responsibleUser = Data.userData.getUsers().stream().filter(user -> user.getUserId() == responsibleUserId).findFirst();
         if (responsibleUser.isEmpty()) {
-            System.out.println("Selected responsible user not exist");
-            return;
+            throw new Exception("Selected responsible user not exist");
         }
         // update activity
         activityData.updateActivity(activityId, activityName, type, description, responsibleUserId, responsibleUser.get().getName(), year, duration, noOfInstances);
@@ -225,7 +223,8 @@ public class Workload {
 
     // display activities in table format (console application)
     public void logActivities(int userId) {
-        List<String> displayColumns = Arrays.asList("Activity ID", "Activity Type", "Activity Name", "Description", "Responsible User ID", "Responsible User", "Year", "Duration", "No of Instances", "Hours", "ATSR", "TS", "TLR", "SA", "Other");
+        List<String> displayColumns = new ArrayList<>(Arrays.asList("Activity ID", "Activity Type", "Activity Name", "Description", "Responsible User ID", "Responsible User", "Year", "Duration", "No of Instances", "Hours"));
+        displayColumns.addAll(Data.configurationData.getActivityTypes().getFirst().getFormula().keySet());
         List<Activity> data = getActivitiesByUserId(userId);
         TextTable tt = new TextTable(displayColumns.toArray(new String[0]),convertWorkloadListToArray(data));
         tt.printTable();
@@ -234,7 +233,7 @@ public class Workload {
 
     public static Object[][] convertWorkloadListToArray(List<Activity> list) {
         int rows = list.size();
-        int columns = 10 + Data.configurationData.getActivityTypes().size();
+        int columns = 10 + Data.configurationData.getActivityTypes().getFirst().getFormula().keySet().size();
         Object[][] array = new Object[rows][columns];
 
         for (int i = 0; i < rows; i++) {

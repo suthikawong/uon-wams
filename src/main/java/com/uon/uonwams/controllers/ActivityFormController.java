@@ -101,28 +101,36 @@ public class ActivityFormController extends MenuController implements Controller
         if (!isValid) return;
 
         if (this.isEdit) {
-            // update activity
-            appController.getWorkload().updateActivity(
-                appController.getSelectedActivity().getActivityId(),
-                activityFormNameTextField.getText(),
-                activityFormTypeChoiceBox.getValue().toString(),
-                activityFormDescriptionTextField.getText(),
-                appController.getWorkloadUser().getUserId(),
-                activityFormYearTextField.getText(),
-                Integer.parseInt(activityFormDurationTextField.getText()),
-                Integer.parseInt(activityFormNoOfInstancesTextField.getText())
-            );
+            try {
+                // update activity
+                appController.getWorkload().updateActivity(
+                        appController.getSelectedActivity().getActivityId(),
+                        activityFormNameTextField.getText(),
+                        activityFormTypeChoiceBox.getValue().toString(),
+                        activityFormDescriptionTextField.getText(),
+                        appController.getWorkloadUser().getUserId(),
+                        activityFormYearTextField.getText(),
+                        Integer.parseInt(activityFormDurationTextField.getText()),
+                        Integer.parseInt(activityFormNoOfInstancesTextField.getText())
+                );
+            } catch (Exception e) {
+                System.out.println("Cannot update activity: " + e.getMessage());
+            }
         } else {
-            // add a new activity
-            appController.getWorkload().addActivity(
-                    activityFormNameTextField.getText(),
-                    activityFormTypeChoiceBox.getValue().toString(),
-                    activityFormDescriptionTextField.getText(),
-                    appController.getWorkloadUser().getUserId(),
-                    activityFormYearTextField.getText(),
-                    Integer.parseInt(activityFormDurationTextField.getText()),
-                    Integer.parseInt(activityFormNoOfInstancesTextField.getText())
-            );
+            try {
+                // add a new activity
+                appController.getWorkload().addActivity(
+                        activityFormNameTextField.getText(),
+                        activityFormTypeChoiceBox.getValue().toString(),
+                        activityFormDescriptionTextField.getText(),
+                        appController.getWorkloadUser().getUserId(),
+                        activityFormYearTextField.getText(),
+                        Integer.parseInt(activityFormDurationTextField.getText()),
+                        Integer.parseInt(activityFormNoOfInstancesTextField.getText())
+                );
+            } catch (Exception e) {
+                System.out.println("Cannot create activity: " + e.getMessage());
+            }
         }
         // reset selected activity to null and navigate back to the activity-view.fxml
         appController.setSelectedActivity(null);
