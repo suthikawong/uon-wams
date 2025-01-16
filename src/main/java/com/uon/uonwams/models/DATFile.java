@@ -103,22 +103,6 @@ public class DATFile<T extends DATFileStructure> {
         }
     }
 
-    // insert multiple data into a DAT file
-    public void insertRecords(List<T> records) {
-        try {
-            FileOutputStream outStream = new FileOutputStream(this.pathname);
-            ObjectOutputStream objectOutputFile = new ObjectOutputStream(outStream);
-            // write data to the DAT file
-            objectOutputFile.writeObject(records);
-            objectOutputFile.close();
-
-            // assign new data to this.data
-            this.data = records;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     // update a specific data in the DAT file
     public void updateRecord(T record) {
         try {
