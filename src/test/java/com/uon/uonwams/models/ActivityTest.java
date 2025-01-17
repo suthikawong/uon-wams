@@ -79,7 +79,7 @@ class ActivityTest {
     }
 
     @Test
-    void testCreateActivity() {
+    void testCreateActivity() throws Exception {
         int activityId = 99;
         String activityName = "test activity";
         String activityType = "ATSR";
@@ -104,7 +104,7 @@ class ActivityTest {
     }
 
     @Test
-    void testCalculateActivityATSRType() {
+    void testCalculateActivityATSRType() throws Exception {
         int duration = 2;
         int noOfInstances = 80;
         int totalHours = duration * noOfInstances;
@@ -118,7 +118,7 @@ class ActivityTest {
     }
 
     @Test
-    void testCalculateActivityTLRType() {
+    void testCalculateActivityTLRType() throws Exception {
         int duration = 2;
         int noOfInstances = 80;
         int totalHours = duration * noOfInstances;
@@ -132,7 +132,7 @@ class ActivityTest {
     }
 
     @Test
-    void testCalculateActivitySAType() {
+    void testCalculateActivitySAType() throws Exception {
         int duration = 2;
         int noOfInstances = 80;
         int totalHours = duration * noOfInstances;
@@ -146,7 +146,7 @@ class ActivityTest {
     }
 
     @Test
-    void testCalculateActivityOtherType() {
+    void testCalculateActivityOtherType() throws Exception {
         int duration = 2;
         int noOfInstances = 80;
         int totalHours = duration * noOfInstances;
