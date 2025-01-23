@@ -1,6 +1,6 @@
 /**
  Program: UON WAMS Application
- Filename: ActivityViewController.java
+ Filename: ConfigurationViewController.java
  @author: © Suthika Wongsiridech
  Course: MSc Computing
  Module: Visual Object Software

@@ -1,6 +1,6 @@
 /**
  Program: UON WAMS Application
- Filename: ActivityFormController.java
+ Filename: ConfigurationFormController.java
  @author: © Suthika Wongsiridech
  Course: MSc Computing
  Module: Visual Object Software

@@ -1,6 +1,6 @@
 /**
  Program: UON WAMS Application
- Filename: ActivityTypeData.java
+ Filename: ConfigurationData.java
  @author: © Suthika Wongsiridech
  Course: MSc Computing
  Module: Visual Object Software

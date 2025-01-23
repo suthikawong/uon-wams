@@ -1,6 +1,6 @@
 /**
  Program: UON WAMS Application
- Filename: User.java
+ Filename: Configuration.java
  @author: © Suthika Wongsiridech
  Course: MSc Computing
  Module: Visual Object Software
@@ -8,18 +8,8 @@
  */
 
 package com.uon.uonwams.models;
-
-import com.password4j.BcryptFunction;
-import com.password4j.Hash;
-import com.password4j.Password;
-import com.password4j.types.Bcrypt;
-import com.uon.uonwams.data.Data;
-import io.github.cdimascio.dotenv.Dotenv;
-
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class Configuration extends DATFileStructure implements Serializable {
     private static final long serialVersionUID = 1L;

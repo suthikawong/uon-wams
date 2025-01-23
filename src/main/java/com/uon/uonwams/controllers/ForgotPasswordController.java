@@ -10,7 +10,6 @@
 package com.uon.uonwams.controllers;
 
 import com.uon.uonwams.models.User;
-import com.uon.uonwams.models.UserManagement;
 import com.uon.uonwams.data.Data;
 import com.uon.uonwams.models.EmailUtil;
 import javafx.event.ActionEvent;

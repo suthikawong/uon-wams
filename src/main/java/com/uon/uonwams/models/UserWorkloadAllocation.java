@@ -10,7 +10,6 @@
 package com.uon.uonwams.models;
 
 import com.uon.uonwams.data.Data;
-import javafx.scene.control.TableColumn;
 
 import java.util.List;
 

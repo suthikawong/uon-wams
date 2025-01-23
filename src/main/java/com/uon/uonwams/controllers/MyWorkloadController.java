@@ -11,7 +11,6 @@ package com.uon.uonwams.controllers;
 
 import com.uon.uonwams.data.Data;
 import com.uon.uonwams.models.Activity;
-import com.uon.uonwams.models.ActivityType;
 import com.uon.uonwams.models.UserWorkloadAllocation;
 import com.uon.uonwams.models.Workload;
 import javafx.collections.FXCollections;
